@@ -1,0 +1,33 @@
+﻿<Window x:Class="fos.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:fos"
+        xmlns:res="clr-namespace:fos.Properties"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="{x:Static res:Resources.SettingsTitle}" Height="600" Width="750">
+    <Grid>
+        <ui:NavigationView 
+            x:Name="NavView"
+            IsTitleBarAutoPaddingEnabled="True"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="False"
+            OpenPaneLength="250"
+            CompactModeThresholdWidth="450"
+            ExpandedModeThresholdWidth="700"
+            SelectionChanged="NavigationView_SelectionChanged">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem IsSelected="True" Content="{x:Static res:Resources.SettingsGeneral}" Tag="General" Icon="59155"></ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsHotkeys}" Tag="Hotkeys" Icon="57668"></ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAppearance}" Tag="Appearance" Icon="59577"></ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAbout}" Tag="About" Icon="59718"></ui:NavigationViewItem>
+            </ui:NavigationView.FooterMenuItems>
+            <ui:Frame HorizontalAlignment="Left" Width="296" Margin="12,0,10,10" x:Name="ContentFrame" />
+        </ui:NavigationView>
+    </Grid>
+</Window>

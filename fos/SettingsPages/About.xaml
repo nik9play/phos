@@ -1,0 +1,17 @@
+﻿<ui:Page x:Class="fos.SettingsPages.About"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:fos.SettingsPages"
+      mc:Ignorable="d"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      Title="About">
+
+    <ScrollViewer>
+        <ui:SimpleStackPanel Spacing="10" HorizontalAlignment="Left">
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="fos" />
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}" Text="{Binding Version}" />
+        </ui:SimpleStackPanel>
+    </ScrollViewer>
+</ui:Page>
