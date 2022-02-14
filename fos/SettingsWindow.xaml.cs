@@ -49,5 +49,23 @@ namespace fos
                 }
             }
         }
+
+        private bool _isActive;
+
+        protected override void OnActivated(EventArgs e)
+        {
+            if (!_isActive)
+            {
+                Workarounds.RenderLoopFix.ApplyFix();
+                _isActive = true;
+            }
+
+            base.OnActivated(e);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            SettingsController.SaveSettings();
+        }
     }
 }
