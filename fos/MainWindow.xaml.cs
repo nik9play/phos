@@ -118,10 +118,7 @@ namespace fos
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //SettingsController.OpenSettingsFile();
-            //WindowManager.hotkeyWindow.SetPosition();
-            var win = new SettingsWindow();
-            win.Show();
+            WindowManager.OpenSettingsWindow();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
