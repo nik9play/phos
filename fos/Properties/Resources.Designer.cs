@@ -306,6 +306,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Brightness change step.
+        /// </summary>
+        public static string SettingsHotkeyStep {
+            get {
+                return ResourceManager.GetString("SettingsHotkeyStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Top Center.
         /// </summary>
         public static string SettingsHotkeyTopCenter {

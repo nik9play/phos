@@ -217,4 +217,7 @@
   <data name="SettingsAboutNoUpdates" xml:space="preserve">
     <value>No updates available.</value>
   </data>
+  <data name="SettingsHotkeyStep" xml:space="preserve">
+    <value>Brightness change step</value>
+  </data>
 </root>

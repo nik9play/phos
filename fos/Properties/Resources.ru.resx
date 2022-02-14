@@ -217,4 +217,7 @@
   <data name="SettingsAboutNoUpdates" xml:space="preserve">
     <value>Нет доступных обновлений.</value>
   </data>
+  <data name="SettingsHotkeyStep" xml:space="preserve">
+    <value>Шаг изменения яркости</value>
+  </data>
 </root>
