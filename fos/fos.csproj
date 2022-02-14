@@ -17,7 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DebounceThrottle" Version="1.0.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.1.1" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="ModernWpfUis" Version="1.4.0" />
     <PackageReference Include="NHotkey" Version="2.1.0" />
@@ -47,6 +52,10 @@
 
   <ItemGroup>
     <Folder Include="Controls\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon.png" />
   </ItemGroup>
 
 </Project>

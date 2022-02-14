@@ -23,7 +23,8 @@
         Topmost="True"
         AllowsTransparency="True"
         Background="Transparent"
-        Visibility="Visible"
+        Visibility="Hidden"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Deactivated="Window_Deactivated">
 
@@ -87,7 +88,11 @@
                     >
                         <tb:TaskbarIcon.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Icon="&#xF78A;" Click="ExitItem_Click" Header="{x:Static res:Resources.ContextExit}" />
+                                <MenuItem Click="ExitItem_Click" Header="{x:Static res:Resources.ContextExit}">
+                                    <MenuItem.Icon>
+                                        <ui:FontIcon Glyph="&#xE711;" FontSize="16px"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </tb:TaskbarIcon.ContextMenu>
                     </tb:TaskbarIcon>
@@ -95,15 +100,19 @@
                     <ItemsControl Grid.Row="0" 
                                   Visibility="{Binding AllMonitorsModeEnabled, 
                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                                  dd:DragDrop.IsDragSource="True"
+                                  dd:DragDrop.IsDropTarget="True"
+                                  dd:DragDrop.UseDefaultDragAdorner="True"
+                                  dd:DragDrop.DropTargetAdornerBrush="{DynamicResource SystemControlBackgroundAccentBrush}"
                                   ItemsSource="{Binding Monitors}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Margin="0,0,0,15" />
+                                <ui:SimpleStackPanel Margin="15,8,8,8" Spacing="0" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="15,15,8,0" x:Name="Outer">
+                                <Border  Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="0,8,0,8" x:Name="Outer">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -118,7 +127,8 @@
 
                                         <ui:FontIcon Grid.Row="1" VerticalAlignment="Center" 
                                                      HorizontalAlignment="Left" Glyph="&#xEC8A;" FontSize="26" />
-                                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" 
+                                        <TextBlock AllowDrop="True"
+                                                   Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" 
                                                    Grid.ColumnSpan="3" Text="{Binding Path=Name}" />
                                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Brightness}" 
                                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
@@ -141,8 +151,8 @@
                     <StackPanel 
                         Visibility="{Binding AllMonitorsModeEnabled, 
                                              Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                Margin="0,0,0,15">
-                        <Border Margin="15,15,8,0">
+                                Margin="0,0,0,16">
+                        <Border Margin="15,16,8,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="32"/>
