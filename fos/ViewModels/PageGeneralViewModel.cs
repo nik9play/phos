@@ -97,13 +97,13 @@ namespace fos.ViewModels
                 {
                     if (culture.Equals(CultureInfo.InvariantCulture))
                     {
-                        languages.Add(new Language() { Id = "en", Name = "English" });
+                        languages.Add(new Language() { Id = "en", Name = "English - English [en]" });
                         continue;
                     }
 
                     ResourceSet rs = rm.GetResourceSet(culture, true, false);
                     if (rs != null)
-                        languages.Add(new Language() { Id = culture.Name, Name = culture.NativeName });
+                        languages.Add(new Language() { Id = culture.Name, Name = $"{culture.NativeName} - {culture.EnglishName} [{culture.Name}]" });
                 }
                 catch (CultureNotFoundException) { }
             }
