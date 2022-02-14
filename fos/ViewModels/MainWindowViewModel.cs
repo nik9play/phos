@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,7 +16,6 @@ namespace fos.ViewModels
     {
         private static uint _allMonitorsBrightness;
         private static readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(100);
-
         public static ObservableCollection<IMonitor> Monitors { get; set; }
         public static uint AllMonitorsBrightness { 
             get
@@ -90,6 +90,17 @@ namespace fos.ViewModels
         {
             Monitors = new ObservableCollection<IMonitor>(MonitorTools.GetMonitorList());
             AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
+            Monitors.CollectionChanged += Monitors_CollectionChanged;
+        }
+
+        private void Monitors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Debug.WriteLine(e.Action.ToString());
+            SettingsController.Store.MonitorListLocationOverwrites.Clear();
+            foreach (IMonitor el in Monitors)
+            {
+                SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceName);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
