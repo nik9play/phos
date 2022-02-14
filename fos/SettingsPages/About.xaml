@@ -4,14 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:fos.SettingsPages"
+      xmlns:res="clr-namespace:fos.Properties"
       mc:Ignorable="d"
       xmlns:ui="http://schemas.modernwpf.com/2019"
       Title="About">
 
-    <ScrollViewer>
-        <ui:SimpleStackPanel Spacing="10" HorizontalAlignment="Left">
+    <ScrollViewer Padding="0,0,15,0">
+        <ui:SimpleStackPanel Spacing="5" HorizontalAlignment="Left">
+            <Image HorizontalAlignment="Left" Width="64" Source="../Resources/icon.png" />
             <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="fos" />
             <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}" Text="{Binding Version}" />
+            <Button Style="{DynamicResource AccentButtonStyle}" Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"/>
         </ui:SimpleStackPanel>
     </ScrollViewer>
 </ui:Page>
