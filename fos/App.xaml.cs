@@ -34,6 +34,7 @@ namespace fos
             SettingsController.LoadSettings();
             SettingsController.LoadLanguage();
             WindowManager.CreateWindows();
+            Workarounds.RenderLoopFix.Initialize();
             HotkeysManager.InitHotkeys();
         }
     }
