@@ -1,4 +1,6 @@
-﻿namespace fos
+﻿using System.Collections.Generic;
+
+namespace fos
 {
     public enum HotkeyPopupLocationEnum
     {
@@ -19,5 +21,6 @@
         public string HotkeyDown { get; set; } = "Alt+F1";
         public uint HotkeyStep { get; set; } = 5;
         public HotkeyPopupLocationEnum HotkeyPopupLocation { get; set; } = HotkeyPopupLocationEnum.BottomCenter;
+        public List<string> MonitorListLocationOverwrites { get; set; } = new List<string>();
     }
 }
