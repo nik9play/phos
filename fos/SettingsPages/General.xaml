@@ -17,8 +17,8 @@
             True="Visible" 
             False="Collapsed" />
     </ui:Page.Resources>
-    
-    <ScrollViewer>
+
+    <ScrollViewer Padding="0,0,15,0">
         <ui:SimpleStackPanel Spacing="10" HorizontalAlignment="Stretch">
             <ComboBox ui:ControlHelper.Header="{x:Static res:Resources.SettingsGeneralLanguage}"
                       ItemsSource="{Binding AvailableLanguages}" 
@@ -26,27 +26,30 @@
                       SelectedValuePath="Id" 
                       HorizontalAlignment="Stretch"
                       SelectedValue="{Binding SelectedLanguage}" />
-            <Border Padding="10"
-                    CornerRadius="5"
+            <ui:ThemeShadowChrome Depth="5">
+                <Border Padding="10"
+                    CornerRadius="3"
                     Visibility="{Binding RestartRequired,
                                 Converter={StaticResource BooleanToVisibilityConverter}}"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="28" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ui:FontIcon
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:FontIcon
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Grid.Column="0" 
                         Glyph="&#xE946;"/>
-                    <TextBlock Grid.Column="1"
+                        <TextBlock Grid.Column="1"
                                TextWrapping="Wrap" 
                                VerticalAlignment="Center"
                                Text="{x:Static res:Resources.SettingsRestartRequired}" />
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
+            </ui:ThemeShadowChrome>
+            
             <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}"/>
             <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}" Header="{x:Static res:Resources.SettingsGeneralAutoCheck}"/>
         </ui:SimpleStackPanel>
