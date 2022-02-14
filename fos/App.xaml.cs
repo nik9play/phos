@@ -29,8 +29,16 @@ namespace fos
             catch { }
         }
 
+        private Mutex mutex;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            bool aIsNewInstance;
+            mutex = new Mutex(true, "phos.megaworld", out aIsNewInstance);
+            if (!aIsNewInstance)
+            {
+                Current.Shutdown();
+            }
+
             SettingsController.LoadSettings();
             SettingsController.LoadLanguage();
             WindowManager.CreateWindows();
