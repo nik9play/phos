@@ -85,6 +85,23 @@ namespace fos.ViewModels
             }
         }
 
+        private uint hotkeyStep = SettingsController.Store.HotkeyStep;
+        public uint HotkeyStep
+        {
+            get
+            {
+                return hotkeyStep;
+            }
+
+            set
+            {
+                hotkeyStep = value;
+                SettingsController.Store.HotkeyStep = value;
+
+                OnPropertyChanged();
+            }
+        }
+
         private HotkeyPopupLocationEnum hotkeyPopupLocation = SettingsController.Store.HotkeyPopupLocation;
         public HotkeyPopupLocationEnum HotkeyPopupLocation
         {

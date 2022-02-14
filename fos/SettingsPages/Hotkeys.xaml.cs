@@ -24,6 +24,7 @@ namespace fos.SettingsPages
         {
             InitializeComponent();
             DataContext = new ViewModels.PageHotkeysViewModel();
+            //Properties.Resources.Sett
         }
 
         private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
