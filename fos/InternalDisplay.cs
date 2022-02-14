@@ -18,7 +18,8 @@ namespace fos
         private WmiBrightnessController _contoller = new WmiBrightnessController();
         public Size Resolution { get; set; }
         public Point Position { get; set; }
-        public string DeviceName { get; }
+        private string _deviceName;
+        public string DeviceName { get { return _deviceName; } }
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(40);
 
@@ -47,9 +48,10 @@ namespace fos
             Brightness = brightness;
         }
 
-        public InternalDisplay()
+        public InternalDisplay(string deviceName)
         {
             _brightness = _contoller.GetBrightness();
+            _deviceName = deviceName;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

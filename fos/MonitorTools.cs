@@ -83,7 +83,7 @@ namespace fos
                 {
                     try
                     {
-                        InternalDisplay display = new InternalDisplay();
+                        InternalDisplay display = new InternalDisplay(pi.DisplaySource.DisplayName);
                         display.Resolution = pi.Resolution;
                         display.Position = pi.Position;
 
