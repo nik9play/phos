@@ -88,7 +88,7 @@ namespace fos.ViewModels
 
         public MainWindowViewModel()
         {
-            Monitors = new ObservableCollection<IMonitor>(MonitorTools.GetMonitorList());
+            Monitors = MonitorTools.GetMonitorList();
             AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
             Monitors.CollectionChanged += Monitors_CollectionChanged;
         }

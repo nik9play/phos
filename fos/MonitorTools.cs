@@ -40,7 +40,7 @@ namespace fos
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
-        public static List<IMonitor> GetMonitorList()
+        public static ObservableCollection<IMonitor> GetMonitorList()
         {   
             var MonitorDict = new Dictionary<string, Monitor>();
 
@@ -62,7 +62,7 @@ namespace fos
                 },
             IntPtr.Zero);
 
-            List<IMonitor> MonitorList = new List<IMonitor>();
+            ObservableCollection<IMonitor> MonitorList = new ObservableCollection<IMonitor>();
 
             foreach (PathInfo pi in PathInfo.GetActivePaths())
             {
@@ -90,6 +90,19 @@ namespace fos
                         MonitorList.Add(display);
                     }
                     catch { }
+                }
+            }
+
+            List<string> overwrites = SettingsController.Store.MonitorListLocationOverwrites;
+
+            for (int i = 0; i < overwrites.Count; i++)
+            {
+                //int index = MonitorList.FindIndex(e => e.Name == overwrites[i]);
+                int index = MonitorList.IndexOf(MonitorList.Where(el => el.DeviceName == overwrites[i]).FirstOrDefault());
+
+                if (index > -1)
+                {
+                    MonitorList.Move(index, i);
                 }
             }
 
