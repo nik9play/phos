@@ -15,19 +15,8 @@ namespace fos.ViewModels
 {
     class Language
     {
-        private string _id;
-        public string Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
     class PageGeneralViewModel : INotifyPropertyChanged
     { 
