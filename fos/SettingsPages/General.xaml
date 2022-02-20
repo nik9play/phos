@@ -26,29 +26,27 @@
                       SelectedValuePath="Id" 
                       HorizontalAlignment="Stretch"
                       SelectedValue="{Binding SelectedLanguage}" />
-            <ui:ThemeShadowChrome Depth="5">
-                <Border Padding="10"
-                    CornerRadius="3"
-                    Visibility="{Binding RestartRequired,
-                                Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="28" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ui:FontIcon
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Grid.Column="0" 
-                        Glyph="&#xE946;"/>
-                        <TextBlock Grid.Column="1"
-                               TextWrapping="Wrap" 
-                               VerticalAlignment="Center"
-                               Text="{x:Static res:Resources.SettingsRestartRequired}" />
-                    </Grid>
-                </Border>
-            </ui:ThemeShadowChrome>
+            <Border Padding="10"
+                CornerRadius="3"
+                Visibility="{Binding RestartRequired,
+                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ui:FontIcon
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Grid.Column="0" 
+                    Glyph="&#xE946;"/>
+                    <TextBlock Grid.Column="1"
+                            TextWrapping="Wrap" 
+                            VerticalAlignment="Center"
+                            Text="{x:Static res:Resources.SettingsRestartRequired}" />
+                </Grid>
+            </Border>
             
             <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}"/>
             <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}" Header="{x:Static res:Resources.SettingsGeneralAutoCheck}"/>
