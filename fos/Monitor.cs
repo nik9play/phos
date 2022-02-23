@@ -17,14 +17,14 @@ namespace fos
         public readonly string deviceName;
         private readonly BrightnessController _contoller;
 
-        private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(60);
+        private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.BrightnessChangeInterval);
         public Size Resolution { get; set; }
         public Point Position { get; set; }
         public string DeviceName
         {
             get { return deviceName; }
         }
-
+        
         public string Name
         { 
             get { return _name; } 
