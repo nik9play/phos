@@ -15,18 +15,36 @@
         <f:EnumToBoolConverter x:Key="enumConverter" />
     </Page.Resources>
     
-    <ScrollViewer Padding="0,0,25,0">
-        <ui:SimpleStackPanel ui:Spacing="10" HorizontalAlignment="Stretch" x:Name="stackPanel">
+    <ScrollViewer Padding="0,0,20,0">
+        <ui:SimpleStackPanel ui:Spacing="8" HorizontalAlignment="Stretch" x:Name="stackPanel">
             <ui:ToggleSwitch IsOn="{Binding HotkeysEnabled}" Header="{x:Static res:Resources.SettingsHotkeysEnabled}" />
-            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" CommandManager.PreviewExecuted="textBox_PreviewExecuted" Text="{Binding HotkeyUp}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyUp}" />
-            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" CommandManager.PreviewExecuted="textBox_PreviewExecuted" Text="{Binding HotkeyDown}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyDown}" />
-            <Slider Minimum="1" Maximum="25" 
+            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" 
+                     CommandManager.PreviewExecuted="textBox_PreviewExecuted" 
+                     MinWidth="290"
+                     HorizontalAlignment="Left"
+                     Text="{Binding HotkeyUp}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyUp}" />
+            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" 
+                     CommandManager.PreviewExecuted="textBox_PreviewExecuted" 
+                     MinWidth="290"
+                     HorizontalAlignment="Left"
+                     Text="{Binding HotkeyDown}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyDown}" />
+            <TextBlock Text="{x:Static res:Resources.SettingsHotkeyStep}"/>
+            <Grid Width="290" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="42"/>
+                </Grid.ColumnDefinitions>
+                <Slider Minimum="1" Maximum="25" 
                     AutoToolTipPlacement="TopLeft"
+                    TickFrequency="5"
                     IsMoveToPointEnabled="True"
                     Value="{Binding HotkeyStep}"
-                    ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyStep}" TickPlacement="TopLeft" />
+                    HorizontalAlignment="Stretch"
+                    TickPlacement="TopLeft" />
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Text="{Binding HotkeyStep}" />
+            </Grid>
             <TextBlock Text="{x:Static res:Resources.SettingsHotkeyLocation}"/>
-            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Left" Width="250" Height="150" 
+            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Left" Width="240" Height="135" 
                     Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
                 <Grid>
                     <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
