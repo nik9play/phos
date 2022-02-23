@@ -15,7 +15,7 @@ namespace fos.ViewModels
     class MainWindowViewModel : INotifyPropertyChanged
     {
         private static uint _allMonitorsBrightness;
-        private static readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(100);
+        private static readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
         public static ObservableCollection<IMonitor> Monitors { get; set; }
         public static uint AllMonitorsBrightness { 
             get

@@ -18,14 +18,30 @@
             False="Collapsed" />
     </ui:Page.Resources>
 
-    <ScrollViewer Padding="0,0,15,0">
-        <ui:SimpleStackPanel Spacing="10" HorizontalAlignment="Stretch">
+    <ScrollViewer Padding="0,0,20,0">
+        <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Stretch">
             <ComboBox ui:ControlHelper.Header="{x:Static res:Resources.SettingsGeneralLanguage}"
                       ItemsSource="{Binding AvailableLanguages}" 
                       DisplayMemberPath="Name" 
                       SelectedValuePath="Id" 
-                      HorizontalAlignment="Stretch"
+                      MinWidth="290"
                       SelectedValue="{Binding SelectedLanguage}" />
+
+            <TextBlock TextWrapping="Wrap" Text="{x:Static res:Resources.SettingsGeneralBrightnessInterval}" />
+            <ui:NumberBox HorizontalAlignment="Left" MinWidth="290" 
+                          Minimum="10" Maximum="1000"
+                          SpinButtonPlacementMode="Inline"
+                          Grid.Column="1" Value="{Binding BrightnessChangeInterval}" />
+
+            <TextBlock TextWrapping="Wrap" Text="{x:Static res:Resources.SettingsGeneralBrightnessIntervalAllMonitors}" />
+            <ui:NumberBox HorizontalAlignment="Left" MinWidth="290"
+                          Minimum="10" Maximum="1000"
+                          SpinButtonPlacementMode="Inline"
+                          Grid.Column="1" Value="{Binding AllMonitorsBrightnessChangeInterval}" />
+
+
+            <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}"/>
+            <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}" Header="{x:Static res:Resources.SettingsGeneralAutoCheck}"/>
             <Border Padding="10"
                 CornerRadius="3"
                 Visibility="{Binding RestartRequired,
@@ -47,9 +63,6 @@
                             Text="{x:Static res:Resources.SettingsRestartRequired}" />
                 </Grid>
             </Border>
-            
-            <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}"/>
-            <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}" Header="{x:Static res:Resources.SettingsGeneralAutoCheck}"/>
         </ui:SimpleStackPanel>
     </ScrollViewer>
 </ui:Page>

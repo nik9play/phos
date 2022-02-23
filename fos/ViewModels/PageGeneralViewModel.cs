@@ -38,6 +38,32 @@ namespace fos.ViewModels
             }
         }
 
+        private uint brightnessChangeInterval = SettingsController.Store.BrightnessChangeInterval;
+        public uint BrightnessChangeInterval
+        {
+            get { return brightnessChangeInterval; }
+            set
+            {
+                brightnessChangeInterval = value;
+                SettingsController.Store.BrightnessChangeInterval = brightnessChangeInterval;
+                RestartRequired = true;
+                OnPropertyChanged();
+            }
+        }
+
+        private uint allMonitorsbrightnessChangeInterval = SettingsController.Store.AllMonitorsBrightnessChangeInterval;
+        public uint AllMonitorsBrightnessChangeInterval
+        {
+            get { return allMonitorsbrightnessChangeInterval; }
+            set
+            {
+                allMonitorsbrightnessChangeInterval = value;
+                SettingsController.Store.AllMonitorsBrightnessChangeInterval = allMonitorsbrightnessChangeInterval;
+                RestartRequired = true;
+                OnPropertyChanged();
+            }
+        }
+
         private bool autoCheckUpdates = SettingsController.Store.AutoUpdateCheckEnabled;
         public bool AutoCheckUpdates
         {
@@ -65,7 +91,7 @@ namespace fos.ViewModels
             set { selectedLanguage = value; SettingsController.Store.Language = value; RestartRequired = true; OnPropertyChanged(); }
         }
 
-        private bool restartRequired;
+        private bool restartRequired = false;
         public bool RestartRequired
         {
             get { return restartRequired; }
