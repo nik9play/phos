@@ -46,6 +46,10 @@ namespace fos
                         ContentFrame.Navigate(typeof(SettingsPages.About));
                         NavView.Header = Properties.Resources.SettingsAbout;
                         break;
+                    case "Monitors":
+                        ContentFrame.Navigate(typeof(SettingsPages.Monitors));
+                        NavView.Header = Properties.Resources.SettingsMonitors;
+                        break;
                 }
             }
         }
@@ -66,6 +70,10 @@ namespace fos
         private void Window_Closed(object sender, EventArgs e)
         {
             SettingsController.SaveSettings();
+        }
+
+        private void NavView_Unloaded(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

@@ -11,6 +11,13 @@ namespace fos
         BottomCenter,
         TopCenter
     }
+
+    public class MonitorCustomLimits
+    {
+        public int Minimum { get; set; } = 0;
+        public int Maximum { get; set; } = 100;
+    }
+
     public class Settings
     {
         public bool AllMonitorsModeEnabled { get; set; } = false;
@@ -21,6 +28,10 @@ namespace fos
         public string HotkeyDown { get; set; } = "Alt+F1";
         public uint HotkeyStep { get; set; } = 5;
         public HotkeyPopupLocationEnum HotkeyPopupLocation { get; set; } = HotkeyPopupLocationEnum.BottomCenter;
+        public uint BrightnessChangeInterval { get; set; } = 50;
+        public uint AllMonitorsBrightnessChangeInterval { get; set; } = 100;
+
         public List<string> MonitorListLocationOverwrites { get; set; } = new List<string>();
+        public Dictionary<string, MonitorCustomLimits> MonitorCustomLimits { get; set; } = new Dictionary<string, MonitorCustomLimits>();
     }
 }
