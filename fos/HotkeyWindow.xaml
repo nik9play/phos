@@ -14,6 +14,7 @@
         ShowActivated="False"
         xmlns:ui="http://schemas.modernwpf.com/2019" 
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+        PreviewKeyDown="Window_PreviewKeyDown"
         Title="HotkeyWindow" Height="70" Width="220">
     <Window.Resources>
         <Storyboard x:Key="ShowPopupDown">
@@ -96,7 +97,9 @@
                     </Grid.ColumnDefinitions>
 
                     <ui:FontIcon VerticalAlignment="Center" 
-                                 HorizontalAlignment="Center" Glyph="&#xEC8A;" FontSize="20" />
+                                 HorizontalAlignment="Center"
+                                 Glyph="&#xEC8A;" FontSize="20" />
+
                     <ProgressBar
                                x:Name="progressBar"    
                                Grid.Column="1"/>

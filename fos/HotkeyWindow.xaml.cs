@@ -123,5 +123,13 @@ namespace fos
             percentText.Text = value.ToString();
             progressBar.Value = value;
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.System && e.SystemKey == Key.F4)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
