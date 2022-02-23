@@ -14,26 +14,144 @@
         </Setter>
     </Style>
     <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
-        <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
-            <Path x:Name="grip" Width="20" Height="20" Fill="{DynamicResource SystemControlHighlightListAccentHighBrush}" 
-                  Stretch="Fill" SnapsToDevicePixels="True" Stroke="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
-                  StrokeThickness="5" UseLayoutRounding="True" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" UseLayoutRounding="False" VerticalAlignment="Center">
+            <Path x:Name="grip" Width="20" Height="20" Fill="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" 
+                  StrokeThickness="1" Stroke="{DynamicResource SystemControlForegroundListLowBrush}"
+                  Stretch="Fill" SnapsToDevicePixels="True" UseLayoutRounding="False" VerticalAlignment="Center">
+                <Path.Data>
+                    <EllipseGeometry Center="10,10" RadiusX="10" RadiusY="10"></EllipseGeometry>
+                </Path.Data>
+            </Path>
+            <Path x:Name="grip2" Width="10" Height="10" Fill="{DynamicResource SystemControlHighlightListAccentHighBrush}" 
+                  Stretch="Fill" SnapsToDevicePixels="True" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
                     <EllipseGeometry Center="10,10" RadiusX="10" RadiusY="10"></EllipseGeometry>
                 </Path.Data>
             </Path>
         </Grid>
+
         <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="StrokeThickness" TargetName="grip" Value="3"/>
-            </Trigger>
-            <Trigger Property="IsDragging" Value="true">
-                <Setter Property="StrokeThickness" TargetName="grip" Value="6"/>
-            </Trigger>
+            <!--<Trigger Property="IsMouseOver" Value="true">
+                --><!--<Setter Property="Width" TargetName="grip2" Value="3"/>--><!--
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="14" Duration="0:0:0.05" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                              To="14" Duration="0:0:0.05" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="10" Duration="0:0:0.05" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                              To="10" Duration="0:0:0.05" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>-->
+            <EventTrigger RoutedEvent="MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="10" Duration="0:0:0.07" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="0.5"
+                                              To="10" Duration="0:0:0.07" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             
+                                             DecelerationRatio="1"
+                                              To="14" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             DecelerationRatio="1"
+                                              To="14" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="PreviewMouseDown">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="8" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                             
+                                              To="8" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="PreviewMouseUp">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="0.5"
+                                              To="14" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                              To="14" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <!--<Trigger Property="IsDragging" Value="true">
+                --><!--<Setter Property="StrokeThickness" TargetName="grip" Value="6"/>--><!--
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="8" Duration="0:0:0.07" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                              To="8" Duration="0:0:0.07" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
+                                             AccelerationRatio="1"
+                                              To="10" Duration="0:0:0.03" />
+                            <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
+                                             AccelerationRatio="1"
+                                              To="10" Duration="0:0:0.03" />
+                        </Storyboard>
+
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+                --><!--<Setter Property="StrokeThickness" TargetName="grip" Value="10"/>--><!--
+
+            </Trigger>-->
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
-        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -45,13 +163,16 @@
                 <Border x:Name="TrackBackground" BorderBrush="Transparent" Height="4.0" Margin="0,0" Grid.Row="1" VerticalAlignment="center"></Border>
                 <Track x:Name="PART_Track" Grid.Row="1">
                     <Track.DecreaseRepeatButton>
-                        <RepeatButton Height="4" Background="{DynamicResource SystemControlHighlightListAccentHighBrush}" Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Margin="0,0,-4,0"/>
+                        <RepeatButton Height="4" Background="{DynamicResource SystemControlHighlightListAccentHighBrush}"
+                                      Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Margin="0,0,-4,0"/>
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
-                        <RepeatButton Height="4" Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Margin="-4,0,0,0"/>
+                        <RepeatButton Height="4" Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" UseLayoutRounding="False"
+                                      Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}" Margin="-4,0,0,0"/>
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Focusable="False"   OverridesDefaultStyle="True" Template="{StaticResource SliderThumbHorizontalDefault}" VerticalAlignment="Center" />
+                        <Thumb x:Name="Thumb" Focusable="False"   OverridesDefaultStyle="True" Template="{StaticResource SliderThumbHorizontalDefault}" 
+                               VerticalAlignment="Center" />
                     </Track.Thumb>
                 </Track>
             </Grid>
