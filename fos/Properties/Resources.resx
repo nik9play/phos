@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllMonitorsMode" xml:space="preserve">
     <value>All monitors</value>
@@ -123,7 +123,7 @@
   <data name="ContextExit" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="iconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\iconblack.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -219,5 +219,23 @@
   </data>
   <data name="SettingsHotkeyStep" xml:space="preserve">
     <value>Brightness change step</value>
+  </data>
+  <data name="SettingsGeneralBrightnessIntervalAllMonitors" xml:space="preserve">
+    <value>Brightness change latency in All Monitors mode (ms)</value>
+  </data>
+  <data name="SettingsMonitors" xml:space="preserve">
+    <value>Monitors</value>
+  </data>
+  <data name="SettingsMonitorsCustomLimits" xml:space="preserve">
+    <value>Brightness level limits</value>
+  </data>
+  <data name="SettingsMonitorsCustomLimitsDescription" xml:space="preserve">
+    <value>You can set brightness level limits to make brightness of different monitors more consistent.</value>
+  </data>
+  <data name="SettingsMonitorsCustomLimitsMin" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="SettingsMonitorsCustomLimitsMax" xml:space="preserve">
+    <value>Maximum</value>
   </data>
 </root>

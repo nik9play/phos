@@ -225,6 +225,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Brightness change latency in All Monitors mode (ms).
+        /// </summary>
+        public static string SettingsGeneralBrightnessIntervalAllMonitors {
+            get {
+                return ResourceManager.GetString("SettingsGeneralBrightnessIntervalAllMonitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Language.
         /// </summary>
         public static string SettingsGeneralLanguage {
@@ -347,6 +356,51 @@ namespace fos.Properties {
         public static string SettingsHotkeyUp {
             get {
                 return ResourceManager.GetString("SettingsHotkeyUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Monitors.
+        /// </summary>
+        public static string SettingsMonitors {
+            get {
+                return ResourceManager.GetString("SettingsMonitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Brightness level limits.
+        /// </summary>
+        public static string SettingsMonitorsCustomLimits {
+            get {
+                return ResourceManager.GetString("SettingsMonitorsCustomLimits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You can set brightness level limits to make brightness of different monitors more consistent..
+        /// </summary>
+        public static string SettingsMonitorsCustomLimitsDescription {
+            get {
+                return ResourceManager.GetString("SettingsMonitorsCustomLimitsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Maximum.
+        /// </summary>
+        public static string SettingsMonitorsCustomLimitsMax {
+            get {
+                return ResourceManager.GetString("SettingsMonitorsCustomLimitsMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Minimum.
+        /// </summary>
+        public static string SettingsMonitorsCustomLimitsMin {
+            get {
+                return ResourceManager.GetString("SettingsMonitorsCustomLimitsMin", resourceCulture);
             }
         }
         
