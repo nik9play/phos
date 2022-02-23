@@ -48,6 +48,7 @@ namespace fos
         {
             ThemeManager.Current.ApplicationTheme = CurrentTheme;
             ThemeManager.Current.AccentColor = CurrentAccentColor;
+            
 
             if (CurrentTheme == ApplicationTheme.Light)
                 trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconBlack, System.Windows.Forms.SystemInformation.SmallIconSize);
@@ -131,5 +132,12 @@ namespace fos
             Application.Current.Shutdown();
         }
 
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.System && e.SystemKey == Key.F4)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

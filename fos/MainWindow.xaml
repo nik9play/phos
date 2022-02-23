@@ -26,7 +26,8 @@
         Visibility="Hidden"
         xmlns:dd="urn:gong-wpf-dragdrop"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Deactivated="Window_Deactivated">
+        Deactivated="Window_Deactivated"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
         <Storyboard x:Key="ShowPopup">
@@ -73,7 +74,7 @@
                 <TranslateTransform x:Name="T1" />
             </ui:ThemeShadowChrome.RenderTransform>
 
-            <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+            <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True" BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -84,8 +85,7 @@
                     <tb:TaskbarIcon x:Name="trayIcon"
                         Visibility="Visible"
                         ToolTipText="fos"
-                        TrayLeftMouseDown="trayIcon_TrayLeftMouseDown"
-                    >
+                        TrayLeftMouseDown="trayIcon_TrayLeftMouseDown">
                         <tb:TaskbarIcon.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Click="ExitItem_Click" Header="{x:Static res:Resources.ContextExit}">
@@ -107,12 +107,12 @@
                                   ItemsSource="{Binding Monitors}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ui:SimpleStackPanel Margin="15,8,8,8" Spacing="0" />
+                                <ui:SimpleStackPanel Margin="8,8,4,8" Spacing="0" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border  Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="0,8,0,8" x:Name="Outer">
+                                <Border CornerRadius="5" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="8,8,4,8" x:Name="Outer">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -133,7 +133,6 @@
                                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Brightness}" 
                                                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
                                         <Slider IsMoveToPointEnabled="True"
-                                                IsSnapToTickEnabled="True" 
                                                 Value="{Binding Path=Brightness}"
                                                 Maximum="100"
                                                 Style="{StaticResource Win11SliderStyle}"
@@ -152,7 +151,7 @@
                         Visibility="{Binding AllMonitorsModeEnabled, 
                                              Converter={StaticResource BooleanToVisibilityConverter}}" 
                                 Margin="0,0,0,16">
-                        <Border Margin="15,16,8,0">
+                        <Border Margin="16,16,8,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="32"/>
@@ -183,24 +182,25 @@
                     </StackPanel>
 
                     <Grid Grid.Row="1">
-                        <Border CornerRadius="0,0,10,10" BorderThickness="0,0,0,1" 
-                                BorderBrush="{DynamicResource SystemControlBackgroundChromeMediumBrush}" 
+                        <Border CornerRadius="0,0,10,10" BorderThickness="0,0,0,0"
+                                BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
                                 Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                             <ui:CommandBar DefaultLabelPosition="Collapsed" Background="Transparent">
                                 <ui:AppBarToggleButton
+                                    Width="36"
                                     IsChecked="{Binding AllMonitorsModeEnabled}"
                                     ToolTip="{x:Static res:Resources.AllMonitorsMode}"
-                                    Width="40"
                                     Icon="Link" />
                                 <ui:AppBarButton 
+                                    Width="36"
                                     ToolTip="{x:Static res:Resources.SettingsTitle}"
-                                    Width="40"
                                     Icon="Setting"
                                     Click="AppBarButton_Click"/>
                                 <ui:AppBarButton 
+                                    Width="36"
+                                    CornerRadius="0,0,8,0"
                                     ToolTip="{x:Static res:Resources.ReloadList}"
-                                    Width="40"
-                                    Command="{Binding UpdateCommand}" Icon="Refresh" CornerRadius="0,0,10,0" />
+                                    Command="{Binding UpdateCommand}" Icon="Refresh" />
                             </ui:CommandBar>
                         </Border> 
                     </Grid>
