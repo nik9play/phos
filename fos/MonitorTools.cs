@@ -55,7 +55,7 @@ namespace fos
                         try
                         {
                             var mon = new Monitor(mi.DeviceName, hMonitor);
-                            MonitorDict.Add(mon.deviceName, mon);
+                            MonitorDict.Add(mon._deviceName, mon);
                         } catch { }
                     }
                     return true;

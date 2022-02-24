@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,7 @@ namespace fos
     {
         private string _name;
         private uint _brightness;
-        public readonly string deviceName;
+        public readonly string _deviceName;
         private readonly BrightnessController _contoller;
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.BrightnessChangeInterval);
@@ -22,7 +23,7 @@ namespace fos
         public Point Position { get; set; }
         public string DeviceName
         {
-            get { return deviceName; }
+            get { return _deviceName; }
         }
         
         public string Name
@@ -40,7 +41,13 @@ namespace fos
             set
             {
                 _brightness = value;
-                _throttleDispatcher.Throttle(() => Task.Run(() => _contoller.SetBrightness(_brightness)));
+                uint newBrightness = _brightness;
+
+                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+                if (monitorCustomLimits != null)
+                    newBrightness = (uint)(((float)_brightness / 100) * (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) + monitorCustomLimits.Minimum);
+
+                _throttleDispatcher.Throttle(() => Task.Run(() => _contoller.SetBrightness(newBrightness)));
                 OnPropertyChanged();
             }
         }
@@ -48,15 +55,26 @@ namespace fos
         public void SetBrightness(uint brightness)
         {
             Brightness = brightness;
-            _contoller.SetBrightness(brightness);
         }
 
         public Monitor(string deviceName, IntPtr monitorHandle)
         {
-            this.deviceName = deviceName;
+            _deviceName = deviceName;
 
             _contoller = new BrightnessController(monitorHandle);
-            Brightness = _contoller.Brightness;
+
+            int newBrightness = (int)_contoller.Brightness;
+
+            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+            if (monitorCustomLimits != null)
+                newBrightness = (int)((newBrightness - (float)monitorCustomLimits.Minimum) / (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) * 100);
+            
+            if (newBrightness < 0)
+                newBrightness = 0;
+            if (newBrightness > 100)
+                newBrightness = 100;
+
+            _brightness = (uint)newBrightness;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

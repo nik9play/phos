@@ -38,7 +38,13 @@ namespace fos
             set
             {
                 _brightness = value;
-                _throttleDispatcher.Throttle(() => _contoller.SetBrightness(_brightness));
+                uint newBrightness = _brightness;
+
+                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+                if (monitorCustomLimits != null)
+                    newBrightness = (uint)(((float)_brightness / 100) * (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) + monitorCustomLimits.Minimum);
+
+                _throttleDispatcher.Throttle(() => _contoller.SetBrightness(newBrightness));
                 OnPropertyChanged();
             }
         }
@@ -50,8 +56,20 @@ namespace fos
 
         public InternalDisplay(string deviceName)
         {
-            _brightness = _contoller.GetBrightness();
             _deviceName = deviceName;
+
+            int newBrightness = (int)_contoller.GetBrightness();
+
+            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+            if (monitorCustomLimits != null)
+                newBrightness = (int)((newBrightness - (float)monitorCustomLimits.Minimum) / (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) * 100);
+
+            if (newBrightness < 0)
+                newBrightness = 0;
+            if (newBrightness > 100)
+                newBrightness = 100;
+
+            _brightness = (uint)newBrightness;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
