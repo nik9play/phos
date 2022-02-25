@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -46,9 +47,11 @@ namespace fos
                 catch
                 {
                     Store = new Settings();
-                    WindowManager.mainWindow.trayIcon.ShowBalloonTip(Properties.Resources.LoadSettingsErrorTitle,
-                        Properties.Resources.LoadSettingsErrorDescription,
-                        Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error);
+
+                    new ToastContentBuilder()
+                        .AddText(Properties.Resources.LoadSettingsErrorTitle)
+                        .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                        .Show();
                 }
             }
             else
@@ -60,9 +63,10 @@ namespace fos
                 }
                 catch
                 {
-                    WindowManager.mainWindow.trayIcon.ShowBalloonTip(Properties.Resources.LoadSettingsErrorTitle, 
-                        Properties.Resources.LoadSettingsErrorDescription, 
-                        Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error);
+                    new ToastContentBuilder()
+                        .AddText(Properties.Resources.LoadSettingsErrorTitle)
+                        .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                        .Show();
                 }
             }
         }
