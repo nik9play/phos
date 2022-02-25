@@ -36,18 +36,18 @@ namespace fos
                     if (arg.Delta < 0)
                     {
                         double newVal = sl.Value - sl.SmallChange * GetValue(sl);
-                        if (newVal >= sl.Minimum)
-                        {
+                        if (newVal < sl.Minimum)
+                            sl.Value = sl.Minimum;
+                        else
                             sl.Value = newVal;
-                        }
                     }
                     else
                     {
                         double newVal = sl.Value + sl.SmallChange * GetValue(sl);
-                        if (newVal <= sl.Maximum)
-                        {
+                        if (newVal > sl.Maximum)
+                            sl.Value = sl.Maximum;
+                        else
                             sl.Value = newVal;
-                        }
                     }
                 };
             }
