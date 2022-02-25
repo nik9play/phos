@@ -22,14 +22,14 @@ namespace fos
             }
         }
 
-        private string deviceName;
-        public string DeviceName 
+        private string deviceId;
+        public string DeviceId
         { 
-            get { return deviceName; }
+            get { return deviceId; }
             
             set
             {
-                deviceName = value;
+                deviceId = value;
                 OnPropertyChanged();
             }
         
@@ -52,7 +52,7 @@ namespace fos
                 }
 
                 monitorCustomLimits.Minimum = value;
-                SettingsController.Store.MonitorCustomLimits[DeviceName] = monitorCustomLimits;
+                SettingsController.Store.MonitorCustomLimits[DeviceId] = monitorCustomLimits;
                 OnPropertyChanged();
             }
         }
@@ -72,7 +72,7 @@ namespace fos
                 }
 
                 monitorCustomLimits.Maximum = value;
-                SettingsController.Store.MonitorCustomLimits[DeviceName] = monitorCustomLimits;
+                SettingsController.Store.MonitorCustomLimits[DeviceId] = monitorCustomLimits;
                 OnPropertyChanged();
             }
         }

@@ -16,14 +16,14 @@ namespace fos.ViewModels
             foreach(var el in MainWindowViewModel.Monitors)
             {
                 MonitorCustomLimits foundMonitorCustomLimits;
-                SettingsController.Store.MonitorCustomLimits.TryGetValue(el.DeviceName, out foundMonitorCustomLimits);
+                SettingsController.Store.MonitorCustomLimits.TryGetValue(el.DeviceId, out foundMonitorCustomLimits);
 
                 if (foundMonitorCustomLimits == null)
                     foundMonitorCustomLimits = new MonitorCustomLimits();
 
                 MonitorSettings.Add(new MonitorSettingsElement
                 {
-                    DeviceName = el.DeviceName,
+                    DeviceId = el.DeviceId,
                     Name = el.Name,
                     monitorCustomLimits = foundMonitorCustomLimits
                 });

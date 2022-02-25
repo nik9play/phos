@@ -15,7 +15,7 @@ namespace fos
     {
         private string _name;
         private uint _brightness;
-        public readonly string _deviceName;
+        private readonly string _deviceName;
         private readonly BrightnessController _contoller;
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.BrightnessChangeInterval);
@@ -25,7 +25,9 @@ namespace fos
         {
             get { return _deviceName; }
         }
-        
+
+        public string DeviceId { get => $"{DeviceName}\\{Name}"; }
+
         public string Name
         { 
             get { return _name; } 
@@ -43,7 +45,7 @@ namespace fos
                 _brightness = value;
                 uint newBrightness = _brightness;
 
-                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceId, out MonitorCustomLimits monitorCustomLimits);
                 if (monitorCustomLimits != null)
                     newBrightness = (uint)(((float)_brightness / 100) * (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) + monitorCustomLimits.Minimum);
 
@@ -65,7 +67,7 @@ namespace fos
 
             int newBrightness = (int)_contoller.Brightness;
 
-            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceId, out MonitorCustomLimits monitorCustomLimits);
             if (monitorCustomLimits != null)
                 newBrightness = (int)((newBrightness - (float)monitorCustomLimits.Minimum) / (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) * 100);
             

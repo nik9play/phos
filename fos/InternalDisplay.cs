@@ -20,6 +20,7 @@ namespace fos
         public Point Position { get; set; }
         private string _deviceName;
         public string DeviceName { get { return _deviceName; } }
+        public string DeviceId { get => $"{DeviceName}\\InternalMonitor"; }
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(40);
 
@@ -40,7 +41,7 @@ namespace fos
                 _brightness = value;
                 uint newBrightness = _brightness;
 
-                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+                SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceId, out MonitorCustomLimits monitorCustomLimits);
                 if (monitorCustomLimits != null)
                     newBrightness = (uint)(((float)_brightness / 100) * (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) + monitorCustomLimits.Minimum);
 
@@ -60,7 +61,7 @@ namespace fos
 
             int newBrightness = (int)_contoller.GetBrightness();
 
-            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceName, out MonitorCustomLimits monitorCustomLimits);
+            SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceId, out MonitorCustomLimits monitorCustomLimits);
             if (monitorCustomLimits != null)
                 newBrightness = (int)((newBrightness - (float)monitorCustomLimits.Minimum) / (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) * 100);
 

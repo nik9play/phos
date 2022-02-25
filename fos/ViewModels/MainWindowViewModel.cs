@@ -17,6 +17,7 @@ namespace fos.ViewModels
         private static uint _allMonitorsBrightness;
         private static readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
         public static ObservableCollection<IMonitor> Monitors { get; set; }
+
         public static uint AllMonitorsBrightness { 
             get
             {
@@ -99,7 +100,7 @@ namespace fos.ViewModels
             SettingsController.Store.MonitorListLocationOverwrites.Clear();
             foreach (IMonitor el in Monitors)
             {
-                SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceName);
+                SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
             }
         }
 
