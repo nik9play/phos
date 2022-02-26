@@ -15,6 +15,7 @@
 	<Deterministic>false</Deterministic>
 	<Version>0.0.1-alpha</Version>
 	<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+	<AssemblyName>phos</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

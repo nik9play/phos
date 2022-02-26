@@ -30,9 +30,9 @@ namespace fos.ViewModels
             {
                 autoStart = value;
                 if (value)
-                    rkApp.SetValue("fos", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    rkApp.SetValue("phos", System.Reflection.Assembly.GetExecutingAssembly().Location);
                 else
-                    rkApp.DeleteValue("fos");
+                    rkApp.DeleteValue("phos");
 
                 OnPropertyChanged();
             }
@@ -81,7 +81,7 @@ namespace fos.ViewModels
 
         public PageGeneralViewModel()
         {
-            autoStart = rkApp.GetValue("fos") != null;
+            autoStart = rkApp.GetValue("phos") != null;
         }
 
         private string selectedLanguage = SettingsController.Store.Language;
