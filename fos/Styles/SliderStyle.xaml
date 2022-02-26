@@ -17,15 +17,15 @@
         <Grid HorizontalAlignment="Center" UseLayoutRounding="False" VerticalAlignment="Center">
             <Path x:Name="grip" Width="20" Height="20" Fill="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" 
                   StrokeThickness="1" Stroke="{DynamicResource SystemControlForegroundListLowBrush}"
-                  Stretch="Fill" SnapsToDevicePixels="True" UseLayoutRounding="False" VerticalAlignment="Center">
+                  Stretch="Fill" SnapsToDevicePixels="False" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
-                    <EllipseGeometry Center="10,10" RadiusX="10" RadiusY="10"></EllipseGeometry>
+                    <EllipseGeometry RadiusX="10" RadiusY="10"></EllipseGeometry>
                 </Path.Data>
             </Path>
             <Path x:Name="grip2" Width="10" Height="10" Fill="{DynamicResource SystemControlHighlightListAccentHighBrush}" 
-                  Stretch="Fill" SnapsToDevicePixels="True" UseLayoutRounding="False" VerticalAlignment="Center">
+                  Stretch="Fill" SnapsToDevicePixels="False" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
-                    <EllipseGeometry Center="10,10" RadiusX="10" RadiusY="10"></EllipseGeometry>
+                    <EllipseGeometry RadiusX="10" RadiusY="10"></EllipseGeometry>
                 </Path.Data>
             </Path>
         </Grid>
