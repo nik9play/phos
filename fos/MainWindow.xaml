@@ -10,7 +10,6 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        ui:ThemeManager.IsThemeAware="True"
         Title="MainWindow"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
@@ -96,6 +95,14 @@
                             </ContextMenu>
                         </tb:TaskbarIcon.ContextMenu>
                     </tb:TaskbarIcon>
+
+                    <!--<TextBlock Text="{x:Static res:Resources.MonitorsNotFound}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Padding="20"
+                               Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsMonitors, 
+                                            Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>-->
 
                     <ItemsControl Grid.Row="0" 
                                   Visibility="{Binding AllMonitorsModeEnabled, 

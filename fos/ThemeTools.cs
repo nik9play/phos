@@ -36,10 +36,10 @@ namespace fos
         public ApplicationTheme CurrentTheme { get; private set; }
         public Color CurrentAccentColor { get; private set; }
 
-        public ThemeChangingArgs(ApplicationTheme theme, Color color)
+        public ThemeChangingArgs(ApplicationTheme theme)
         {
             CurrentTheme = theme;
-            CurrentAccentColor = color;
+            //CurrentAccentColor = color;
         }
     }
 
@@ -112,7 +112,7 @@ namespace fos
         public static event EventHandler<ThemeChangingArgs> ThemeChanged = delegate { };
 
         private static ApplicationTheme LastCurrentTheme;
-        private static Color LastAccentColor;
+        //private static Color LastAccentColor;
 
         private static void ThemeChangeTimer_Tick(object sender, EventArgs e)
         {
@@ -132,17 +132,17 @@ namespace fos
 
             LastCurrentTheme = NewCurrentTheme;
 
-            Color NewAccentColor = CurrentAccentColor;
+            //Color NewAccentColor = CurrentAccentColor;
 
-            if (NewAccentColor != LastAccentColor)
-            {
-                fireEvent = true;
-            }
+            //if (NewAccentColor != LastAccentColor)
+            //{
+            //    fireEvent = true;
+            //}
 
-            LastAccentColor = NewAccentColor;
+            //LastAccentColor = NewAccentColor;
 
             if (fireEvent)
-                ThemeChanged(null, new ThemeChangingArgs(NewCurrentTheme, NewAccentColor));
+                ThemeChanged(null, new ThemeChangingArgs(NewCurrentTheme));
         }
     }
 }

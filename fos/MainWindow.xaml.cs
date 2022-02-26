@@ -29,7 +29,7 @@ namespace fos
             InitializeComponent();
 
             DataContext = new ViewModels.MainWindowViewModel();
-            UpdateTheme(ThemeTools.CurrentTheme, ThemeTools.CurrentAccentColor);
+            UpdateTheme(ThemeTools.CurrentTheme);
             ThemeTools.ThemeChanged += ThemeTools_ThemeChanged;
         }
 
@@ -41,14 +41,14 @@ namespace fos
 
         private void ThemeTools_ThemeChanged(object sender, ThemeChangingArgs e)
         {
-            UpdateTheme(e.CurrentTheme, e.CurrentAccentColor);
+            UpdateTheme(e.CurrentTheme);
+            
         }
 
-        private void UpdateTheme(ApplicationTheme CurrentTheme, Color CurrentAccentColor)
+        private void UpdateTheme(ApplicationTheme CurrentTheme)
         {
             ThemeManager.Current.ApplicationTheme = CurrentTheme;
-            ThemeManager.Current.AccentColor = CurrentAccentColor;
-            
+            //ThemeManager.Current.AccentColor = CurrentAccentColor;
 
             if (CurrentTheme == ApplicationTheme.Light)
                 trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconBlack, System.Windows.Forms.SystemInformation.SmallIconSize);
