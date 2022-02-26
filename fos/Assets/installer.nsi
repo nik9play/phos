@@ -1,4 +1,5 @@
-; Main constants - define following constants as you want them displayed in your installation wizard
+ManifestDPIAware true
+
 !define PRODUCT_NAME "phos"
 !define PRODUCT_VERSION "0.0.1-alpha"
 !define PRODUCT_PUBLISHER "megaworld"
@@ -16,9 +17,8 @@
 !define MUI_ICON "Icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
-; Wizard pages
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\nsis3-metro.bmp"
 !insertmacro MUI_PAGE_WELCOME
-; Note: you should create License.txt in the same folder as this file, or remove following line.
 ;!insertmacro MUI_PAGE_LICENSE "License.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_COMPONENTS
@@ -28,18 +28,18 @@
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
 !insertmacro MUI_LANGUAGE "Russian"
-; Replace the constants bellow to hit suite your project
+
 Name "${PRODUCT_NAME}"
 OutFile "phos_setup${PRODUCT_VERSION}.exe"
 InstallDir "$LocalAppData\Programs\phos"
 ShowInstDetails show
 ShowUnInstDetails show
 
-Section /o "Desktop shortcut"
+Section /o "$(CreateDeskShort)"
   CreateShortCut "$DESKTOP\phos.lnk" "$INSTDIR\phos.exe"
 SectionEnd
 
-Section "Start menu shortcut"
+Section "$(CreateStartShort)"
   CreateShortCut "$SMPROGRAMS\phos.lnk" "$INSTDIR\phos.exe"
 SectionEnd
 
@@ -60,6 +60,7 @@ Section "phos" SEC01
   File "..\bin\Release\net6.0\publish\System.Management.dll"
   File "..\bin\Release\net6.0\publish\WindowsDisplayAPI.dll"
   File "..\bin\Release\net6.0\publish\WinRT.Runtime.dll"
+  File "..\bin\Release\net6.0\publish\Microsoft.Toolkit.Mvvm.dll"
   File "..\bin\Release\net6.0\publish\phos.deps.json"
   File "..\bin\Release\net6.0\publish\phos.runtimeconfig.json"
   SetOutPath "$INSTDIR\ru"
@@ -68,9 +69,6 @@ Section "phos" SEC01
   File "..\bin\Release\net6.0\publish\ru-RU\ModernWpf.resources.dll"
   File "..\bin\Release\net6.0\publish\ru-RU\ModernWpf.Controls.resources.dll"
   SetOutPath "$INSTDIR"
-
-; It is pretty clear what following line does: just rename the file name to your project startup executable.
-  ;CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\phos.exe" ""
 SectionEnd
 
 Function .onInit
@@ -78,9 +76,15 @@ Function .onInit
   SectionSetFlags ${SEC01} 17
 FunctionEnd
 
-Section -AdditionalIcons
-  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\phos.exe" ""
-SectionEnd
+;Localization
+LangString CreateDeskShort ${LANG_ENGLISH} "Create desktop shortcut"
+LangString CreateDeskShort ${LANG_RUSSIAN} "Создать ярлык на рабочем столе"
+LangString CreateStartShort ${LANG_ENGLISH} "Create Start menu shortcut"
+LangString CreateStartShort ${LANG_RUSSIAN} "Создать ярлык в меню Пуск"
+LangString UninstQuestion ${LANG_ENGLISH} "Are you sure you want to completely remove phos?"
+LangString UninstQuestion ${LANG_RUSSIAN} "Вы уверены что хотите удалить phos?"
+LangString UninstDone ${LANG_ENGLISH} "Application was successfully removed from your computer."
+LangString UninstDone ${LANG_RUSSIAN} "Приложение было успешно удалено."
 
 Section -Post
   ;Following lines will make uninstaller work - do not change anything, unless you really want to.
@@ -99,20 +103,16 @@ Section -Post
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "EstimatedSize" "$0"
 SectionEnd
 
-; Replace the following strings to suite your needs
-Function un.onUninstSuccess
-  HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "Application was successfully removed from your computer."
-FunctionEnd
+;Function un.onUninstSuccess
+;  HideWindow
+;  MessageBox MB_ICONINFORMATION|MB_OK "$(UninstDone)"
+;FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove phos and all of its components?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "$(UninstQuestion)" IDYES +2
   Abort
 FunctionEnd
 
-; Remove any file that you have added above - removing uninstallation and folders last.
-; Note: if there is any file changed or added to these folders, they will not be removed. Also, parent folder (which in my example 
-; is company name ZWare) will not be removed if there is any other application installed in it.
 Section Uninstall
   Delete "$INSTDIR\phos.exe"
   Delete "$INSTDIR\phos.dll"
@@ -128,6 +128,7 @@ Section Uninstall
   Delete "$INSTDIR\System.Management.dll"
   Delete "$INSTDIR\WindowsDisplayAPI.dll"
   Delete "$INSTDIR\WinRT.Runtime.dll"
+  Delete "$INSTDIR\Microsoft.Toolkit.Mvvm.dll"
   Delete "$INSTDIR\phos.deps.json"
   Delete "$INSTDIR\phos.runtimeconfig.json"
 
