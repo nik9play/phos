@@ -1,4 +1,5 @@
 ﻿using DebounceThrottle;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace fos.ViewModels
 {
@@ -69,22 +71,34 @@ namespace fos.ViewModels
             }
         }
 
-        private RelayCommand updateCommand;
-        public RelayCommand UpdateCommand
+        //private RelayCommand updateCommand;
+        //public RelayCommand UpdateCommand
+        //{
+        //    get
+        //    {
+        //        return updateCommand ??
+        //          (updateCommand = new RelayCommand(obj =>
+        //          {
+        //              Monitors.Clear();
+
+        //              var list = MonitorTools.GetMonitorList();
+
+        //              foreach(var el in list)
+        //                  Monitors.Add(el);
+        //          }));
+        //    }
+        //}
+
+        public ICommand UpdateCommand { get; }
+
+        private void Update()
         {
-            get
-            {
-                return updateCommand ??
-                  (updateCommand = new RelayCommand(obj =>
-                  {
-                      Monitors.Clear();
+            Monitors.Clear();
 
-                      var list = MonitorTools.GetMonitorList();
+            var list = MonitorTools.GetMonitorList();
 
-                      foreach(var el in list)
-                          Monitors.Add(el);
-                  }));
-            }
+            foreach (var el in list)
+                Monitors.Add(el);
         }
 
         public MainWindowViewModel()
@@ -92,6 +106,8 @@ namespace fos.ViewModels
             Monitors = MonitorTools.GetMonitorList();
             AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
             Monitors.CollectionChanged += Monitors_CollectionChanged;
+
+            UpdateCommand = new RelayCommand(() => Update());
         }
 
         private void Monitors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
