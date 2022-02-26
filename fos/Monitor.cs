@@ -59,9 +59,12 @@ namespace fos
             Brightness = brightness;
         }
 
-        public Monitor(string deviceName, IntPtr monitorHandle)
+        public Monitor(string deviceName, string name, Size resolution, Point position, IntPtr monitorHandle)
         {
             _deviceName = deviceName;
+            _name = name;
+            Resolution = resolution;
+            Position = position;
 
             _contoller = new BrightnessController(monitorHandle);
 
@@ -77,6 +80,8 @@ namespace fos
                 newBrightness = 100;
 
             _brightness = (uint)newBrightness;
+
+            Debug.WriteLine(DeviceId);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

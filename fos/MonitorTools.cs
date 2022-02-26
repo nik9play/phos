@@ -42,7 +42,7 @@ namespace fos
 
         public static ObservableCollection<IMonitor> GetMonitorList()
         {   
-            var MonitorDict = new Dictionary<string, Monitor>();
+            var MonitorHandlesDict = new Dictionary<string, IntPtr>();
 
             EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
                 delegate (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData)
@@ -52,11 +52,7 @@ namespace fos
                     bool success = GetMonitorInfo(hMonitor, ref mi);
                     if (success)
                     {
-                        try
-                        {
-                            var mon = new Monitor(mi.DeviceName, hMonitor);
-                            MonitorDict.Add(mon.DeviceName, mon);
-                        } catch { }
+                        MonitorHandlesDict.Add(mi.DeviceName, hMonitor);
                     }
                     return true;
                 },
@@ -71,25 +67,19 @@ namespace fos
                 string _name = string.IsNullOrEmpty(pi.TargetsInfo[0].DisplayTarget.FriendlyName) ? "Generic PnP Monitor" : pi.TargetsInfo[0].DisplayTarget.FriendlyName;
                 string _deviceId = pi.DisplaySource.DisplayName;
 
-                if (MonitorDict.ContainsKey(_deviceId))
+                if (MonitorHandlesDict.ContainsKey(_deviceId))
                 {
-                    MonitorDict[_deviceId].Name = _name;
-                    MonitorDict[_deviceId].Resolution = pi.Resolution;
-                    MonitorDict[_deviceId].Position = pi.Position;
-
-                    MonitorList.Add(MonitorDict[_deviceId]);
+                    try
+                    {
+                        MonitorList.Add(new Monitor(_deviceId, _name, pi.Resolution, pi.Position, MonitorHandlesDict[_deviceId]));
+                    } catch { }
                 }
                 else if (pi.TargetsInfo[0].OutputTechnology == WindowsDisplayAPI.Native.DisplayConfig.DisplayConfigVideoOutputTechnology.Internal)
                 {
                     try
                     {
-                        InternalDisplay display = new InternalDisplay(pi.DisplaySource.DisplayName);
-                        display.Resolution = pi.Resolution;
-                        display.Position = pi.Position;
-
-                        MonitorList.Add(display);
-                    }
-                    catch { }
+                        MonitorList.Add(new InternalDisplay(pi.DisplaySource.DisplayName, pi.Resolution, pi.Position));
+                    } catch { }
                 }
             }
 

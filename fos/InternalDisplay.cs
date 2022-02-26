@@ -55,9 +55,11 @@ namespace fos
             Brightness = brightness;
         }
 
-        public InternalDisplay(string deviceName)
+        public InternalDisplay(string deviceName, Size resolution, Point position)
         {
             _deviceName = deviceName;
+            Resolution = resolution;
+            Position = position;
 
             int newBrightness = (int)_contoller.GetBrightness();
 
