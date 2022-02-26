@@ -7,8 +7,8 @@
       xmlns:f="clr-namespace:fos"
       xmlns:res="clr-namespace:fos.Properties"
       xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:viewmodels="clr-namespace:fos.ViewModels"
-         d:DataContext="{d:DesignInstance Type=viewmodels:PageHotkeysViewModel}"
-         mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance Type=viewmodels:PageHotkeysViewModel}"
+      mc:Ignorable="d"
       Title="Hotkeys">
 
     <Page.Resources>
