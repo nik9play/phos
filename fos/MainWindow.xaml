@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="phos"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeToContent="Manual"
