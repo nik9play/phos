@@ -1,11 +1,13 @@
 ManifestDPIAware true
 
 !define PRODUCT_NAME "phos"
-!define PRODUCT_VERSION "0.0.1-alpha"
+!define PRODUCT_VERSION "0.0.1"
 !define PRODUCT_PUBLISHER "megaworld"
 !define PRODUCT_WEB_SITE "https://megaworld.space"
+!define FILES_DIR "..\bin\Release\net6.0\publish"
 
 !include "FileFunc.nsh"
+!include "LogicLib.nsh"
 
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_AUTOSTART_KEY "Software\Microsoft\Windows\CurrentVersion\Run\${PRODUCT_NAME}"
@@ -35,39 +37,87 @@ InstallDir "$LocalAppData\Programs\phos"
 ShowInstDetails show
 ShowUnInstDetails show
 
+Section "" KillProcessPhos
+    StrCpy $1 "phos.exe"
+ 
+    nsProcess::_FindProcess "$1"
+    Pop $R0
+    ${If} $R0 = 0
+        DetailPrint "Killing phos processes"
+        nsProcess::_KillProcess "$1"
+        Pop $R0
+        Sleep 500
+    ${EndIf}
+SectionEnd
+
+Section "" SecUpdateInfo
+    ${GetParameters} $0
+    ClearErrors
+    ${GetOptions} $0 "/u" $1
+    ${IfNot} ${Errors}
+        MessageBox MB_ICONINFORMATION|MB_OK "$(UpdateInfo)"
+        ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "InstallLocation"
+        ${If} $R0 != ""
+            StrCpy $INSTDIR "$R0"
+        ${EndIf}
+    ${EndIf}
+SectionEnd
+
+Section "" SecUninstallPrevious
+    Call UninstallPrevious
+SectionEnd
+
+Function UninstallPrevious
+    ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "QuietUninstallString"
+
+    ${If} $R0 == ""
+        Goto Done
+    ${EndIf}
+
+    DetailPrint "$(RemovingPrevious)"
+
+    ExecWait '"$R0"'
+
+    Done:
+FunctionEnd
+
 Section /o "$(CreateDeskShort)"
+  SetOutPath "$INSTDIR"
   CreateShortCut "$DESKTOP\phos.lnk" "$INSTDIR\phos.exe"
 SectionEnd
 
 Section "$(CreateStartShort)"
+  SetOutPath "$INSTDIR"
   CreateShortCut "$SMPROGRAMS\phos.lnk" "$INSTDIR\phos.exe"
 SectionEnd
 
 Section "phos" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "..\bin\Release\net6.0\publish\phos.exe"
-  File "..\bin\Release\net6.0\publish\phos.dll"
-  File "..\bin\Release\net6.0\publish\DebounceThrottle.dll"
-  File "..\bin\Release\net6.0\publish\GongSolutions.WPF.DragDrop.dll"
-  File "..\bin\Release\net6.0\publish\Hardcodet.NotifyIcon.Wpf.dll"
-  File "..\bin\Release\net6.0\publish\Microsoft.Toolkit.Uwp.Notifications.dll"
-  File "..\bin\Release\net6.0\publish\Microsoft.Windows.SDK.NET.dll"
-  File "..\bin\Release\net6.0\publish\ModernWpf.Controls.dll"
-  File "..\bin\Release\net6.0\publish\ModernWpf.dll"
-  File "..\bin\Release\net6.0\publish\NHotkey.dll"
-  File "..\bin\Release\net6.0\publish\NHotkey.Wpf.dll"
-  File "..\bin\Release\net6.0\publish\System.Management.dll"
-  File "..\bin\Release\net6.0\publish\WindowsDisplayAPI.dll"
-  File "..\bin\Release\net6.0\publish\WinRT.Runtime.dll"
-  File "..\bin\Release\net6.0\publish\Microsoft.Toolkit.Mvvm.dll"
-  File "..\bin\Release\net6.0\publish\phos.deps.json"
-  File "..\bin\Release\net6.0\publish\phos.runtimeconfig.json"
+  File "${FILES_DIR}\phos.exe"
+  File "${FILES_DIR}\phos.dll"
+  File "${FILES_DIR}\DebounceThrottle.dll"
+  File "${FILES_DIR}\GongSolutions.WPF.DragDrop.dll"
+  File "${FILES_DIR}\Hardcodet.NotifyIcon.Wpf.dll"
+  File "${FILES_DIR}\Microsoft.Toolkit.Uwp.Notifications.dll"
+  File "${FILES_DIR}\Microsoft.Windows.SDK.NET.dll"
+  File "${FILES_DIR}\ModernWpf.Controls.dll"
+  File "${FILES_DIR}\ModernWpf.dll"
+  File "${FILES_DIR}\NHotkey.dll"
+  File "${FILES_DIR}\NHotkey.Wpf.dll"
+  File "${FILES_DIR}\System.Management.dll"
+  File "${FILES_DIR}\WindowsDisplayAPI.dll"
+  File "${FILES_DIR}\WinRT.Runtime.dll"
+  File "${FILES_DIR}\Microsoft.Toolkit.Mvvm.dll"
+  File "${FILES_DIR}\MdXaml.dll"
+  File "${FILES_DIR}\ICSharpCode.AvalonEdit.dll"
+  File "${FILES_DIR}\phos.deps.json"
+  File "${FILES_DIR}\phos.runtimeconfig.json"
   SetOutPath "$INSTDIR\ru"
-  File "..\bin\Release\net6.0\publish\ru\phos.resources.dll"
+  File "${FILES_DIR}\ru\phos.resources.dll"
   SetOutPath "$INSTDIR\ru-RU"
-  File "..\bin\Release\net6.0\publish\ru-RU\ModernWpf.resources.dll"
-  File "..\bin\Release\net6.0\publish\ru-RU\ModernWpf.Controls.resources.dll"
+  File "${FILES_DIR}\ru-RU\ModernWpf.resources.dll"
+  File "${FILES_DIR}\ru-RU\ModernWpf.Controls.resources.dll"
   SetOutPath "$INSTDIR"
 SectionEnd
 
@@ -85,15 +135,20 @@ LangString UninstQuestion ${LANG_ENGLISH} "Are you sure you want to completely r
 LangString UninstQuestion ${LANG_RUSSIAN} "Вы уверены что хотите удалить phos?"
 LangString UninstDone ${LANG_ENGLISH} "Application was successfully removed from your computer."
 LangString UninstDone ${LANG_RUSSIAN} "Приложение было успешно удалено."
+LangString RemovingPrevious ${LANG_ENGLISH} "Removing previous installation."
+LangString RemovingPrevious ${LANG_RUSSIAN} "Удаление предыдущей установки."
+LangString UpdateInfo ${LANG_ENGLISH} "phos will be updated to version ${PRODUCT_VERSION}."
+LangString UpdateInfo ${LANG_RUSSIAN} "phos будет обновлен до версии ${PRODUCT_VERSION}."
 
 Section -Post
-  ;Following lines will make uninstaller work - do not change anything, unless you really want to.
   WriteUninstaller "$INSTDIR\uninst.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\phos.exe,0"
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoRepair" "1"
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "NoModify" "1"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "QuietUninstallString" "$INSTDIR\uninst.exe /S"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "InstallLocation" "$INSTDIR"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -102,11 +157,6 @@ Section -Post
   IntFmt $0 "0x%08X" $0
   WriteRegDWORD ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "EstimatedSize" "$0"
 SectionEnd
-
-;Function un.onUninstSuccess
-;  HideWindow
-;  MessageBox MB_ICONINFORMATION|MB_OK "$(UninstDone)"
-;FunctionEnd
 
 Function un.onInit
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "$(UninstQuestion)" IDYES +2
@@ -129,6 +179,8 @@ Section Uninstall
   Delete "$INSTDIR\WindowsDisplayAPI.dll"
   Delete "$INSTDIR\WinRT.Runtime.dll"
   Delete "$INSTDIR\Microsoft.Toolkit.Mvvm.dll"
+  Delete "$INSTDIR\MdXaml.dll"
+  Delete "$INSTDIR\ICSharpCode.AvalonEdit.dll"
   Delete "$INSTDIR\phos.deps.json"
   Delete "$INSTDIR\phos.runtimeconfig.json"
 
