@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -17,7 +18,7 @@ namespace fos
 {
     public static class SettingsController
     {
-        private static readonly string _configPath = "config.json";
+        private static readonly string _configPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
         public static Settings Store { get; private set; }
         public static readonly Settings defaultSettings = new Settings();
 
