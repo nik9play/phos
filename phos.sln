@@ -8,19 +8,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Debug|x86.Build.0 = Debug|Any CPU
 		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Release|x86.ActiveCfg = Release|Any CPU
+		{D9BD7612-E708-4D53-AF00-15939F5C2BEE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_PrefixTranslations = False
 		SolutionGuid = {A2704385-0161-4FEF-8FAD-36311A5EB380}
+		RESX_PrefixTranslations = False
 	EndGlobalSection
 EndGlobal
