@@ -36,7 +36,7 @@
                 </Grid.ColumnDefinitions>
                 <Slider Minimum="1" Maximum="25" 
                     AutoToolTipPlacement="TopLeft"
-                    TickFrequency="5"
+                    TickFrequency="2"
                     IsMoveToPointEnabled="True"
                     Value="{Binding HotkeyStep}"
                     HorizontalAlignment="Stretch"
