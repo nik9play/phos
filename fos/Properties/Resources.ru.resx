@@ -215,7 +215,7 @@
     <value>Проверить обновления</value>
   </data>
   <data name="SettingsAboutNoUpdates" xml:space="preserve">
-    <value>Нет доступных обновлений.</value>
+    <value>У вас установлена последняя версия phos</value>
   </data>
   <data name="SettingsHotkeyStep" xml:space="preserve">
     <value>Шаг изменения яркости</value>
@@ -237,5 +237,26 @@
   </data>
   <data name="SettingsMonitorsCustomLimitsMin" xml:space="preserve">
     <value>Минимум</value>
+  </data>
+  <data name="MonitorsNotFound" xml:space="preserve">
+    <value>Не найдены поддерживаемые мониторы</value>
+  </data>
+  <data name="SettingsAboutInstallUpdate" xml:space="preserve">
+    <value>Установить обновление</value>
+  </data>
+  <data name="SettingsAboutUpdateAvailable" xml:space="preserve">
+    <value>Доступно обновление</value>
+  </data>
+  <data name="SettingsAboutVersion" xml:space="preserve">
+    <value>Версия </value>
+  </data>
+  <data name="SettingsAboutChanges" xml:space="preserve">
+    <value>Изменения в новой версии</value>
+  </data>
+  <data name="SettingsAboutErrorMessage" xml:space="preserve">
+    <value>Произошла ошибка</value>
+  </data>
+  <data name="SettingsAboutInstalling" xml:space="preserve">
+    <value>Скачивание обновления...</value>
   </data>
 </root>

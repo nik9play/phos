@@ -215,7 +215,7 @@
     <value>Check for updates</value>
   </data>
   <data name="SettingsAboutNoUpdates" xml:space="preserve">
-    <value>No updates available.</value>
+    <value>You have latest version of phos</value>
   </data>
   <data name="SettingsHotkeyStep" xml:space="preserve">
     <value>Brightness change step</value>
@@ -237,5 +237,26 @@
   </data>
   <data name="SettingsMonitorsCustomLimitsMax" xml:space="preserve">
     <value>Maximum</value>
+  </data>
+  <data name="MonitorsNotFound" xml:space="preserve">
+    <value>Can't find supported monitors</value>
+  </data>
+  <data name="SettingsAboutInstallUpdate" xml:space="preserve">
+    <value>Install update</value>
+  </data>
+  <data name="SettingsAboutUpdateAvailable" xml:space="preserve">
+    <value>Update available</value>
+  </data>
+  <data name="SettingsAboutVersion" xml:space="preserve">
+    <value>Version </value>
+  </data>
+  <data name="SettingsAboutChanges" xml:space="preserve">
+    <value>Changes in new version</value>
+  </data>
+  <data name="SettingsAboutErrorMessage" xml:space="preserve">
+    <value>Error is occured</value>
+  </data>
+  <data name="SettingsAboutInstalling" xml:space="preserve">
+    <value>Downloading update...</value>
   </data>
 </root>

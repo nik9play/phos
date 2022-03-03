@@ -126,6 +126,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Can&apos;t find supported monitors.
+        /// </summary>
+        public static string MonitorsNotFound {
+            get {
+                return ResourceManager.GetString("MonitorsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The file may not exist or access to it is denied..
         /// </summary>
         public static string OpenSettingsFileErrorDescription {
@@ -162,6 +171,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Changes in new version.
+        /// </summary>
+        public static string SettingsAboutChanges {
+            get {
+                return ResourceManager.GetString("SettingsAboutChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Check for updates.
         /// </summary>
         public static string SettingsAboutCheckUpdates {
@@ -171,11 +189,56 @@ namespace fos.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на No updates available..
+        ///   Ищет локализованную строку, похожую на Error is occured.
+        /// </summary>
+        public static string SettingsAboutErrorMessage {
+            get {
+                return ResourceManager.GetString("SettingsAboutErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Downloading update....
+        /// </summary>
+        public static string SettingsAboutInstalling {
+            get {
+                return ResourceManager.GetString("SettingsAboutInstalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Install update.
+        /// </summary>
+        public static string SettingsAboutInstallUpdate {
+            get {
+                return ResourceManager.GetString("SettingsAboutInstallUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You have latest version of phos.
         /// </summary>
         public static string SettingsAboutNoUpdates {
             get {
                 return ResourceManager.GetString("SettingsAboutNoUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Update available.
+        /// </summary>
+        public static string SettingsAboutUpdateAvailable {
+            get {
+                return ResourceManager.GetString("SettingsAboutUpdateAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Version .
+        /// </summary>
+        public static string SettingsAboutVersion {
+            get {
+                return ResourceManager.GetString("SettingsAboutVersion", resourceCulture);
             }
         }
         
