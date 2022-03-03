@@ -28,7 +28,7 @@
                 <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsMonitors}" Tag="Monitors" Icon="59380"></ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAbout}" Tag="About" Icon="59718"></ui:NavigationViewItem>
+                <ui:NavigationViewItem x:Name="AboutItem" Content="{x:Static res:Resources.SettingsAbout}" Tag="About" Icon="59718"></ui:NavigationViewItem>
             </ui:NavigationView.FooterMenuItems>
             <ui:Frame HorizontalAlignment="Stretch" Margin="12,0,0,0" x:Name="ContentFrame" />
         </ui:NavigationView>

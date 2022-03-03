@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Foundation.Collections;
 
 namespace fos
 {
@@ -44,6 +47,28 @@ namespace fos
             WindowManager.CreateWindows();
             Workarounds.RenderLoopFix.Initialize();
             HotkeysManager.InitHotkeys();
+            UpdateManager.InitTimer();
+
+            if (SettingsController.Store.AutoUpdateCheckEnabled)
+            {
+                UpdateManager.StartTimer();
+            }
+
+            ToastNotificationManagerCompat.OnActivated += toastArgs =>
+            {
+                ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
+
+                args.TryGetValue("action", out string action);
+                
+                if (action == "update")
+                {
+                    Current.Dispatcher.Invoke(delegate
+                    {
+                        WindowManager.OpenSettingsWindow();
+                        WindowManager.settingsWindow.OpenAboutPage();
+                    });
+                }
+            };
         }
     }
 }

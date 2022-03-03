@@ -12,6 +12,7 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="Styles/SliderStyle.xaml"/>
                 <ResourceDictionary Source="Styles/CommandBarStyle.xaml"/>
+                <ResourceDictionary Source="Styles/MdStyle.xaml" />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->

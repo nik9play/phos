@@ -54,6 +54,11 @@ namespace fos
             }
         }
 
+        public void OpenAboutPage()
+        {
+            NavView.SelectedItem = AboutItem;
+        }
+
         private bool _isActive;
 
         protected override void OnActivated(EventArgs e)

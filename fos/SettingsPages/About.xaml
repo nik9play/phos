@@ -4,17 +4,109 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:fos.SettingsPages"
+      xmlns:f="clr-namespace:fos"
       xmlns:res="clr-namespace:fos.Properties"
       mc:Ignorable="d"
+      xmlns:viewmodels="clr-namespace:fos.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:PageAboutViewModel}"
       xmlns:ui="http://schemas.modernwpf.com/2019"
+      xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+      
       Title="About">
 
+    <ui:Page.Resources>
+        <f:InverseBooleanConverter x:Key="inverter"/>
+        <f:BooleanToVisibilityConverter 
+            x:Key="BooleanToVisibilityConverter" 
+            True="Visible" 
+            False="Collapsed" />
+
+        <f:BooleanToVisibilityConverter
+            x:Key="InvertBooleanToVisibilityConverter"
+            True="Collapsed"
+            False="Visible" />
+    </ui:Page.Resources>
+    
     <ScrollViewer Padding="0,0,15,0">
-        <ui:SimpleStackPanel Spacing="5" HorizontalAlignment="Left">
+        <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Left">
             <Image RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Width="64" Source="../Resources/icon.png" />
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="fos" />
-            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}" Text="{Binding Version}" />
-            <Button Style="{DynamicResource AccentButtonStyle}" Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"/>
+
+            <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">
+                <Run>phos</Run>
+                <Run Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}" 
+                     Text="{Binding Version, Mode=OneWay}" />
+            </TextBlock>
+            
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
+                       Text="{Binding UpdatesText}" />
+
+            <TextBlock Visibility="{Binding IsError, Converter={StaticResource BooleanToVisibilityConverter}}"
+                       Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                       TextWrapping="Wrap"
+                       Text="{Binding ErrorMessage}" />
+            
+            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5"
+                                 Visibility="{Binding UpdateAvailable, 
+                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <Button Style="{DynamicResource AccentButtonStyle}" 
+                    Command="{Binding CheckUpdatesCommand}" 
+                    Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
+                    IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
+
+                <ui:ProgressRing IsActive="{Binding UpdateChecking}" />
+            </ui:SimpleStackPanel>
+
+            <ui:SimpleStackPanel
+                Spacing="8"
+                Visibility="{Binding UpdateAvailable, 
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <DockPanel>
+                    <TextBlock Text="{x:Static res:Resources.SettingsAboutVersion}"/>
+                    <TextBlock Text="{Binding CheckResult.LatestVersion}"/>
+                </DockPanel>
+
+                <TextBlock Visibility="{Binding UpdateInstalling, 
+                           Converter={StaticResource BooleanToVisibilityConverter}}"
+                           Text="{x:Static res:Resources.SettingsAboutInstalling}"/>
+
+                <Grid Visibility="{Binding UpdateInstalling, 
+                      Converter={StaticResource BooleanToVisibilityConverter}}"
+                      HorizontalAlignment="Left" Width="290">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="48" />
+                    </Grid.ColumnDefinitions>
+
+                    <ProgressBar HorizontalAlignment="Stretch" 
+                                 Value="{Binding ProgressFloat}" Minimum="0" Maximum="1" />
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" 
+                               Text="{Binding ProgressPercent}" />
+                </Grid>
+
+                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5" 
+                    Visibility="{Binding UpdateInstalling, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                    <Button Style="{DynamicResource AccentButtonStyle}"
+                        Content="{x:Static res:Resources.SettingsAboutInstallUpdate}"
+                        IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}"
+                        Command="{Binding UpdateCommand}" />
+
+                    <Button Command="{Binding CheckUpdatesCommand}" 
+                        Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
+                        IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
+                </ui:SimpleStackPanel>
+                
+
+                
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="{x:Static res:Resources.SettingsAboutChanges}" />
+
+                <mdxam:MarkdownScrollViewer 
+                    VerticalScrollBarVisibility="Disabled"
+                    MarkdownStyle="{StaticResource MdStyle}"
+                    Markdown="{Binding CheckResult.LatestChangeLog}"
+                    ClickAction="OpenBrowser" />
+            </ui:SimpleStackPanel>
         </ui:SimpleStackPanel>
     </ScrollViewer>
 </ui:Page>
