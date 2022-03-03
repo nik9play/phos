@@ -73,6 +73,12 @@ namespace fos.ViewModels
             {
                 autoCheckUpdates = value;
                 SettingsController.Store.AutoUpdateCheckEnabled = value;
+
+                if (value)
+                    UpdateManager.StartTimer();
+                else
+                    UpdateManager.StopTimer();
+
                 OnPropertyChanged();
             }
         }
