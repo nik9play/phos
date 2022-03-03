@@ -27,6 +27,7 @@ namespace fos
             }
 
             settingsWindow.Show();
+            settingsWindow.Activate();
         }
     }
 }
