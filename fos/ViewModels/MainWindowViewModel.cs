@@ -71,24 +71,6 @@ namespace fos.ViewModels
             }
         }
 
-        //private RelayCommand updateCommand;
-        //public RelayCommand UpdateCommand
-        //{
-        //    get
-        //    {
-        //        return updateCommand ??
-        //          (updateCommand = new RelayCommand(obj =>
-        //          {
-        //              Monitors.Clear();
-
-        //              var list = MonitorTools.GetMonitorList();
-
-        //              foreach(var el in list)
-        //                  Monitors.Add(el);
-        //          }));
-        //    }
-        //}
-
         public ICommand UpdateCommand { get; }
 
         private void Update()
@@ -112,12 +94,13 @@ namespace fos.ViewModels
 
         private void Monitors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine(e.Action.ToString());
             SettingsController.Store.MonitorListLocationOverwrites.Clear();
             foreach (IMonitor el in Monitors)
             {
                 SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
             }
+
+            SettingsController.SaveSettings();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
