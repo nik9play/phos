@@ -88,7 +88,7 @@ namespace fos
             for (int i = 0; i < overwrites.Count; i++)
             {
                 //int index = MonitorList.FindIndex(e => e.Name == overwrites[i]);
-                int index = MonitorList.IndexOf(MonitorList.Where(el => el.DeviceName == overwrites[i]).FirstOrDefault());
+                int index = MonitorList.IndexOf(MonitorList.Where(el => el.DeviceId == overwrites[i]).FirstOrDefault());
 
                 if (index > -1)
                 {
