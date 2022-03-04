@@ -67,6 +67,10 @@ namespace fos
                         WindowManager.OpenSettingsWindow();
                         WindowManager.settingsWindow.OpenAboutPage();
                     });
+                } 
+                else if (action == "openSettingsFolder")
+                {
+                    SettingsController.OpenSettingsFolder();
                 }
             };
         }

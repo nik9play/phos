@@ -1,4 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,8 +10,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,18 +24,18 @@ namespace fos
         public static Settings Store { get; private set; }
         public static readonly Settings defaultSettings = new Settings();
 
-        private static readonly JsonSerializerOptions _options;
+        //private static readonly JsonSerializerOptions _options;
 
         static SettingsController()
         {
-            _options = new JsonSerializerOptions
-            {
-                Converters = {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                },
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            };
+            //_options = new JsonSerializerOptions
+            //{
+            //    Converters = {
+            //        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            //    },
+            //    WriteIndented = true,
+            //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            //};
         }
 
         public static void LoadSettings()
@@ -43,7 +45,31 @@ namespace fos
                 string json = File.ReadAllText(_configPath);
                 try
                 {
-                    Store = JsonSerializer.Deserialize<Settings>(json, _options);
+                    //Store = JsonSerializer.Deserialize<Settings>(json, _options);
+                    var schema = JsonSchema.FromType<Settings>();
+
+                    var errors = schema.Validate(json);
+
+                    //foreach (var error in errors)
+                    //    Debug.WriteLine(error.Path + ": " + error.Kind);
+
+                    if (errors.Count > 0)
+                    {
+                        Store = new Settings();
+
+                        new ToastContentBuilder()
+                            .AddButton(new ToastButton()
+                                .SetContent(Properties.Resources.OpenSettingsFolder)
+                                .AddArgument("action", "openSettingsFolder")
+                                .SetBackgroundActivation())
+                            .AddText(Properties.Resources.LoadSettingsErrorTitle)
+                            .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                            .Show();
+
+                        return;
+                    }
+
+                    Store = JsonConvert.DeserializeObject<Settings>(json);
                 }
                 catch
                 {
@@ -94,7 +120,19 @@ namespace fos
 
         public static void SaveSettings()
         {
-            File.WriteAllText(_configPath, JsonSerializer.Serialize<Settings>(Store, _options));
+            File.WriteAllText(_configPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
+        }
+
+        public static void OpenSettingsFolder()
+        {
+            if (!File.Exists(_configPath))
+            {
+                return;
+            }
+
+            string argument = "/select, \"" + _configPath + "\"";
+
+            Process.Start("explorer.exe", argument);
         }
     }
 }
