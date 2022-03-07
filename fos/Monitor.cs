@@ -15,16 +15,12 @@ namespace fos
     {
         private string _name;
         private uint _brightness;
-        private readonly string _deviceName;
         private readonly BrightnessController _contoller;
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.BrightnessChangeInterval);
-        public Size Resolution { get; set; }
-        public Point Position { get; set; }
-        public string DeviceName
-        {
-            get { return _deviceName; }
-        }
+        public Size Resolution { get; }
+        public Point Position { get; }
+        public string DeviceName { get; }
 
         public string DeviceId { get => $"{DeviceName}\\{Name}"; }
 
@@ -61,7 +57,7 @@ namespace fos
 
         public Monitor(string deviceName, string name, Size resolution, Point position, IntPtr monitorHandle)
         {
-            _deviceName = deviceName;
+            DeviceName = deviceName;
             _name = name;
             Resolution = resolution;
             Position = position;

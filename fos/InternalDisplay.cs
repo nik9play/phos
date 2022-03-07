@@ -16,10 +16,9 @@ namespace fos
         private string _name = Properties.Resources.InternalDisplay;
         private uint _brightness;
         private WmiBrightnessController _contoller = new WmiBrightnessController();
-        public Size Resolution { get; set; }
-        public Point Position { get; set; }
-        private string _deviceName;
-        public string DeviceName { get { return _deviceName; } }
+        public Size Resolution { get; }
+        public Point Position { get; }
+        public string DeviceName { get; }
         public string DeviceId { get => $"{DeviceName}\\InternalMonitor"; }
 
         private readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher(40);
@@ -57,7 +56,7 @@ namespace fos
 
         public InternalDisplay(string deviceName, Size resolution, Point position)
         {
-            _deviceName = deviceName;
+            DeviceName = deviceName;
             Resolution = resolution;
             Position = position;
 
