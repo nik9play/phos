@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace fos
         public SettingsWindow()
         {
             InitializeComponent();
+            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon.ico", UriKind.RelativeOrAbsolute));
+            double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+
+            if (factor > 1.0)
+                Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon2.ico", UriKind.RelativeOrAbsolute));
         }
 
         private void NavigationView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)

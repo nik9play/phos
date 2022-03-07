@@ -10,20 +10,22 @@
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <ErrorReport>prompt</ErrorReport>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
 	<Deterministic>false</Deterministic>
 	<Version>0.0.1</Version>
-	<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+	<ApplicationIcon>Assets\Icon2.ico</ApplicationIcon>
 	<AssemblyName>phos</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\TaskBarIcon.ico" />
+    <None Remove="Assets\TaskBarIcon2.ico" />
     <None Remove="Resources\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icon.ico" />
+    <Content Include="Assets\Icon2.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +63,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\TaskBarIcon2.ico" />
     <Resource Include="Resources\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\TaskBarIcon.ico" />
   </ItemGroup>
 
 </Project>
