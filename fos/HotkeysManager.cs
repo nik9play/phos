@@ -49,11 +49,14 @@ namespace fos
         {
             if (SettingsController.Store.HotkeysEnabled)
             {
+                MonitorTools.MonitorInfo monitorInfo = MonitorTools.GetCurrentMonitor();
+                Debug.WriteLine(monitorInfo.Position);
+
                 int multiplier = (e.Name == "HotkeyUp") ? 1 : -1;
                 int offset = multiplier * (int)SettingsController.Store.HotkeyStep;
 
-                var desktopBounds = System.Windows.Forms.Screen.GetBounds(System.Windows.Forms.Control.MousePosition);
-                
+                var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
+
                 if (SettingsController.Store.AllMonitorsModeEnabled)
                 {
                     int newBrightness = (int)ViewModels.MainWindowViewModel.AllMonitorsBrightness + offset;
@@ -71,10 +74,10 @@ namespace fos
                 {
                     foreach (var el in ViewModels.MainWindowViewModel.Monitors)
                     {
-                        if (el.Resolution.Width == desktopBounds.Width &&
-                            el.Resolution.Height == desktopBounds.Height &&
-                            el.Position.X == desktopBounds.X &&
-                            el.Position.Y == desktopBounds.Y)
+                        if (el.Resolution.Width == currentMonitorInfo.Resolution.Width &&
+                            el.Resolution.Height == currentMonitorInfo.Resolution.Height &&
+                            el.Position.X == currentMonitorInfo.Position.X &&
+                            el.Position.Y == currentMonitorInfo.Position.Y)
                         {
                             int newBrightness = (int)el.Brightness + offset;
 

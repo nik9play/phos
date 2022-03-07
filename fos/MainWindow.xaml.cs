@@ -50,51 +50,54 @@ namespace fos
             ThemeManager.Current.ApplicationTheme = CurrentTheme;
             //ThemeManager.Current.AccentColor = CurrentAccentColor;
 
+            double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+            var iconSize = new System.Drawing.Size((int)(SystemParameters.SmallIconWidth * factor), 
+                                                   (int)(SystemParameters.SmallIconHeight * factor));
+
             if (CurrentTheme == ApplicationTheme.Light)
-                trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconBlack, System.Windows.Forms.SystemInformation.SmallIconSize);
+                trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconBlack, iconSize);
             else
-                trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconWhite, System.Windows.Forms.SystemInformation.SmallIconSize);
+                trayIcon.Icon = new System.Drawing.Icon(Properties.Resources.iconWhite, iconSize);
         }
 
         public void SetPosition()
         {
-            var desktopWorkingArea = System.Windows.Forms.Screen.GetWorkingArea(System.Windows.Forms.Control.MousePosition);
-            var desktopBounds = System.Windows.Forms.Screen.GetBounds(System.Windows.Forms.Control.MousePosition);
+            var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
             double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
-            if (desktopWorkingArea.Height < desktopBounds.Height)
+            if (currentMonitorInfo.WorkingArea.Height < currentMonitorInfo.Bounds.Height)
             {
-                if (desktopWorkingArea.Y > 0)
+                if (currentMonitorInfo.WorkingArea.Y > 0)
                 {
-                    Left = desktopWorkingArea.Right / factor - ActualWidth;
-                    Top = desktopWorkingArea.Top / factor + 5;
+                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                    Top = currentMonitorInfo.WorkingArea.Top / factor + 5;
                     ContentGrid.VerticalAlignment = VerticalAlignment.Top;
                 }
                 else
                 {
-                    Left = desktopWorkingArea.Right / factor - ActualWidth;
-                    Top = desktopWorkingArea.Bottom / factor - ActualHeight;
+                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
                     ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
                 }
             }
-            else if (desktopWorkingArea.Width < desktopBounds.Width)
+            else if (currentMonitorInfo.WorkingArea.Width < currentMonitorInfo.Bounds.Width)
             {
-                if (desktopWorkingArea.X > 0)
+                if (currentMonitorInfo.WorkingArea.X > 0)
                 {
-                    Left = desktopWorkingArea.Left / factor;
-                    Top = desktopWorkingArea.Bottom / factor - ActualHeight;
+                    Left = currentMonitorInfo.WorkingArea.Left / factor;
+                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
                     ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
                 }
                 else
                 {
-                    Left = desktopWorkingArea.Right / factor - ActualWidth;
-                    Top = desktopWorkingArea.Bottom / factor - ActualHeight;
+                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
                     ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
                 }
             }
             
-            Height = desktopWorkingArea.Height / factor;
+            Height = currentMonitorInfo.WorkingArea.Height / factor;
 
             //Left = desktopWorkingArea.Right / factor - ActualWidth;
             //Top = desktopWorkingArea.Bottom / factor - ActualHeight;

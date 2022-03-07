@@ -39,36 +39,35 @@ namespace fos
 
         public void SetPosition()
         {
-            var desktopWorkingArea = System.Windows.Forms.Screen.GetWorkingArea(System.Windows.Forms.Control.MousePosition);
-            var desktopBounds = System.Windows.Forms.Screen.GetBounds(System.Windows.Forms.Control.MousePosition);
+            var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
             double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
             switch (SettingsController.Store.HotkeyPopupLocation)
             {
                 case HotkeyPopupLocationEnum.TopLeft:
-                    Top = desktopWorkingArea.Y / factor;
-                    Left = desktopWorkingArea.X / factor;
+                    Top = currentMonitorInfo.WorkingArea.Y/ factor;
+                    Left = currentMonitorInfo.WorkingArea.X / factor;
                     break;
                 case HotkeyPopupLocationEnum.BottomLeft:
-                    Top = (desktopWorkingArea.Y + desktopWorkingArea.Height) / factor - Height;
-                    Left = desktopWorkingArea.X / factor;
+                    Top = (currentMonitorInfo.WorkingArea.Y + currentMonitorInfo.WorkingArea.Height) / factor - Height;
+                    Left = currentMonitorInfo.WorkingArea.X / factor;
                     break;
                 case HotkeyPopupLocationEnum.TopRight:
-                    Top = desktopWorkingArea.Y / factor;
-                    Left = (desktopWorkingArea.X + desktopWorkingArea.Width) / factor - Width;
+                    Top = currentMonitorInfo.WorkingArea.Y / factor;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width) / factor - Width;
                     break;
                 case HotkeyPopupLocationEnum.BottomRight:
-                    Top = (desktopWorkingArea.Y + desktopWorkingArea.Height) / factor - Height;
-                    Left = (desktopWorkingArea.X + desktopWorkingArea.Width) / factor - Width;
+                    Top = (currentMonitorInfo.WorkingArea.Y + currentMonitorInfo.WorkingArea.Height) / factor - Height;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width) / factor - Width;
                     break;
                 case HotkeyPopupLocationEnum.BottomCenter:
-                    Top = (desktopWorkingArea.Y + desktopWorkingArea.Height) / factor - Height;
-                    Left = (desktopWorkingArea.X + desktopWorkingArea.Width / 2) / factor - Width / 2;
+                    Top = (currentMonitorInfo.WorkingArea.Y + currentMonitorInfo.WorkingArea.Height) / factor - Height;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor - Width / 2;
                     break;
                 case HotkeyPopupLocationEnum.TopCenter:
-                    Top = desktopWorkingArea.Y / factor;
-                    Left = (desktopWorkingArea.X + desktopWorkingArea.Width / 2) / factor - Width / 2;
+                    Top = currentMonitorInfo.WorkingArea.Y / factor;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor - Width / 2;
                     break;
             }
         }
