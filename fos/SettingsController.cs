@@ -45,7 +45,6 @@ namespace fos
                 string json = File.ReadAllText(_configPath);
                 try
                 {
-                    //Store = JsonSerializer.Deserialize<Settings>(json, _options);
                     var schema = JsonSchema.FromType<Settings>();
 
                     var errors = schema.Validate(json);

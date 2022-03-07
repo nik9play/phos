@@ -76,8 +76,6 @@ namespace fos
                 newBrightness = 100;
 
             _brightness = (uint)newBrightness;
-
-            Debug.WriteLine(DeviceId);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

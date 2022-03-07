@@ -50,7 +50,6 @@ namespace fos
             if (SettingsController.Store.HotkeysEnabled)
             {
                 MonitorTools.MonitorInfo monitorInfo = MonitorTools.GetCurrentMonitor();
-                Debug.WriteLine(monitorInfo.Position);
 
                 int multiplier = (e.Name == "HotkeyUp") ? 1 : -1;
                 int offset = multiplier * (int)SettingsController.Store.HotkeyStep;
