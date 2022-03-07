@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using fos.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -44,20 +45,19 @@ namespace fos
 
         static UpdateManager()
         {
-            client.Timeout = TimeSpan.FromSeconds(5);
+            client.Timeout = TimeSpan.FromSeconds(15);
+            client.DefaultRequestHeaders.Add("user-agent", "request");
         }
 
         public static async Task<UpdateCheckResult> CheckUpdates()
         {
-            client.DefaultRequestHeaders.Add("user-agent", "request");
-
             using (var response = await client.GetAsync(apiUrl))
             {
                 using (var content = response.Content)
                 {
-                    string json = await content.ReadAsStringAsync();
+                    var json = await content.ReadAsStreamAsync();
 
-                    ApiResponse result = JsonSerializer.Deserialize<ApiResponse>(json);
+                    ApiResponse result = await JsonSerializer.DeserializeAsync<ApiResponse>(json);
                     Version version = new Version(result.tag_name);
                     string downloadUrl = result.assets[0].browser_download_url;
                     string changeLog = result.body;
@@ -85,7 +85,7 @@ namespace fos
         public static async Task Update(UpdateCheckResult updateCheckResult, IProgress<float> progress, CancellationToken cancellationToken)
         {
             Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "phos.updates"));
-            string fileName = Path.Combine(Path.GetTempPath(), "phos.updates", "phos_setup_" + Guid.NewGuid().ToString() + ".exe");
+            string fileName = Path.Combine(Path.GetTempPath(), "phos.updates", "phos_update_" + Guid.NewGuid().ToString() + ".exe");
 
             using (var fileStream = new FileStream(fileName, FileMode.CreateNew))
             {
@@ -95,16 +95,16 @@ namespace fos
             Process process = new Process();
 
             process.StartInfo.FileName = fileName;
-            process.StartInfo.Arguments = "/u /S";
+            process.StartInfo.Arguments = "/SILENT";
             process.StartInfo.UseShellExecute = true;
 
             process.Start();
             Application.Current.Shutdown();
         }
 
-        static private System.Timers.Timer checkUpdateTimer = new System.Timers.Timer
+        static private DispatcherTimer checkUpdateTimer = new DispatcherTimer
         {
-            Interval = 2 * 60 * 1000,
+            Interval = TimeSpan.FromHours(2)
         };
 
         static public void StartTimer()
@@ -117,25 +117,27 @@ namespace fos
             checkUpdateTimer.Stop();
         }
 
+        static public async Task CheckUpdatesSilent()
+        {
+            try
+            {
+                UpdateCheckResult updateCheckResult = await CheckUpdates();
+
+                if (updateCheckResult.UpdateAvailable)
+                {
+                    new ToastContentBuilder()
+                        .AddArgument("action", "update")
+                        .AddText(Properties.Resources.SettingsAboutUpdateAvailable)
+                        .AddText(Properties.Resources.SettingsAboutVersion + updateCheckResult.LatestVersion)
+                        .Show();
+                }
+            }
+            catch { }
+        }
+
         static public void InitTimer()
         {
-            checkUpdateTimer.Elapsed += async delegate
-            {
-                try
-                {
-                    UpdateCheckResult updateCheckResult = await CheckUpdates();
-
-                    if (updateCheckResult.UpdateAvailable)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "update")
-                            .AddText(Properties.Resources.SettingsAboutUpdateAvailable)
-                            .AddText(Properties.Resources.SettingsAboutVersion + updateCheckResult.LatestVersion)
-                            .Show();
-                    }
-                }
-                catch { }
-            };
+            checkUpdateTimer.Tick += new EventHandler(async (object s, EventArgs a) => await CheckUpdatesSilent());
         }
     }
 }
