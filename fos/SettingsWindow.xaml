@@ -25,7 +25,7 @@
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem IsSelected="True" Content="{x:Static res:Resources.SettingsGeneral}" Tag="General" Icon="59155"></ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsHotkeys}" Tag="Hotkeys" Icon="57668"></ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAppearance}" Tag="Appearance" Icon="59577"></ui:NavigationViewItem>
+                <!--<ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAppearance}" Tag="Appearance" Icon="59577"></ui:NavigationViewItem>-->
                 <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsMonitors}" Tag="Monitors" Icon="59380"></ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
