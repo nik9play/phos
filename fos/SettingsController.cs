@@ -58,12 +58,8 @@ namespace fos
                         Store = new Settings();
 
                         new ToastContentBuilder()
-                            .AddButton(new ToastButton()
-                                .SetContent(Properties.Resources.OpenSettingsFolder)
-                                .AddArgument("action", "openSettingsFolder")
-                                .SetBackgroundActivation())
-                            .AddText(Properties.Resources.LoadSettingsErrorTitle)
-                            .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                            .AddText(Properties.Resources.SettingsSchemaErrorTitle)
+                            .AddText(Properties.Resources.SettingsSchemaErrorDescription)
                             .Show();
 
                         return;
@@ -115,7 +111,8 @@ namespace fos
                     break;
             }
 
-            Properties.Resources.Culture = language;
+            Thread.CurrentThread.CurrentCulture = language;
+            Thread.CurrentThread.CurrentUICulture = language;
         }
 
         public static void SaveSettings()
