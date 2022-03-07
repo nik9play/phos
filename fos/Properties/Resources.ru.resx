@@ -259,4 +259,16 @@
   <data name="SettingsAboutInstalling" xml:space="preserve">
     <value>Скачивание обновления...</value>
   </data>
+  <data name="SettingsSchemaErrorTitle" xml:space="preserve">
+    <value>Ошибка проверки схемы настроек</value>
+  </data>
+  <data name="SettingsSchemaErrorDescription" xml:space="preserve">
+    <value>Файл настроек содержит ошибки. Перезапустите phos, чтобы исправить это.</value>
+  </data>
+  <data name="OpenSettingsFolder" xml:space="preserve">
+    <value>Открыть папку с настройками</value>
+  </data>
+  <data name="RestartButton" xml:space="preserve">
+    <value>Перезапустить</value>
+  </data>
 </root>

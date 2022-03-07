@@ -153,11 +153,29 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Open settings folder.
+        /// </summary>
+        public static string OpenSettingsFolder {
+            get {
+                return ResourceManager.GetString("OpenSettingsFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Reload list.
         /// </summary>
         public static string ReloadList {
             get {
                 return ResourceManager.GetString("ReloadList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Restart.
+        /// </summary>
+        public static string RestartButton {
+            get {
+                return ResourceManager.GetString("RestartButton", resourceCulture);
             }
         }
         
@@ -473,6 +491,24 @@ namespace fos.Properties {
         public static string SettingsRestartRequired {
             get {
                 return ResourceManager.GetString("SettingsRestartRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The settings file contains errors. Restart phos to fix it..
+        /// </summary>
+        public static string SettingsSchemaErrorDescription {
+            get {
+                return ResourceManager.GetString("SettingsSchemaErrorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings schema validation error.
+        /// </summary>
+        public static string SettingsSchemaErrorTitle {
+            get {
+                return ResourceManager.GetString("SettingsSchemaErrorTitle", resourceCulture);
             }
         }
         

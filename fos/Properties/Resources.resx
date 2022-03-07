@@ -259,4 +259,16 @@
   <data name="SettingsAboutInstalling" xml:space="preserve">
     <value>Downloading update...</value>
   </data>
+  <data name="SettingsSchemaErrorTitle" xml:space="preserve">
+    <value>Settings schema validation error</value>
+  </data>
+  <data name="SettingsSchemaErrorDescription" xml:space="preserve">
+    <value>The settings file contains errors. Restart phos to fix it.</value>
+  </data>
+  <data name="OpenSettingsFolder" xml:space="preserve">
+    <value>Open settings folder</value>
+  </data>
+  <data name="RestartButton" xml:space="preserve">
+    <value>Restart</value>
+  </data>
 </root>
