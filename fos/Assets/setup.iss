@@ -8,21 +8,22 @@
 AppId={{1D469005-80D5-4B6F-B614-35387F782D64}
 AppName={#phosAppName}
 AppVersion={#phosAppVersion}
+AppMutex="phos.megaworld"
 ;AppVerName={#phosAppName} {#phosAppVersion}
 AppPublisher={#phosAppPublisher}
 AppPublisherURL={#phosAppURL}
 AppSupportURL={#phosAppURL}
 AppUpdatesURL={#phosAppURL}
-
+UninstallDisplayName={#phosAppName}
 UninstallDisplayIcon="{app}\{#phosAppExeName},0"
 SetupIconFile="Icon.ico"
 RestartApplications=false
-CloseApplications=force
-
+CloseApplications=yes
+ArchitecturesAllowed=x64
 DefaultDirName={autopf}\{#phosAppName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
-OutputDir=C:\Users\nik9\Desktop\phos setup                                                                                                           
+OutputDir=.\                                                                                                        
 OutputBaseFilename=phos_setup{#phosAppVersion}
 Compression=lzma
 SolidCompression=yes
