@@ -30,10 +30,12 @@ namespace fos
                 SettingsController.SaveSettings();
             }
             catch { }
+
+            ToastNotificationManagerCompat.Uninstall();
         }
 
         private Mutex mutex;
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             bool aIsNewInstance;
             mutex = new Mutex(true, "phos.megaworld", out aIsNewInstance);
@@ -68,11 +70,17 @@ namespace fos
                         WindowManager.settingsWindow.OpenAboutPage();
                     });
                 } 
-                else if (action == "openSettingsFolder")
+                else if (action == "restartApp")
                 {
-                    SettingsController.OpenSettingsFolder();
+                    Current.Dispatcher.Invoke(delegate
+                    {
+                        //Debug.WriteLine(System.Reflection.Assembly.GetEntryAssembly().Location);
+                        //Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    });
                 }
             };
+
+            await UpdateManager.CheckUpdatesSilent();
         }
     }
 }
