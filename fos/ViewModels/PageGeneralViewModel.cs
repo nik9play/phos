@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Resources;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace fos.ViewModels
 {
@@ -30,7 +31,7 @@ namespace fos.ViewModels
             {
                 autoStart = value;
                 if (value)
-                    rkApp.SetValue("phos", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    rkApp.SetValue("phos", Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "phos.exe"));
                 else
                     rkApp.DeleteValue("phos");
 
