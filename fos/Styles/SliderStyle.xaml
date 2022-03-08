@@ -93,11 +93,10 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
-                                             AccelerationRatio="1"
+                                             DecelerationRatio="1"
                                               To="8" Duration="0:0:0.1" />
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
-                                             AccelerationRatio="1"
-                                             
+                                             DecelerationRatio="1"
                                               To="8" Duration="0:0:0.1" />
                         </Storyboard>
                     </BeginStoryboard>
