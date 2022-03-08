@@ -142,5 +142,10 @@ namespace fos
                 e.Handled = true;
             }
         }
+
+        private void SettingsItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowManager.OpenSettingsWindow();
+        }
     }
 }

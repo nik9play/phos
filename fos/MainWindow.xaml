@@ -87,6 +87,11 @@
                         TrayLeftMouseDown="trayIcon_TrayLeftMouseDown">
                         <tb:TaskbarIcon.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Click="SettingsItem_Click" Header="{x:Static res:Resources.SettingsTitle}">
+                                    <MenuItem.Icon>
+                                        <ui:FontIcon Glyph="&#xE713;" FontSize="16px"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                                 <MenuItem Click="ExitItem_Click" Header="{x:Static res:Resources.ContextExit}">
                                     <MenuItem.Icon>
                                         <ui:FontIcon Glyph="&#xE711;" FontSize="16px"/>
