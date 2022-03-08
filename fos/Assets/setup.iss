@@ -1,5 +1,5 @@
 #define phosAppName "phos"
-#define phosAppVersion "0.0.2"
+#define phosAppVersion "0.0.1"
 #define phosAppPublisher "megaworld"
 #define phosAppURL "https://megaworld.space"
 #define phosAppExeName "phos.exe"
@@ -16,7 +16,7 @@ AppSupportURL={#phosAppURL}
 AppUpdatesURL={#phosAppURL}
 UninstallDisplayName={#phosAppName}
 UninstallDisplayIcon="{app}\{#phosAppExeName},0"
-SetupIconFile="Icon.ico"
+SetupIconFile="Icon2.ico"
 RestartApplications=false
 CloseApplications=yes
 ArchitecturesAllowed=x64
