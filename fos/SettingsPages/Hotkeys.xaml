@@ -14,8 +14,8 @@
     <Page.Resources>
         <f:EnumToBoolConverter x:Key="enumConverter" />
     </Page.Resources>
-    
-    <ScrollViewer Padding="0,0,20,0">
+
+    <f:ScrollViewerEx Padding="0,0,20,0">
         <ui:SimpleStackPanel ui:Spacing="8" HorizontalAlignment="Stretch" x:Name="stackPanel">
             <ui:ToggleSwitch IsOn="{Binding HotkeysEnabled}" Header="{x:Static res:Resources.SettingsHotkeysEnabled}" />
             <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" 
@@ -92,5 +92,5 @@
                 </Grid>
             </Border>
         </ui:SimpleStackPanel>
-    </ScrollViewer>
+    </f:ScrollViewerEx>
 </ui:Page>

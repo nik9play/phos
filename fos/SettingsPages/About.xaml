@@ -27,7 +27,7 @@
             False="Visible" />
     </ui:Page.Resources>
     
-    <ScrollViewer Padding="0,0,15,0">
+    <f:ScrollViewerEx Padding="0,0,15,0">
         <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Left">
             <Image RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Width="64" Source="../Resources/icon.png" />
 
@@ -108,5 +108,5 @@
                     ClickAction="OpenBrowser" />
             </ui:SimpleStackPanel>
         </ui:SimpleStackPanel>
-    </ScrollViewer>
+    </f:ScrollViewerEx>
 </ui:Page>

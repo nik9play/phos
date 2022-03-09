@@ -18,7 +18,7 @@
             False="Collapsed" />
     </ui:Page.Resources>
 
-    <ScrollViewer Padding="0,0,20,0">
+    <f:ScrollViewerEx Padding="0,0,20,0">
         <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Stretch">
             <ComboBox ui:ControlHelper.Header="{x:Static res:Resources.SettingsGeneralLanguage}"
                       ItemsSource="{Binding AvailableLanguages}" 
@@ -64,5 +64,5 @@
                 </Grid>
             </Border>
         </ui:SimpleStackPanel>
-    </ScrollViewer>
+        </f:ScrollViewerEx>
 </ui:Page>

@@ -5,13 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ui="http://schemas.modernwpf.com/2019"
       xmlns:local="clr-namespace:fos.SettingsPages"
+      xmlns:f="clr-namespace:fos"
       xmlns:viewmodels="clr-namespace:fos.ViewModels"
       xmlns:res="clr-namespace:fos.Properties"
       d:DataContext="{d:DesignInstance Type=viewmodels:PageMonitorsViewModel}"
       mc:Ignorable="d" 
       Title="Monitors">
 
-    <ScrollViewer Padding="0,0,20,0">
+    <f:ScrollViewerEx Padding="0,0,20,0">
         <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Left">
             <TextBlock Text="{x:Static res:Resources.SettingsMonitorsCustomLimits}" />
             <TextBlock TextWrapping="Wrap"
@@ -61,5 +62,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ui:SimpleStackPanel>
-    </ScrollViewer>
+    </f:ScrollViewerEx>
 </ui:Page>
