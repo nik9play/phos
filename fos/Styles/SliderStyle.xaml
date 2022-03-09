@@ -63,11 +63,17 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
-                                             AccelerationRatio="1"
-                                              To="10" Duration="0:0:0.07" />
+                                              To="10" Duration="0:0:0.07">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
-                                             AccelerationRatio="0.5"
-                                              To="10" Duration="0:0:0.07" />
+                                              To="10" Duration="0:0:0.07">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -77,12 +83,17 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
-                                             
-                                             DecelerationRatio="1"
-                                              To="14" Duration="0:0:0.1" />
+                                              To="14" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
-                                             DecelerationRatio="1"
-                                              To="14" Duration="0:0:0.1" />
+                                              To="14" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -93,11 +104,17 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
-                                             DecelerationRatio="1"
-                                              To="8" Duration="0:0:0.1" />
+                                              To="8" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
-                                             DecelerationRatio="1"
-                                              To="8" Duration="0:0:0.1" />
+                                              To="8" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -107,11 +124,17 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Width"
-                                             AccelerationRatio="0.5"
-                                              To="14" Duration="0:0:0.1" />
+                                              To="14" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="grip2" Storyboard.TargetProperty="Height"
-                                             AccelerationRatio="1"
-                                              To="14" Duration="0:0:0.1" />
+                                              To="14" Duration="0:0:0.1">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
