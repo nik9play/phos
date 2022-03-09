@@ -39,7 +39,11 @@ namespace fos
 
     static class UpdateManager
     {
+#if DEBUG
         static readonly string apiUrl = "http://localhost:8000/huita.json";
+#else
+        static readonly string apiUrl = "https://api.github.com/repos/nik9play/phos/releases/latest";
+#endif
 
         private static readonly HttpClient client = new HttpClient();
 
