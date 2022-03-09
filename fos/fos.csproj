@@ -21,11 +21,18 @@
   <ItemGroup>
     <None Remove="Assets\TaskBarIcon.ico" />
     <None Remove="Assets\TaskBarIcon2.ico" />
+    <None Remove="Assets\welcome_video.mp4" />
     <None Remove="Resources\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\Icon2.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\welcome_video.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

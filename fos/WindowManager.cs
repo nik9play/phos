@@ -11,11 +11,14 @@ namespace fos
         public static HotkeyWindow hotkeyWindow;
         public static MainWindow mainWindow;
         public static SettingsWindow settingsWindow = null;
+        public static WelcomeWindow welcomeWindow = null;
 
         public static void CreateWindows()
         {
             mainWindow = new MainWindow();
             hotkeyWindow = new HotkeyWindow();
+            welcomeWindow = new WelcomeWindow();
+            welcomeWindow.Show();
         }
 
         public static void OpenSettingsWindow()
