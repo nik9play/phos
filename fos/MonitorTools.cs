@@ -117,20 +117,21 @@ namespace fos
 
                 string _name = string.IsNullOrEmpty(pi.TargetsInfo[0].DisplayTarget.FriendlyName) ? "Generic PnP Monitor" : pi.TargetsInfo[0].DisplayTarget.FriendlyName;
                 string _deviceId = pi.DisplaySource.DisplayName;
-
-                if (MonitorHandlesDict.ContainsKey(_deviceId))
-                {
-                    try
-                    {
-                        MonitorList.Add(new Monitor(_deviceId, _name, pi.Resolution, pi.Position, MonitorHandlesDict[_deviceId]));
-                    } catch { }
-                }
-                else if (pi.TargetsInfo[0].OutputTechnology == WindowsDisplayAPI.Native.DisplayConfig.DisplayConfigVideoOutputTechnology.Internal)
+                if (pi.TargetsInfo[0].OutputTechnology == WindowsDisplayAPI.Native.DisplayConfig.DisplayConfigVideoOutputTechnology.Internal)
                 {
                     try
                     {
                         MonitorList.Add(new InternalDisplay(pi.DisplaySource.DisplayName, pi.Resolution, pi.Position));
-                    } catch { }
+                    }
+                    catch { }
+                } 
+                else if (MonitorHandlesDict.ContainsKey(_deviceId))
+                {
+                    try
+                    {
+                        MonitorList.Add(new Monitor(_deviceId, _name, pi.Resolution, pi.Position, MonitorHandlesDict[_deviceId]));
+                    }
+                    catch { }
                 }
             }
 
