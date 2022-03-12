@@ -13,9 +13,23 @@
                 <ResourceDictionary Source="Styles/SliderStyle.xaml"/>
                 <ResourceDictionary Source="Styles/CommandBarStyle.xaml"/>
                 <ResourceDictionary Source="Styles/MdStyle.xaml" />
-                <!-- Other merged dictionaries here -->
+
+                <ResourceDictionary>
+                    <FontFamily x:Key="DefaultFontFamily">Segoe UI</FontFamily>
+                    <StaticResource x:Key="{x:Static SystemFonts.MessageFontFamilyKey}" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="ContentControlThemeFontFamily" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="PivotHeaderItemFontFamily" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="PivotTitleFontFamily" ResourceKey="DefaultFontFamily" />
+                </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <FontFamily x:Key="DefaultFontFamily">Segoe UI Variable Display</FontFamily>
+                    <StaticResource x:Key="{x:Static SystemFonts.MessageFontFamilyKey}" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="ContentControlThemeFontFamily" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="PivotHeaderItemFontFamily" ResourceKey="DefaultFontFamily" />
+                    <StaticResource x:Key="PivotTitleFontFamily" ResourceKey="DefaultFontFamily" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
