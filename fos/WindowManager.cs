@@ -17,8 +17,12 @@ namespace fos
         {
             mainWindow = new MainWindow();
             hotkeyWindow = new HotkeyWindow();
-            welcomeWindow = new WelcomeWindow();
-            welcomeWindow.Show();
+
+            if (SettingsController.Store.FirstStart)
+            {
+                welcomeWindow = new WelcomeWindow();
+                welcomeWindow.Show();
+            }
         }
 
         public static void OpenSettingsWindow()

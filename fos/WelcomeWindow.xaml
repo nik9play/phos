@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:res="clr-namespace:fos.Properties"
         xmlns:local="clr-namespace:fos"
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019" 
@@ -11,9 +12,10 @@
         AllowsTransparency="True"
         Background="Transparent"
         MouseDown="Window_MouseDown"
+        Closing="Window_Closing"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Title="WelcomeWindow" Height="530" Width="700">
-    <ui:ThemeShadowChrome Depth="24" CornerRadius="10" Margin="10,5,10,10">
+    <ui:ThemeShadowChrome Depth="18" CornerRadius="10" Margin="10,5,10,15">
         <ui:ThemeShadowChrome.RenderTransform>
             <TranslateTransform x:Name="T1" />
         </ui:ThemeShadowChrome.RenderTransform>
@@ -23,17 +25,31 @@
             BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
+                    <RowDefinition Height="110" />
                     <RowDefinition />
-                    <RowDefinition Height="100" />
+                    <RowDefinition Height="70" />
                 </Grid.RowDefinitions>
 
+                <ui:SimpleStackPanel HorizontalAlignment="Center"
+                                     Spacing="10"
+                                     VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
+                               HorizontalAlignment="Center"
+                               Text="{x:Static res:Resources.WelcomeWindowTitle}" />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
+                               HorizontalAlignment="Center"
+                               Text="{x:Static res:Resources.WelcomeWindowDescription}" />
+                </ui:SimpleStackPanel>
+                
                 <MediaElement Grid.Row="1" Width="400" Height="300"
                               Source="Assets/welcome_video.mp4" Name="video"
                               MediaEnded="video_MediaEnded">
                 </MediaElement>
 
-                 <Button Grid.Row="2" HorizontalAlignment="Center" Content="OK"/>
+                 <Button Grid.Row="2" HorizontalAlignment="Center" 
+                         Click="Button_Click"
+                         FontSize="18"
+                         Content="{x:Static res:Resources.WelcomeWindowOk}"/>
             </Grid>
         </Border>
     </ui:ThemeShadowChrome>

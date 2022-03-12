@@ -520,5 +520,32 @@ namespace fos.Properties {
                 return ResourceManager.GetString("SettingsTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Click the tray icon to open the pop-up..
+        /// </summary>
+        public static string WelcomeWindowDescription {
+            get {
+                return ResourceManager.GetString("WelcomeWindowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Got it.
+        /// </summary>
+        public static string WelcomeWindowOk {
+            get {
+                return ResourceManager.GetString("WelcomeWindowOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Welcome to phos!.
+        /// </summary>
+        public static string WelcomeWindowTitle {
+            get {
+                return ResourceManager.GetString("WelcomeWindowTitle", resourceCulture);
+            }
+        }
     }
 }

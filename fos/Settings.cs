@@ -24,6 +24,7 @@ namespace fos
 
     public class Settings
     {
+        public bool FirstStart { get; set; } = true;
         public bool AllMonitorsModeEnabled { get; set; } = false;
         public string Language { get; set; } = "system";
         public bool AutoUpdateCheckEnabled { get; set; } = false;

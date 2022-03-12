@@ -271,4 +271,13 @@
   <data name="RestartButton" xml:space="preserve">
     <value>Restart</value>
   </data>
+  <data name="WelcomeWindowTitle" xml:space="preserve">
+    <value>Welcome to phos!</value>
+  </data>
+  <data name="WelcomeWindowDescription" xml:space="preserve">
+    <value>Click the tray icon to open the pop-up.</value>
+  </data>
+  <data name="WelcomeWindowOk" xml:space="preserve">
+    <value>Got it</value>
+  </data>
 </root>
