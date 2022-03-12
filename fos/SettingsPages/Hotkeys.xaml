@@ -45,7 +45,7 @@
             </Grid>
             <TextBlock Text="{x:Static res:Resources.SettingsHotkeyLocation}"/>
             <Border CornerRadius="5" Padding="10" HorizontalAlignment="Left" Width="240" Height="135" 
-                    Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
                     <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
