@@ -34,11 +34,11 @@
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
             </ObjectAnimationUsingKeyFrames>
 
-            <!--<ui:FadeInThemeAnimation Storyboard.TargetName="ContentGrid" />-->
+            <!--<ui:FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ContentGrid" />-->
 
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
+            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
                 <DiscreteDoubleKeyFrame KeyTime="0" Value="380" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.7" Value="0" KeySpline="0.2, 0.9, 0.2, 1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="0" KeySpline="0.3, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
 
@@ -47,10 +47,10 @@
 
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
                 <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.7" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
 
-            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.7" Storyboard.TargetProperty="Visibility">
+            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
@@ -74,7 +74,7 @@
             </ui:ThemeShadowChrome.RenderTransform>
 
             <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True" BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -124,7 +124,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="5" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}" Padding="8,8,4,8" x:Name="Outer">
+                                <Border CornerRadius="5" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Padding="8,8,4,8" x:Name="Outer">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -150,7 +150,7 @@
                                                 Maximum="100"
                                                 Style="{StaticResource Win11SliderStyle}"
                                                 local:MouseWheelBehavior.Value="2"
-                                                TickFrequency="1" SmallChange="1" 
+                                                TickFrequency="1" SmallChange="1"
                                                 Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                     </Grid>
                                 </Border>
@@ -197,7 +197,7 @@
                     <Grid Grid.Row="1">
                         <Border CornerRadius="0,0,10,10" BorderThickness="0,0,0,0"
                                 BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
-                                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                             <ui:CommandBar DefaultLabelPosition="Collapsed" Background="Transparent">
                                 <ui:AppBarToggleButton
                                     Width="36"
