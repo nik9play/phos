@@ -10,8 +10,10 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace fos
 {
@@ -23,6 +25,12 @@ namespace fos
         public WelcomeWindow()
         {
             InitializeComponent();
+
+            closingTimer.Tick += (s, e) =>
+            {
+                Close();
+                closingTimer.Stop();
+            };
         }
 
         private void video_MediaEnded(object sender, RoutedEventArgs e)
@@ -42,10 +50,25 @@ namespace fos
             Close();
         }
 
+        private bool IsClosing = false;
+        private DispatcherTimer closingTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(400)
+        };
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SettingsController.Store.FirstStart = false;
-            SettingsController.SaveSettings();
+            if (!IsClosing)
+            {
+                SettingsController.Store.FirstStart = false;
+                SettingsController.SaveSettings();
+
+                (FindResource("ClosingAnimation") as Storyboard).Begin(this);
+
+                e.Cancel = true;
+                IsClosing = true;
+                closingTimer.Start();
+            }
         }
     }
 }

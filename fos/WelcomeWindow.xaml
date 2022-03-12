@@ -14,8 +14,23 @@
         MouseDown="Window_MouseDown"
         Closing="Window_Closing"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Title="WelcomeWindow" Height="530" Width="700">
-    <ui:ThemeShadowChrome Depth="18" CornerRadius="10" Margin="10,5,10,15">
+        Title="WelcomeWindow" Height="580" Width="700">
+    <Window.Resources>
+        <Storyboard x:Key="ClosingAnimation">
+            <ui:FadeOutThemeAnimation Storyboard.TargetName="WelcomeContent" />
+
+            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
+                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
+            </DoubleAnimationUsingKeyFrames>
+
+            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+            </ObjectAnimationUsingKeyFrames>-->
+        </Storyboard>
+    </Window.Resources>
+    
+    <ui:ThemeShadowChrome x:Name="WelcomeContent" Depth="18" CornerRadius="10" Margin="10,5,10,15">
         <ui:ThemeShadowChrome.RenderTransform>
             <TranslateTransform x:Name="T1" />
         </ui:ThemeShadowChrome.RenderTransform>
@@ -25,9 +40,9 @@
             BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="110" />
+                    <RowDefinition Height="130" />
                     <RowDefinition />
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
                 <ui:SimpleStackPanel HorizontalAlignment="Center"
