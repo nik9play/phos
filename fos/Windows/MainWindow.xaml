@@ -8,7 +8,6 @@
         xmlns:viewmodels="clr-namespace:fos.ViewModels"
         xmlns:res="clr-namespace:fos.Properties"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         Title="phos"
         ResizeMode="NoResize"
@@ -34,8 +33,6 @@
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
             </ObjectAnimationUsingKeyFrames>
 
-            <!--<ui:FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ContentGrid" />-->
-
             <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
                 <DiscreteDoubleKeyFrame KeyTime="0" Value="380" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="0" KeySpline="0.3, 0.9, 0.2, 1" />
@@ -43,8 +40,6 @@
         </Storyboard>
 
         <Storyboard x:Key="HidePopup">
-            <!--<ui:FadeOutThemeAnimation Storyboard.TargetName="ContentGrid" />-->
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
                 <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
@@ -55,7 +50,6 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
 
-        <!--<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />-->
         <local:BooleanToVisibilityConverter 
             x:Key="BooleanToVisibilityConverter" 
             True="Visible" 
@@ -80,34 +74,6 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-
-                    <tb:TaskbarIcon x:Name="trayIcon"
-                        Visibility="Visible"
-                        ToolTipText="fos"
-                        TrayLeftMouseDown="trayIcon_TrayLeftMouseDown">
-                        <tb:TaskbarIcon.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Click="SettingsItem_Click" Header="{x:Static res:Resources.SettingsTitle}">
-                                    <MenuItem.Icon>
-                                        <ui:FontIcon Glyph="&#xE713;" FontSize="16px"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Click="ExitItem_Click" Header="{x:Static res:Resources.ContextExit}">
-                                    <MenuItem.Icon>
-                                        <ui:FontIcon Glyph="&#xE711;" FontSize="16px"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </tb:TaskbarIcon.ContextMenu>
-                    </tb:TaskbarIcon>
-
-                    <!--<TextBlock Text="{x:Static res:Resources.MonitorsNotFound}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Padding="20"
-                               Style="{StaticResource BaseTextBlockStyle}"
-                               Visibility="{Binding IsMonitors, 
-                                            Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>-->
 
                     <ItemsControl Grid.Row="0" 
                                   Visibility="{Binding AllMonitorsModeEnabled, 

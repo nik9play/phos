@@ -8,33 +8,31 @@ namespace fos
 {
     static class WindowManager
     {
-        public static HotkeyWindow hotkeyWindow;
-        public static MainWindow mainWindow;
-        public static SettingsWindow settingsWindow = null;
-        public static WelcomeWindow welcomeWindow = null;
+        public static HotkeyWindow HotkeyWindow { get; private set; }
+        public static MainWindow MainWindow { get; private set; }
+        public static SettingsWindow SettingsWindow { get; private set; }
+        public static WelcomeWindow WelcomeWindow { get; private set; }
+        public static bool WindowsInitialized { get; private set; }
 
         public static void CreateWindows()
         {
-            mainWindow = new MainWindow();
-            hotkeyWindow = new HotkeyWindow();
+            MainWindow = new MainWindow();
+            HotkeyWindow = new HotkeyWindow();
+            SettingsWindow = new SettingsWindow();
 
             if (SettingsController.Store.FirstStart)
             {
-                welcomeWindow = new WelcomeWindow();
-                welcomeWindow.Show();
+                WelcomeWindow = new WelcomeWindow();
+                WelcomeWindow.Show();
             }
+
+            WindowsInitialized = true;
         }
 
         public static void OpenSettingsWindow()
         {
-            if (settingsWindow == null)
-            {
-                settingsWindow = new SettingsWindow();
-                settingsWindow.Closed += (s, e) => settingsWindow = null;
-            }
-
-            settingsWindow.Show();
-            settingsWindow.Activate();
+            SettingsWindow.Show();
+            SettingsWindow.Activate();
         }
     }
 }

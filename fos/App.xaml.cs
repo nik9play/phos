@@ -1,15 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
+using ModernWpf;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using Windows.Foundation.Collections;
 
 namespace fos
 {
@@ -34,11 +26,10 @@ namespace fos
             ToastNotificationManagerCompat.Uninstall();
         }
 
-        private Mutex mutex;
+        private Mutex _mutex;
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            bool aIsNewInstance;
-            mutex = new Mutex(true, "phos.megaworld", out aIsNewInstance);
+            _mutex = new Mutex(true, "phos.megaworld", out var aIsNewInstance);
             if (!aIsNewInstance)
             {
                 Current.Shutdown();
@@ -50,10 +41,15 @@ namespace fos
             Workarounds.RenderLoopFix.Initialize();
             HotkeysManager.InitHotkeys();
             UpdateManager.InitTimer();
+            TrayIconManager.InitTrayIcon();
+
+            UpdateTheme(ThemeTools.CurrentTheme);
+            ThemeTools.ThemeChanged += ThemeTools_ThemeChanged;
 
             if (SettingsController.Store.AutoUpdateCheckEnabled)
             {
                 UpdateManager.StartTimer();
+                await UpdateManager.CheckUpdatesSilent();
             }
 
             ToastNotificationManagerCompat.OnActivated += toastArgs =>
@@ -67,20 +63,21 @@ namespace fos
                     Current.Dispatcher.Invoke(delegate
                     {
                         WindowManager.OpenSettingsWindow();
-                        WindowManager.settingsWindow.OpenAboutPage();
-                    });
-                } 
-                else if (action == "restartApp")
-                {
-                    Current.Dispatcher.Invoke(delegate
-                    {
-                        //Debug.WriteLine(System.Reflection.Assembly.GetEntryAssembly().Location);
-                        //Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                        WindowManager.SettingsWindow.OpenAboutPage();
                     });
                 }
             };
+        }
 
-            await UpdateManager.CheckUpdatesSilent();
+        private void ThemeTools_ThemeChanged(object sender, ThemeChangingArgs e)
+        {
+            UpdateTheme(e.CurrentTheme);
+        }
+
+        private void UpdateTheme(ApplicationTheme currentTheme)
+        {
+            ThemeManager.Current.ApplicationTheme = currentTheme;
+            TrayIconManager.UpdateTheme(currentTheme);
         }
     }
 }

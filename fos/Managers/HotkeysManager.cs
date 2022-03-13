@@ -67,16 +67,16 @@ namespace fos
                         newBrightness = 100;
 
                     try { ViewModels.MainWindowViewModel.AllMonitorsBrightness = (uint)newBrightness; } catch { }
-                    WindowManager.hotkeyWindow.SetValue((uint)newBrightness);
+                    WindowManager.HotkeyWindow.SetValue((uint)newBrightness);
                 }
                 else
                 {
                     foreach (var el in ViewModels.MainWindowViewModel.Monitors)
                     {
-                        if (el.Resolution.Width == currentMonitorInfo.Resolution.Width &&
-                            el.Resolution.Height == currentMonitorInfo.Resolution.Height &&
-                            el.Position.X == currentMonitorInfo.Position.X &&
-                            el.Position.Y == currentMonitorInfo.Position.Y)
+                        if (el.Resolution.Width == (int)currentMonitorInfo.Resolution.Width &&
+                            el.Resolution.Height == (int)currentMonitorInfo.Resolution.Height &&
+                            el.Position.X == (int)currentMonitorInfo.Position.X &&
+                            el.Position.Y == (int)currentMonitorInfo.Position.Y)
                         {
                             int newBrightness = (int)el.Brightness + offset;
 
@@ -87,27 +87,11 @@ namespace fos
                                 newBrightness = 100;
 
                             try { el.Brightness = (uint)newBrightness; } catch { }
-                            WindowManager.hotkeyWindow.SetValue((uint)newBrightness);
+                            WindowManager.HotkeyWindow.SetValue((uint)newBrightness);
                             break;
                         }
                     }
                 }
-
-                //if (WindowManager.hotkeyWindow.Visibility == Visibility.Visible)
-                //{
-                //    uint newBrightness = 0;
-
-                //    if (_contoller.Brightness + offset < 0)
-                //    {
-                //        newBrightness = 0;
-                //    }
-                //    if (_contoller.Brightness + offset > 0)
-                //    {
-                //        newBrightness = 100;
-                //    }
-
-                //    _contoller.SetBrightness(newBrightness);
-                //}
             }
 
             e.Handled = true;

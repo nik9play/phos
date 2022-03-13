@@ -86,5 +86,11 @@ namespace fos
         private void NavView_Unloaded(object sender, RoutedEventArgs e)
         {
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace fos.Workarounds
 
         public static void ApplyFix()
         {
-            var mainWindow = WindowManager.mainWindow;
+            var mainWindow = WindowManager.MainWindow;
             mainWindow?.Show();
 
             Task.Run(() =>
