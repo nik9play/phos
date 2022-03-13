@@ -8,10 +8,15 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         Closed="Window_Closed"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
         Icon="/Assets/TaskBarIcon.ico"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="{x:Static res:Resources.SettingsTitle}" MinHeight="400" MinWidth="350" Height="600" Width="750">
+        Title="{x:Static res:Resources.SettingsTitle}" MinHeight="400" MinWidth="600" Height="600" Width="750">
     <Grid>
+        <TextBlock Text="{x:Static res:Resources.SettingsTitle}" Panel.ZIndex="2" Margin="11,7" 
+                   FontSize="13"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" />
         <ui:NavigationView 
             x:Name="NavView"
             Unloaded="NavView_Unloaded"
@@ -19,6 +24,8 @@
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             OpenPaneLength="250"
+            PaneDisplayMode="Left"
+            IsPaneToggleButtonVisible="False"
             CompactModeThresholdWidth="450"
             ExpandedModeThresholdWidth="700"
             SelectionChanged="NavigationView_SelectionChanged">

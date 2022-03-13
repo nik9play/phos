@@ -29,6 +29,18 @@
                     <StaticResource x:Key="PivotHeaderItemFontFamily" ResourceKey="DefaultFontFamily" />
                     <StaticResource x:Key="PivotTitleFontFamily" ResourceKey="DefaultFontFamily" />
                 </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <Thickness x:Key="CustomButtonThickness">1</Thickness>
+                    <CornerRadius x:Key="CustomCornerRadius">4</CornerRadius>
+                    <StaticResource x:Key="ButtonBorderThemeThickness" ResourceKey="CustomButtonThickness" />
+                    <StaticResource x:Key="ButtonBorderBrush" ResourceKey="SystemControlHighlightListLowBrush" />
+                    <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+                    <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="SystemControlHighlightListLowBrush" />
+                    <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SystemControlHighlightListLowBrush" />
+
+                    <StaticResource x:Key="ControlCornerRadius" ResourceKey="CustomCornerRadius" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
