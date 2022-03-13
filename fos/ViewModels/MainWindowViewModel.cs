@@ -71,9 +71,7 @@ namespace fos.ViewModels
             }
         }
 
-        public ICommand UpdateCommand { get; }
-
-        private void Update()
+        public RelayCommand UpdateCommand { get; } = new RelayCommand(() =>
         {
             Monitors.Clear();
 
@@ -81,15 +79,15 @@ namespace fos.ViewModels
 
             foreach (var el in list)
                 Monitors.Add(el);
-        }
+        });
+
+        public RelayCommand OpenSettingsWindowCommand => Tools.CommonCommands.OpenSettingsWindowCommand;
 
         public MainWindowViewModel()
         {
             Monitors = MonitorTools.GetMonitorList();
             AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
             Monitors.CollectionChanged += Monitors_CollectionChanged;
-
-            UpdateCommand = new RelayCommand(() => Update());
         }
 
         private void Monitors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

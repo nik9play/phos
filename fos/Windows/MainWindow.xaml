@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:fos"
+        xmlns:tools="clr-namespace:fos.Tools"
         xmlns:ui="http://schemas.modernwpf.com/2019" 
         xmlns:viewmodels="clr-namespace:fos.ViewModels"
         xmlns:res="clr-namespace:fos.Properties"
@@ -174,7 +175,7 @@
                                     Width="36"
                                     ToolTip="{x:Static res:Resources.SettingsTitle}"
                                     Icon="Setting"
-                                    Click="AppBarButton_Click"/>
+                                    Command="{Binding OpenSettingsWindowCommand}"/>
                                 <ui:AppBarButton 
                                     Width="36"
                                     CornerRadius="0,0,8,0"
