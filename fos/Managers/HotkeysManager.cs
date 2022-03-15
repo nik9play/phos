@@ -1,42 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using fos.ViewModels;
 using NHotkey;
 using NHotkey.Wpf;
 
 namespace fos
 {
-    static class HotkeysManager
+    internal static class HotkeysManager
     {
         public static void InitHotkeys()
         {
-            if (SettingsController.Store.HotkeysEnabled)
+            if (!SettingsController.Store.HotkeysEnabled) return;
+            try
             {
-                try
-                {
-                    var HotkeyUpKeys = new Keys(SettingsController.Store.HotkeyUp);
-                    HotkeyManager.Current.AddOrReplace("HotkeyUp", HotkeyUpKeys.GetGesture(), OnHotkey);
-                }
-                catch
-                {
-                    HotkeyManager.Current.Remove("HotkeyUp");
-                }
+                var hotkeyUpKeys = new Keys(SettingsController.Store.HotkeyUp);
+                HotkeyManager.Current.AddOrReplace("HotkeyUp", hotkeyUpKeys.GetGesture(), OnHotkey);
+            }
+            catch
+            {
+                HotkeyManager.Current.Remove("HotkeyUp");
+            }
 
 
-                try
-                {
-                    var HotkeyDownKeys = new Keys(SettingsController.Store.HotkeyDown);
-                    HotkeyManager.Current.AddOrReplace("HotkeyDown", HotkeyDownKeys.GetGesture(), OnHotkey);
-                }
-                catch
-                {
-                    HotkeyManager.Current.Remove("HotkeyDown");
-                }
-            }    
+            try
+            {
+                var hotkeyDownKeys = new Keys(SettingsController.Store.HotkeyDown);
+                HotkeyManager.Current.AddOrReplace("HotkeyDown", hotkeyDownKeys.GetGesture(), OnHotkey);
+            }
+            catch
+            {
+                HotkeyManager.Current.Remove("HotkeyDown");
+            }
         }
 
         public static void RemoveHotkeys()
@@ -49,16 +41,14 @@ namespace fos
         {
             if (SettingsController.Store.HotkeysEnabled)
             {
-                MonitorTools.MonitorInfo monitorInfo = MonitorTools.GetCurrentMonitor();
-
-                int multiplier = (e.Name == "HotkeyUp") ? 1 : -1;
-                int offset = multiplier * (int)SettingsController.Store.HotkeyStep;
+                var multiplier = e.Name == "HotkeyUp" ? 1 : -1;
+                var offset = multiplier * (int)SettingsController.Store.HotkeyStep;
 
                 var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
                 if (SettingsController.Store.AllMonitorsModeEnabled)
                 {
-                    int newBrightness = (int)ViewModels.MainWindowViewModel.AllMonitorsBrightness + offset;
+                    var newBrightness = (int)MainWindowViewModel.AllMonitorsBrightness + offset;
 
                     if (newBrightness < 0)
                         newBrightness = 0;
@@ -66,19 +56,26 @@ namespace fos
                     if (newBrightness > 100)
                         newBrightness = 100;
 
-                    try { ViewModels.MainWindowViewModel.AllMonitorsBrightness = (uint)newBrightness; } catch { }
+                    try
+                    {
+                        MainWindowViewModel.AllMonitorsBrightness = (uint)newBrightness;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
                     WindowManager.HotkeyWindow.SetValue((uint)newBrightness);
                 }
                 else
                 {
-                    foreach (var el in ViewModels.MainWindowViewModel.Monitors)
-                    {
+                    foreach (var el in MainWindowViewModel.Monitors)
                         if (el.Resolution.Width == (int)currentMonitorInfo.Resolution.Width &&
                             el.Resolution.Height == (int)currentMonitorInfo.Resolution.Height &&
                             el.Position.X == (int)currentMonitorInfo.Position.X &&
                             el.Position.Y == (int)currentMonitorInfo.Position.Y)
                         {
-                            int newBrightness = (int)el.Brightness + offset;
+                            var newBrightness = (int)el.Brightness + offset;
 
                             if (newBrightness < 0)
                                 newBrightness = 0;
@@ -86,11 +83,18 @@ namespace fos
                             if (newBrightness > 100)
                                 newBrightness = 100;
 
-                            try { el.Brightness = (uint)newBrightness; } catch { }
+                            try
+                            {
+                                el.Brightness = (uint)newBrightness;
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+
                             WindowManager.HotkeyWindow.SetValue((uint)newBrightness);
                             break;
                         }
-                    }
                 }
             }
 

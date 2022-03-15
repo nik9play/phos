@@ -4,9 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:res="clr-namespace:fos.Properties"
-        xmlns:local="clr-namespace:fos"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019" 
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -16,28 +15,16 @@
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Title="WelcomeWindow" Height="580" Width="700">
     <Window.Resources>
-        <Storyboard x:Key="ClosingAnimation">
-            <ui:FadeOutThemeAnimation Storyboard.TargetName="WelcomeContent" />
-
-            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
-            </DoubleAnimationUsingKeyFrames>
-
-            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
-            </ObjectAnimationUsingKeyFrames>-->
-        </Storyboard>
     </Window.Resources>
-    
+
     <ui:ThemeShadowChrome x:Name="WelcomeContent" Depth="18" CornerRadius="10" Margin="10,5,10,15">
         <ui:ThemeShadowChrome.RenderTransform>
             <TranslateTransform x:Name="T1" />
         </ui:ThemeShadowChrome.RenderTransform>
         <Border CornerRadius="10"
-            Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
-            BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
-            BorderThickness="1">
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="130" />
@@ -51,20 +38,19 @@
                     <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
                                HorizontalAlignment="Center"
                                Text="{x:Static res:Resources.WelcomeWindowTitle}" />
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
                                HorizontalAlignment="Center"
                                Text="{x:Static res:Resources.WelcomeWindowDescription}" />
                 </ui:SimpleStackPanel>
-                
+
                 <MediaElement Grid.Row="1" Width="400" Height="300"
                               Source="Assets/welcome_video.mp4" Name="video"
-                              MediaEnded="video_MediaEnded">
-                </MediaElement>
+                              MediaEnded="video_MediaEnded" />
 
-                 <Button Grid.Row="2" HorizontalAlignment="Center" 
-                         Click="Button_Click"
-                         FontSize="18"
-                         Content="{x:Static res:Resources.WelcomeWindowOk}"/>
+                <Button Grid.Row="2" HorizontalAlignment="Center"
+                        Click="Button_Click"
+                        FontSize="18"
+                        Content="{x:Static res:Resources.WelcomeWindowOk}" />
             </Grid>
         </Border>
     </ui:ThemeShadowChrome>

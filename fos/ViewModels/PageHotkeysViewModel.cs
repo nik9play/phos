@@ -1,29 +1,26 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace fos.ViewModels
 {
-    class PageHotkeysViewModel : INotifyPropertyChanged
+    internal class PageHotkeysViewModel : INotifyPropertyChanged
     {
-        private bool hotkeysEnabled = SettingsController.Store.HotkeysEnabled;
+        private string _hotkeyDown = SettingsController.Store.HotkeyDown;
+
+        private HotkeyPopupLocationEnum _hotkeyPopupLocation = SettingsController.Store.HotkeyPopupLocation;
+        private bool _hotkeysEnabled = SettingsController.Store.HotkeysEnabled;
+
+        private uint _hotkeyStep = SettingsController.Store.HotkeyStep;
+
+        private string _hotkeyUp = SettingsController.Store.HotkeyUp;
+
         public bool HotkeysEnabled
         {
-            get
-            {
-                return hotkeysEnabled;
-            }
+            get => _hotkeysEnabled;
 
             set
             {
-                hotkeysEnabled = value;
+                _hotkeysEnabled = value;
                 SettingsController.Store.HotkeysEnabled = value;
 
                 if (value) HotkeysManager.InitHotkeys();
@@ -33,23 +30,19 @@ namespace fos.ViewModels
             }
         }
 
-        private string hotkeyUp = SettingsController.Store.HotkeyUp;
         public string HotkeyUp
         {
-            get
-            {
-                return hotkeyUp;
-            }
+            get => _hotkeyUp;
 
             set
             {
-                hotkeyUp = value;
+                _hotkeyUp = value;
                 SettingsController.Store.HotkeyUp = value;
 
                 if (string.IsNullOrEmpty(value))
                 {
-                    hotkeyUp = SettingsController.defaultSettings.HotkeyUp;
-                    SettingsController.Store.HotkeyUp = SettingsController.defaultSettings.HotkeyUp;
+                    _hotkeyUp = SettingsController.DefaultSettings.HotkeyUp;
+                    SettingsController.Store.HotkeyUp = SettingsController.DefaultSettings.HotkeyUp;
                 }
 
                 HotkeysManager.RemoveHotkeys();
@@ -59,23 +52,19 @@ namespace fos.ViewModels
             }
         }
 
-        private string hotkeyDown = SettingsController.Store.HotkeyDown;
         public string HotkeyDown
         {
-            get
-            {
-                return hotkeyDown;
-            }
+            get => _hotkeyDown;
 
             set
             {
-                hotkeyDown = value;
+                _hotkeyDown = value;
                 SettingsController.Store.HotkeyDown = value;
 
                 if (string.IsNullOrEmpty(value))
                 {
-                    hotkeyDown = SettingsController.defaultSettings.HotkeyDown;
-                    SettingsController.Store.HotkeyDown = SettingsController.defaultSettings.HotkeyDown;
+                    _hotkeyDown = SettingsController.DefaultSettings.HotkeyDown;
+                    SettingsController.Store.HotkeyDown = SettingsController.DefaultSettings.HotkeyDown;
                 }
 
                 HotkeysManager.RemoveHotkeys();
@@ -85,44 +74,33 @@ namespace fos.ViewModels
             }
         }
 
-        private uint hotkeyStep = SettingsController.Store.HotkeyStep;
         public uint HotkeyStep
         {
-            get
-            {
-                return hotkeyStep;
-            }
+            get => _hotkeyStep;
 
             set
             {
-                hotkeyStep = value;
+                _hotkeyStep = value;
                 SettingsController.Store.HotkeyStep = value;
 
                 OnPropertyChanged();
             }
         }
 
-        private HotkeyPopupLocationEnum hotkeyPopupLocation = SettingsController.Store.HotkeyPopupLocation;
         public HotkeyPopupLocationEnum HotkeyPopupLocation
         {
-            get
+            get => _hotkeyPopupLocation;
+            set
             {
-                return hotkeyPopupLocation;
-            }
-            set { 
-                hotkeyPopupLocation = value;
+                _hotkeyPopupLocation = value;
                 SettingsController.Store.HotkeyPopupLocation = value;
-                
+
                 OnPropertyChanged();
             }
         }
 
-        public PageHotkeysViewModel()
-        {
-            
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

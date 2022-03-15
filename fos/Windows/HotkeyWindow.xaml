@@ -12,75 +12,16 @@
         ShowInTaskbar="False"
         Topmost="True"
         ShowActivated="False"
-        xmlns:ui="http://schemas.modernwpf.com/2019" 
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         PreviewKeyDown="Window_PreviewKeyDown"
         Title="HotkeyWindow" Height="70" Width="220">
     <Window.Resources>
-        <Storyboard x:Key="ShowPopupDown">
-            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-            </ObjectAnimationUsingKeyFrames>
-
-            <ui:FadeInThemeAnimation Storyboard.TargetName="ContentGrid" />
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="100" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.500" Value="0" KeySpline="0.1, 0.9, 0.2, 1" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <Storyboard x:Key="HidePopupDown">
-            <ui:FadeOutThemeAnimation Storyboard.TargetName="ContentGrid" />
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.200" Value="100" KeySpline="1, 0.2, 0.9, 0.1" />
-            </DoubleAnimationUsingKeyFrames>
-
-            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.210" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <Storyboard x:Key="ShowPopupUp">
-            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-            </ObjectAnimationUsingKeyFrames>
-
-            <ui:FadeInThemeAnimation Storyboard.TargetName="ContentGrid" />
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="-100" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.500" Value="0" KeySpline="0.1, 0.9, 0.2, 1" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <Storyboard x:Key="HidePopupUp">
-            <ui:FadeOutThemeAnimation Storyboard.TargetName="ContentGrid" />
-
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.200" Value="-100" KeySpline="1, 0.2, 0.9, 0.1" />
-            </DoubleAnimationUsingKeyFrames>
-
-            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.210" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
 
         <!--<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />-->
-        <local:BooleanToVisibilityConverter 
-            x:Key="BooleanToVisibilityConverter" 
-            True="Visible" 
-            False="Collapsed" />
 
-        <local:BooleanToVisibilityConverter
-            x:Key="InvertBooleanToVisibilityConverter"
-            True="Collapsed"
-            False="Visible" />
     </Window.Resources>
-    
+
     <Border x:Name="ContentGrid">
         <ui:ThemeShadowChrome Depth="5" CornerRadius="8" Margin="10">
             <ui:ThemeShadowChrome.RenderTransform>
@@ -91,23 +32,23 @@
                     Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="48" />
                     </Grid.ColumnDefinitions>
 
-                    <ui:FontIcon VerticalAlignment="Center" 
+                    <ui:FontIcon VerticalAlignment="Center"
                                  HorizontalAlignment="Center"
                                  Glyph="&#xEC8A;" FontSize="20" />
 
                     <ProgressBar
-                               x:Name="progressBar"    
-                               Grid.Column="1"/>
+                        x:Name="progressBar"
+                        Grid.Column="1" />
                     <TextBlock x:Name="percentText"
-                               VerticalAlignment="Center" 
+                               VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Grid.Column="2"
-                               Text="100"/>
+                               Text="100" />
                 </Grid>
             </Border>
         </ui:ThemeShadowChrome>

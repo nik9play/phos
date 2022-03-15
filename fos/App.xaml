@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:local="clr-namespace:fos"
              Startup="Application_Startup"
              Exit="Application_Exit">
     <Application.Resources>
@@ -10,8 +9,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
-                <ResourceDictionary Source="Styles/SliderStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CommandBarStyle.xaml"/>
+                <ResourceDictionary Source="Styles/SliderStyle.xaml" />
+                <ResourceDictionary Source="Styles/CommandBarStyle.xaml" />
                 <ResourceDictionary Source="Styles/MdStyle.xaml" />
 
                 <ResourceDictionary>
@@ -35,7 +34,8 @@
                     <CornerRadius x:Key="CustomCornerRadius">4</CornerRadius>
                     <StaticResource x:Key="ButtonBorderThemeThickness" ResourceKey="CustomButtonThickness" />
                     <StaticResource x:Key="ButtonBorderBrush" ResourceKey="SystemControlHighlightListLowBrush" />
-                    <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="SystemControlHighlightListLowBrush" />
+                    <StaticResource x:Key="ButtonBorderBrushPointerOver"
+                                    ResourceKey="SystemControlHighlightListLowBrush" />
                     <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="SystemControlHighlightListLowBrush" />
                     <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SystemControlHighlightListLowBrush" />
 

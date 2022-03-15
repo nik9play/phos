@@ -1,19 +1,17 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using ModernWpf;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows;
+using fos.Workarounds;
+using Microsoft.Toolkit.Uwp.Notifications;
+using ModernWpf;
 
 namespace fos
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-
-        }
+        private Mutex _mutex;
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
@@ -21,24 +19,23 @@ namespace fos
             {
                 SettingsController.SaveSettings();
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
             ToastNotificationManagerCompat.Uninstall();
         }
 
-        private Mutex _mutex;
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
             _mutex = new Mutex(true, "phos.megaworld", out var aIsNewInstance);
-            if (!aIsNewInstance)
-            {
-                Current.Shutdown();
-            }
+            if (!aIsNewInstance) Current.Shutdown();
 
             SettingsController.LoadSettings();
             SettingsController.LoadLanguage();
             WindowManager.CreateWindows();
-            Workarounds.RenderLoopFix.Initialize();
+            RenderLoopFix.Initialize();
             HotkeysManager.InitHotkeys();
             UpdateManager.InitTimer();
             TrayIconManager.InitTrayIcon();
@@ -54,18 +51,16 @@ namespace fos
 
             ToastNotificationManagerCompat.OnActivated += toastArgs =>
             {
-                ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
+                var args = ToastArguments.Parse(toastArgs.Argument);
 
-                args.TryGetValue("action", out string action);
-                
+                args.TryGetValue("action", out var action);
+
                 if (action == "update")
-                {
                     Current.Dispatcher.Invoke(delegate
                     {
                         WindowManager.OpenSettingsWindow();
                         WindowManager.SettingsWindow.OpenAboutPage();
                     });
-                }
             };
         }
 

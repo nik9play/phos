@@ -14,10 +14,10 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="{x:Static res:Resources.SettingsTitle}" MinHeight="400" MinWidth="600" Height="600" Width="750">
     <Grid>
-        <TextBlock Text="{x:Static res:Resources.SettingsTitle}" Panel.ZIndex="2" Margin="11,7" 
+        <TextBlock Text="{x:Static res:Resources.SettingsTitle}" Panel.ZIndex="2" Margin="11,7"
                    FontSize="13"
                    HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <ui:NavigationView 
+        <ui:NavigationView
             x:Name="NavView"
             Unloaded="NavView_Unloaded"
             IsTitleBarAutoPaddingEnabled="True"
@@ -30,13 +30,15 @@
             ExpandedModeThresholdWidth="700"
             SelectionChanged="NavigationView_SelectionChanged">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem IsSelected="True" Content="{x:Static res:Resources.SettingsGeneral}" Tag="General" Icon="59155"></ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsHotkeys}" Tag="Hotkeys" Icon="57668"></ui:NavigationViewItem>
+                <ui:NavigationViewItem IsSelected="True" Content="{x:Static res:Resources.SettingsGeneral}"
+                                       Tag="General" Icon="59155" />
+                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsHotkeys}" Tag="Hotkeys" Icon="57668" />
                 <!--<ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAppearance}" Tag="Appearance" Icon="59577"></ui:NavigationViewItem>-->
-                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsMonitors}" Tag="Monitors" Icon="59380"></ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsMonitors}" Tag="Monitors" Icon="59380" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem x:Name="AboutItem" Content="{x:Static res:Resources.SettingsAbout}" Tag="About" Icon="59718"></ui:NavigationViewItem>
+                <ui:NavigationViewItem x:Name="AboutItem" Content="{x:Static res:Resources.SettingsAbout}" Tag="About"
+                                       Icon="59718" />
             </ui:NavigationView.FooterMenuItems>
             <ui:Frame HorizontalAlignment="Stretch" Margin="12,0,0,0" x:Name="ContentFrame" />
         </ui:NavigationView>

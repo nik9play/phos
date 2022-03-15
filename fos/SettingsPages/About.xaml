@@ -1,24 +1,23 @@
 ﻿<ui:Page x:Class="fos.SettingsPages.About"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:fos.SettingsPages"
-      xmlns:f="clr-namespace:fos"
-      xmlns:res="clr-namespace:fos.Properties"
-      mc:Ignorable="d"
-      xmlns:viewmodels="clr-namespace:fos.ViewModels"
-      d:DataContext="{d:DesignInstance Type=viewmodels:PageAboutViewModel}"
-      xmlns:ui="http://schemas.modernwpf.com/2019"
-      xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
-      
-      Title="About">
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:f="clr-namespace:fos"
+         xmlns:res="clr-namespace:fos.Properties"
+         mc:Ignorable="d"
+         xmlns:viewmodels="clr-namespace:fos.ViewModels"
+         d:DataContext="{d:DesignInstance Type=viewmodels:PageAboutViewModel}"
+         xmlns:ui="http://schemas.modernwpf.com/2019"
+         xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+
+         Title="About">
 
     <ui:Page.Resources>
-        <f:InverseBooleanConverter x:Key="inverter"/>
-        <f:BooleanToVisibilityConverter 
-            x:Key="BooleanToVisibilityConverter" 
-            True="Visible" 
+        <f:InverseBooleanConverter x:Key="inverter" />
+        <f:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            True="Visible"
             False="Collapsed" />
 
         <f:BooleanToVisibilityConverter
@@ -26,32 +25,33 @@
             True="Collapsed"
             False="Visible" />
     </ui:Page.Resources>
-    
+
     <f:ScrollViewerEx Padding="0,0,15,0">
         <ui:SimpleStackPanel Spacing="8" HorizontalAlignment="Left">
-            <Image RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Width="64" Source="../Resources/icon.png" />
+            <Image RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Width="64"
+                   Source="../Resources/icon.png" />
 
             <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">
                 <Run>phos</Run>
-                <Run Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}" 
+                <Run Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}"
                      Text="{Binding Version, Mode=OneWay}" />
             </TextBlock>
-            
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
+
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
                        Text="{Binding UpdatesText}" />
 
             <TextBlock Visibility="{Binding IsError, Converter={StaticResource BooleanToVisibilityConverter}}"
                        Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
                        TextWrapping="Wrap"
                        Text="{Binding ErrorMessage}" />
-            
+
             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5"
                                  Visibility="{Binding UpdateAvailable, 
                                               Converter={StaticResource InvertBooleanToVisibilityConverter}}">
-                <Button Style="{DynamicResource AccentButtonStyle}" 
-                    Command="{Binding CheckUpdatesCommand}" 
-                    Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
-                    IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
+                <Button Style="{DynamicResource AccentButtonStyle}"
+                        Command="{Binding CheckUpdatesCommand}"
+                        Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
+                        IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
 
                 <ui:ProgressRing IsActive="{Binding UpdateChecking}" />
             </ui:SimpleStackPanel>
@@ -62,46 +62,47 @@
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <DockPanel>
-                    <TextBlock Text="{x:Static res:Resources.SettingsAboutVersion}"/>
-                    <TextBlock Text="{Binding CheckResult.LatestVersion}"/>
+                    <TextBlock Text="{x:Static res:Resources.SettingsAboutVersion}" />
+                    <TextBlock Text="{Binding CheckResult.LatestVersion}" />
                 </DockPanel>
 
-                <TextBlock Visibility="{Binding UpdateInstalling, 
+                <TextBlock
+                    Visibility="{Binding UpdateInstalling, 
                            Converter={StaticResource BooleanToVisibilityConverter}}"
-                           Text="{x:Static res:Resources.SettingsAboutInstalling}"/>
+                    Text="{x:Static res:Resources.SettingsAboutInstalling}" />
 
-                <Grid Visibility="{Binding UpdateInstalling, 
+                <Grid
+                    Visibility="{Binding UpdateInstalling, 
                       Converter={StaticResource BooleanToVisibilityConverter}}"
-                      HorizontalAlignment="Left" Width="290">
+                    HorizontalAlignment="Left" Width="290">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="48" />
                     </Grid.ColumnDefinitions>
 
-                    <ProgressBar HorizontalAlignment="Stretch" 
+                    <ProgressBar HorizontalAlignment="Stretch"
                                  Value="{Binding ProgressFloat}" Minimum="0" Maximum="1" />
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Center"
                                Text="{Binding ProgressPercent}" />
                 </Grid>
 
-                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5" 
-                    Visibility="{Binding UpdateInstalling, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5"
+                                     Visibility="{Binding UpdateInstalling, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                     <Button Style="{DynamicResource AccentButtonStyle}"
-                        Content="{x:Static res:Resources.SettingsAboutInstallUpdate}"
-                        IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}"
-                        Command="{Binding UpdateCommand}" />
+                            Content="{x:Static res:Resources.SettingsAboutInstallUpdate}"
+                            IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}"
+                            Command="{Binding UpdateCommand}" />
 
-                    <Button Command="{Binding CheckUpdatesCommand}" 
-                        Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
-                        IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
+                    <Button Command="{Binding CheckUpdatesCommand}"
+                            Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
+                            IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
                 </ui:SimpleStackPanel>
-                
 
-                
+
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="{x:Static res:Resources.SettingsAboutChanges}" />
 
-                <mdxam:MarkdownScrollViewer 
+                <mdxam:MarkdownScrollViewer
                     VerticalScrollBarVisibility="Disabled"
                     MarkdownStyle="{StaticResource MdStyle}"
                     Markdown="{Binding CheckResult.LatestChangeLog}"

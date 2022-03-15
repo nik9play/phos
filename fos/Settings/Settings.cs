@@ -32,17 +32,15 @@ namespace fos
         public string HotkeyUp { get; set; } = "Alt+F2";
         public string HotkeyDown { get; set; } = "Alt+F1";
 
-        [Range(1,25)]
-        public uint HotkeyStep { get; set; } = 5;
-        public HotkeyPopupLocationEnum HotkeyPopupLocation { get; set; } = HotkeyPopupLocationEnum.BottomCenter;
-        
-        [Range(10,1000)]
-        public uint BrightnessChangeInterval { get; set; } = 50;
-        
-        [Range(10,1000)]
-        public uint AllMonitorsBrightnessChangeInterval { get; set; } = 100;
+        [Range(1, 25)] public uint HotkeyStep { get; set; } = 5;
 
-        public List<string> MonitorListLocationOverwrites { get; set; } = new List<string>();
-        public Dictionary<string, MonitorCustomLimits> MonitorCustomLimits { get; set; } = new Dictionary<string, MonitorCustomLimits>();
+        public HotkeyPopupLocationEnum HotkeyPopupLocation { get; set; } = HotkeyPopupLocationEnum.BottomCenter;
+
+        [Range(10, 1000)] public uint BrightnessChangeInterval { get; set; } = 50;
+
+        [Range(10, 1000)] public uint AllMonitorsBrightnessChangeInterval { get; set; } = 100;
+
+        public List<string> MonitorListLocationOverwrites { get; set; } = new();
+        public Dictionary<string, MonitorCustomLimits> MonitorCustomLimits { get; set; } = new();
     }
 }

@@ -1,15 +1,14 @@
 ﻿<ui:Page x:Class="fos.SettingsPages.Hotkeys"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:fos.SettingsPages"
-      xmlns:f="clr-namespace:fos"
-      xmlns:res="clr-namespace:fos.Properties"
-      xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:viewmodels="clr-namespace:fos.ViewModels"
-      d:DataContext="{d:DesignInstance Type=viewmodels:PageHotkeysViewModel}"
-      mc:Ignorable="d"
-      Title="Hotkeys">
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:f="clr-namespace:fos"
+         xmlns:res="clr-namespace:fos.Properties"
+         xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:viewmodels="clr-namespace:fos.ViewModels"
+         d:DataContext="{d:DesignInstance Type=viewmodels:PageHotkeysViewModel}"
+         mc:Ignorable="d"
+         Title="Hotkeys">
 
     <Page.Resources>
         <f:EnumToBoolConverter x:Key="enumConverter" />
@@ -18,77 +17,84 @@
     <f:ScrollViewerEx Padding="0,0,20,0">
         <ui:SimpleStackPanel ui:Spacing="8" HorizontalAlignment="Stretch" x:Name="stackPanel">
             <ui:ToggleSwitch IsOn="{Binding HotkeysEnabled}" Header="{x:Static res:Resources.SettingsHotkeysEnabled}" />
-            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" 
-                     CommandManager.PreviewExecuted="textBox_PreviewExecuted" 
+            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown"
+                     CommandManager.PreviewExecuted="textBox_PreviewExecuted"
                      MinWidth="290"
                      HorizontalAlignment="Left"
                      Text="{Binding HotkeyUp}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyUp}" />
-            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown" 
-                     CommandManager.PreviewExecuted="textBox_PreviewExecuted" 
+            <TextBox PreviewKeyDown="TextBox_PreviewKeyDown"
+                     CommandManager.PreviewExecuted="textBox_PreviewExecuted"
                      MinWidth="290"
                      HorizontalAlignment="Left"
                      Text="{Binding HotkeyDown}" ui:ControlHelper.Header="{x:Static res:Resources.SettingsHotkeyDown}" />
-            <TextBlock Text="{x:Static res:Resources.SettingsHotkeyStep}"/>
+            <TextBlock Text="{x:Static res:Resources.SettingsHotkeyStep}" />
             <Grid Width="290" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42" />
                 </Grid.ColumnDefinitions>
-                <Slider Minimum="1" Maximum="25" 
-                    AutoToolTipPlacement="TopLeft"
-                    TickFrequency="2"
-                    IsMoveToPointEnabled="True"
-                    Value="{Binding HotkeyStep}"
-                    HorizontalAlignment="Stretch"
-                    TickPlacement="TopLeft" />
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Text="{Binding HotkeyStep}" />
+                <Slider Minimum="1" Maximum="25"
+                        AutoToolTipPlacement="TopLeft"
+                        TickFrequency="2"
+                        IsMoveToPointEnabled="True"
+                        Value="{Binding HotkeyStep}"
+                        HorizontalAlignment="Stretch"
+                        TickPlacement="TopLeft" />
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"
+                           Text="{Binding HotkeyStep}" />
             </Grid>
-            <TextBlock Text="{x:Static res:Resources.SettingsHotkeyLocation}"/>
-            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Left" Width="240" Height="135" 
+            <TextBlock Text="{x:Static res:Resources.SettingsHotkeyLocation}" />
+            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Left" Width="240" Height="135"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.TopLeft}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyTopLeft}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}" 
-                                 Width="50" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyTopLeft}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.BottomLeft}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyBottomLeft}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}" 
-                                 Width="50" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyBottomLeft}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
 
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.TopRight}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyTopRight}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}" 
-                                 Width="50" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyTopRight}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" />
 
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.BottomRight}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyBottomRight}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
-                                 Width="50" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyBottomRight}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
 
 
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.BottomCenter}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyBottomCenter}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
-                                 Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyBottomCenter}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
 
-                    <RadioButton IsChecked="{Binding HotkeyPopupLocation, 
+                    <RadioButton
+                        IsChecked="{Binding HotkeyPopupLocation, 
                                     Converter={StaticResource enumConverter},
                                     ConverterParameter={x:Static f:HotkeyPopupLocationEnum.TopCenter}}"
-                                 ToolTip="{x:Static res:Resources.SettingsHotkeyTopCenter}"
-                                 GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}" 
-                                 Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                        ToolTip="{x:Static res:Resources.SettingsHotkeyTopCenter}"
+                        GroupName="PopupLocation" Style="{StaticResource {x:Type ToggleButton}}"
+                        Width="50" Height="40" HorizontalAlignment="Center" VerticalAlignment="Top" />
                 </Grid>
             </Border>
         </ui:SimpleStackPanel>

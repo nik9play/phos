@@ -1,10 +1,13 @@
-﻿using System.Windows;
+﻿using System.Drawing;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using fos.Properties;
 using fos.Tools;
 using Hardcodet.Wpf.TaskbarNotification;
 using ModernWpf;
 using ModernWpf.Controls;
+using Size = System.Drawing.Size;
 
 namespace fos
 {
@@ -16,24 +19,24 @@ namespace fos
         {
             var settingsItem = new MenuItem
             {
-                Header = Properties.Resources.SettingsTitle,
+                Header = Resources.SettingsTitle,
                 Icon = new FontIcon { Glyph = Icons.Settings },
                 Command = CommonCommands.OpenSettingsWindowCommand
             };
 
             var exitItem = new MenuItem
             {
-                Header = Properties.Resources.ContextExit,
+                Header = Resources.ContextExit,
                 Icon = new FontIcon { Glyph = Icons.PowerButton },
                 Command = CommonCommands.ExitApplicationCommand
             };
 
-            ContextMenu taskbarIconContextMenu = new ContextMenu
+            var taskbarIconContextMenu = new ContextMenu
             {
                 Items = { settingsItem, exitItem }
             };
 
-            ToolTip taskbarIconToolTip = new ToolTip { Content = "phos" };
+            var taskbarIconToolTip = new ToolTip { Content = "phos" };
 
             TrayIcon = new TaskbarIcon
             {
@@ -46,11 +49,12 @@ namespace fos
 
         public static void UpdateTheme(ApplicationTheme theme)
         {
-            double factor = VisualTreeHelper.GetDpi(WindowManager.MainWindow).DpiScaleX;
-            var iconSize = new System.Drawing.Size((int)(SystemParameters.SmallIconWidth * factor),
+            var factor = VisualTreeHelper.GetDpi(WindowManager.MainWindow).DpiScaleX;
+            var iconSize = new Size((int)(SystemParameters.SmallIconWidth * factor),
                 (int)(SystemParameters.SmallIconHeight * factor));
-            
-            TrayIcon.Icon = new System.Drawing.Icon(theme == ApplicationTheme.Light ? Properties.Resources.iconBlack : Properties.Resources.iconWhite, iconSize);
+
+            TrayIcon.Icon = new Icon(theme == ApplicationTheme.Light ? Resources.iconBlack : Resources.iconWhite,
+                iconSize);
         }
     }
 }

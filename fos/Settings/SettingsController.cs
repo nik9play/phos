@@ -1,28 +1,21 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
-using NJsonSchema;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.Encodings.Web;
-//using System.Text.Json;
-//using System.Text.Json.Serialization;
-using System.Text.Unicode;
 using System.Threading;
-using System.Threading.Tasks;
+using fos.Properties;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using NJsonSchema;
 
 namespace fos
 {
     public static class SettingsController
     {
-        private static readonly string _configPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
-        public static Settings Store { get; private set; }
-        public static readonly Settings defaultSettings = new Settings();
+        private static readonly string ConfigPath =
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
+
+        public static readonly Settings DefaultSettings = new();
 
         //private static readonly JsonSerializerOptions _options;
 
@@ -38,11 +31,13 @@ namespace fos
             //};
         }
 
+        public static Settings Store { get; private set; }
+
         public static void LoadSettings()
         {
-            if (File.Exists(_configPath))
+            if (File.Exists(ConfigPath))
             {
-                string json = File.ReadAllText(_configPath);
+                var json = File.ReadAllText(ConfigPath);
                 try
                 {
                     var schema = JsonSchema.FromType<Settings>();
@@ -57,8 +52,8 @@ namespace fos
                         Store = new Settings();
 
                         new ToastContentBuilder()
-                            .AddText(Properties.Resources.SettingsSchemaErrorTitle)
-                            .AddText(Properties.Resources.SettingsSchemaErrorDescription)
+                            .AddText(Resources.SettingsSchemaErrorTitle)
+                            .AddText(Resources.SettingsSchemaErrorDescription)
                             .Show();
 
                         return;
@@ -71,8 +66,8 @@ namespace fos
                     Store = new Settings();
 
                     new ToastContentBuilder()
-                        .AddText(Properties.Resources.LoadSettingsErrorTitle)
-                        .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                        .AddText(Resources.LoadSettingsErrorTitle)
+                        .AddText(Resources.LoadSettingsErrorDescription)
                         .Show();
                 }
             }
@@ -86,8 +81,8 @@ namespace fos
                 catch
                 {
                     new ToastContentBuilder()
-                        .AddText(Properties.Resources.LoadSettingsErrorTitle)
-                        .AddText(Properties.Resources.LoadSettingsErrorDescription)
+                        .AddText(Resources.LoadSettingsErrorTitle)
+                        .AddText(Resources.LoadSettingsErrorDescription)
                         .Show();
                 }
             }
@@ -116,17 +111,14 @@ namespace fos
 
         public static void SaveSettings()
         {
-            File.WriteAllText(_configPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
+            File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
         }
 
         public static void OpenSettingsFolder()
         {
-            if (!File.Exists(_configPath))
-            {
-                return;
-            }
+            if (!File.Exists(ConfigPath)) return;
 
-            string argument = "/select, \"" + _configPath + "\"";
+            var argument = "/select, \"" + ConfigPath + "\"";
 
             Process.Start("explorer.exe", argument);
         }

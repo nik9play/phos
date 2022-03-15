@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace fos
+﻿namespace fos
 {
-    static class WindowManager
+    internal static class WindowManager
     {
         public static HotkeyWindow HotkeyWindow { get; private set; }
         public static MainWindow MainWindow { get; private set; }

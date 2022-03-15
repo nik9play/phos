@@ -1,41 +1,44 @@
-﻿using DebounceThrottle;
-using Microsoft.Toolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using DebounceThrottle;
+using fos.Tools;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace fos.ViewModels
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    internal class MainWindowViewModel : INotifyPropertyChanged
     {
-        private static uint _allMonitorsBrightness;
-        private static readonly ThrottleDispatcher _throttleDispatcher = new ThrottleDispatcher((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
+        private static uint allMonitorsBrightness;
+
+        private static readonly ThrottleDispatcher ThrottleDispatcher =
+            new((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
+
+        private bool _allMonitorsModeEnabled;
+
+        public MainWindowViewModel()
+        {
+            Monitors = MonitorTools.GetMonitorList();
+            AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
+            Monitors.CollectionChanged += Monitors_CollectionChanged;
+        }
+
         public static ObservableCollection<IMonitor> Monitors { get; set; }
 
-        public static uint AllMonitorsBrightness { 
-            get
-            {
-                return _allMonitorsBrightness;
-            }
+        public static uint AllMonitorsBrightness
+        {
+            get => allMonitorsBrightness;
 
             set
             {
-                _allMonitorsBrightness = value;
+                allMonitorsBrightness = value;
 
-                _throttleDispatcher.Throttle(() => Task.Run(() =>
+                ThrottleDispatcher.Throttle(() => Task.Run(() =>
                 {
-                    foreach (var el in Monitors)
-                    {
-                        el.Brightness = value;
-                    }
+                    foreach (var el in Monitors) el.Brightness = value;
                 }));
 
 
@@ -43,13 +46,9 @@ namespace fos.ViewModels
             }
         }
 
-        private bool _allMonitorsModeEnabled;
         public bool AllMonitorsModeEnabled
         {
-            get
-            {
-                return _allMonitorsModeEnabled;
-            }
+            get => _allMonitorsModeEnabled;
 
             set
             {
@@ -59,7 +58,7 @@ namespace fos.ViewModels
                 if (Monitors.Count > 0 && value)
                 {
                     uint newBrightness = 0;
-                    foreach (IMonitor el in Monitors)
+                    foreach (var el in Monitors)
                         newBrightness += el.Brightness;
 
                     newBrightness /= (uint)Monitors.Count;
@@ -71,7 +70,7 @@ namespace fos.ViewModels
             }
         }
 
-        public RelayCommand UpdateCommand { get; } = new RelayCommand(() =>
+        public RelayCommand UpdateCommand { get; } = new(() =>
         {
             Monitors.Clear();
 
@@ -81,33 +80,25 @@ namespace fos.ViewModels
                 Monitors.Add(el);
         });
 
-        public RelayCommand OpenSettingsWindowCommand => Tools.CommonCommands.OpenSettingsWindowCommand;
+        public RelayCommand OpenSettingsWindowCommand => CommonCommands.OpenSettingsWindowCommand;
 
-        public MainWindowViewModel()
-        {
-            Monitors = MonitorTools.GetMonitorList();
-            AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
-            Monitors.CollectionChanged += Monitors_CollectionChanged;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Monitors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Monitors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             SettingsController.Store.MonitorListLocationOverwrites.Clear();
-            foreach (IMonitor el in Monitors)
-            {
-                SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
-            }
+            foreach (var el in Monitors) SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
 
             SettingsController.SaveSettings();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
         public static void RaiseStaticPropertyChanged([CallerMemberName] string prop = "")
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(prop));

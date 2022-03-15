@@ -1,45 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace fos
 {
-    class MonitorSettingsElement : INotifyPropertyChanged
+    internal class MonitorSettingsElement : INotifyPropertyChanged
     {
-        private string name;
+        private string _deviceId;
+
+        public MonitorCustomLimits MonitorCustomLimits;
+        private string _name;
+
         public string Name
-        { 
-            get { return name; }
-            
-            set
-            {
-                name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string deviceId;
-        public string DeviceId
-        { 
-            get { return deviceId; }
-            
-            set
-            {
-                deviceId = value;
-                OnPropertyChanged();
-            }
-        
-        }
-
-        public MonitorCustomLimits monitorCustomLimits;
-
-        public int Minimum 
         {
-            get { return monitorCustomLimits.Minimum; }
+            get => _name;
+
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string DeviceId
+        {
+            get => _deviceId;
+
+            set
+            {
+                _deviceId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Minimum
+        {
+            get => MonitorCustomLimits.Minimum;
 
             set
             {
@@ -51,15 +46,15 @@ namespace fos
                     Maximum = value + 10;
                 }
 
-                monitorCustomLimits.Minimum = value;
-                SettingsController.Store.MonitorCustomLimits[DeviceId] = monitorCustomLimits;
+                MonitorCustomLimits.Minimum = value;
+                SettingsController.Store.MonitorCustomLimits[DeviceId] = MonitorCustomLimits;
                 OnPropertyChanged();
             }
         }
 
-        public int Maximum 
+        public int Maximum
         {
-            get { return monitorCustomLimits.Maximum; }
+            get => MonitorCustomLimits.Maximum;
 
             set
             {
@@ -71,13 +66,14 @@ namespace fos
                     Minimum = value - 10;
                 }
 
-                monitorCustomLimits.Maximum = value;
-                SettingsController.Store.MonitorCustomLimits[DeviceId] = monitorCustomLimits;
+                MonitorCustomLimits.Maximum = value;
+                SettingsController.Store.MonitorCustomLimits[DeviceId] = MonitorCustomLimits;
                 OnPropertyChanged();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

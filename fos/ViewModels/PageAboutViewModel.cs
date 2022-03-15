@@ -1,65 +1,143 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using fos.Properties;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace fos.ViewModels
 {
-    class PageAboutViewModel : INotifyPropertyChanged
+    internal class PageAboutViewModel : INotifyPropertyChanged
     {
-        public string Version => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+        private static bool updateChecking;
+
+        private static UpdateCheckResult checkResult;
+
+        private static bool isError;
+
+        private static string errorMessage;
+
+        private static string updatesText = Resources.SettingsAboutNoUpdates;
+
+        private static bool updateAvailable;
+
+        private static float progress;
+
+        private static int progressPercent;
+
+        private static bool updateInstalling;
+
+        private readonly CancellationTokenSource _cancelTokenSource = new();
 
         public PageAboutViewModel()
         {
-            CheckUpdatesCommand = new AsyncRelayCommand(checkUpdates);
+            CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
             UpdateCommand = new AsyncRelayCommand(Update);
         }
 
-        static private bool updateChecking = false;
+        public string Version =>
+            FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+
         public bool UpdateChecking
         {
-            get { return updateChecking; }
-            set { updateChecking = value; OnPropertyChanged(); }
+            get => updateChecking;
+            set
+            {
+                updateChecking = value;
+                OnPropertyChanged();
+            }
         }
 
-        static private UpdateCheckResult checkResult;
         public UpdateCheckResult CheckResult
         {
-            get { return checkResult; }
-            set { checkResult = value; OnPropertyChanged(); }
+            get => checkResult;
+            set
+            {
+                checkResult = value;
+                OnPropertyChanged();
+            }
         }
 
-        static private bool isError;
         public bool IsError
         {
-            get { return isError; }
-            set { isError = value; OnPropertyChanged(); }
+            get => isError;
+            set
+            {
+                isError = value;
+                OnPropertyChanged();
+            }
         }
 
-        static private string errorMessage;
         public string ErrorMessage
         {
-            get { return errorMessage; }
-            set { errorMessage = value; OnPropertyChanged(); }
+            get => errorMessage;
+            set
+            {
+                errorMessage = value;
+                OnPropertyChanged();
+            }
         }
 
-        static private string updatesText = Properties.Resources.SettingsAboutNoUpdates;
         public string UpdatesText
         {
-            get { return updatesText; }
-            set { updatesText = value; OnPropertyChanged(); }
+            get => updatesText;
+            set
+            {
+                updatesText = value;
+                OnPropertyChanged();
+            }
         }
 
         public IAsyncRelayCommand CheckUpdatesCommand { get; }
-        private async Task checkUpdates()
+
+        public bool UpdateAvailable
+        {
+            get => updateAvailable;
+            set
+            {
+                updateAvailable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public float ProgressFloat
+        {
+            get => progress;
+            set
+            {
+                progress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ProgressPercent
+        {
+            get => progressPercent;
+            set
+            {
+                progressPercent = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool UpdateInstalling
+        {
+            get => updateInstalling;
+            set
+            {
+                updateInstalling = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IAsyncRelayCommand UpdateCommand { get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private async Task CheckUpdates()
         {
             UpdateChecking = true;
             IsError = false;
@@ -69,50 +147,22 @@ namespace fos.ViewModels
                 CheckResult = await UpdateManager.CheckUpdates();
                 if (CheckResult.UpdateAvailable)
                 {
-                    UpdatesText = Properties.Resources.SettingsAboutUpdateAvailable;
+                    UpdatesText = Resources.SettingsAboutUpdateAvailable;
                     UpdateAvailable = true;
                 }
                 else
                 {
-                    UpdatesText = Properties.Resources.SettingsAboutNoUpdates;
+                    UpdatesText = Resources.SettingsAboutNoUpdates;
                     UpdateAvailable = false;
                 }
             }
             catch (Exception ex)
             {
                 IsError = true;
-                ErrorMessage = $"{Properties.Resources.SettingsAboutErrorMessage}: {ex.Message}";
+                ErrorMessage = $"{Resources.SettingsAboutErrorMessage}: {ex.Message}";
             }
 
             UpdateChecking = false;
-        }
-
-        static private bool updateAvailable;
-        public bool UpdateAvailable
-        {
-            get { return updateAvailable; }
-            set { updateAvailable = value; OnPropertyChanged(); }
-        }
-
-        static private float progress = 0;
-        public float ProgressFloat
-        {
-            get { return progress; }
-            set { progress = value; OnPropertyChanged(); }
-        }
-
-        static private int progressPercent = 0;
-        public int ProgressPercent
-        {
-            get { return progressPercent; }
-            set { progressPercent = value; OnPropertyChanged(); }
-        }
-
-        static private bool updateInstalling;
-        public bool UpdateInstalling
-        {
-            get { return updateInstalling; }
-            set { updateInstalling = value; OnPropertyChanged(); }
         }
 
         private void ReportProgress(float value)
@@ -121,17 +171,15 @@ namespace fos.ViewModels
             ProgressPercent = (int)(value * 100);
         }
 
-        private CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
         private void ShowError(Exception ex)
         {
             IsError = true;
             ErrorMessage = $"{ex.Message}";
             UpdateAvailable = false;
             UpdateInstalling = false;
-            UpdatesText = Properties.Resources.SettingsAboutErrorMessage;
+            UpdatesText = Resources.SettingsAboutErrorMessage;
         }
 
-        public IAsyncRelayCommand UpdateCommand { get; }
         private async Task Update()
         {
             var progressIndicator = new Progress<float>(ReportProgress);
@@ -140,7 +188,7 @@ namespace fos.ViewModels
             ProgressFloat = 0;
             ProgressPercent = 0;
 
-            CancellationToken cancellationToken = cancelTokenSource.Token;
+            var cancellationToken = _cancelTokenSource.Token;
 
             try
             {
@@ -159,7 +207,6 @@ namespace fos.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

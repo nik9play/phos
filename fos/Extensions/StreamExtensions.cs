@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +7,8 @@ namespace fos.Extensions
 {
     public static class StreamExtensions
     {
-        public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize, IProgress<long> progress = null, CancellationToken cancellationToken = default)
+        public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize,
+            IProgress<long> progress = null, CancellationToken cancellationToken = default)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -26,7 +24,8 @@ namespace fos.Extensions
             var buffer = new byte[bufferSize];
             long totalBytesRead = 0;
             int bytesRead;
-            while ((bytesRead = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0)
+            while ((bytesRead =
+                       await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0)
             {
                 await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
                 totalBytesRead += bytesRead;

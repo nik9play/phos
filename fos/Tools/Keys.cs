@@ -1,28 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace fos
 {
-    class Keys
+    internal class Keys
     {
-        public ModifierKeys Modifiers;
         public Key MainKey;
+        public ModifierKeys Modifiers;
 
-        public KeyGesture GetGesture()
+        public Keys(string hotkeyString)
         {
-            return new KeyGesture(MainKey, Modifiers);
-        }
-
-        public Keys(string HotkeyString)
-        {
-            string[] HotkeyArray = HotkeyString.Split('+');
-            foreach (string Element in HotkeyArray)
-            {
-                switch (Element)
+            var hotkeyArray = hotkeyString.Split('+');
+            foreach (var element in hotkeyArray)
+                switch (element)
                 {
                     case "Ctrl":
                         Modifiers |= ModifierKeys.Control;
@@ -34,10 +24,14 @@ namespace fos
                         Modifiers |= ModifierKeys.Shift;
                         break;
                     default:
-                        Enum.TryParse(Element, out MainKey);
+                        Enum.TryParse(element, out MainKey);
                         break;
                 }
-            }
+        }
+
+        public KeyGesture GetGesture()
+        {
+            return new KeyGesture(MainKey, Modifiers);
         }
     }
 }

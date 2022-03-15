@@ -1,59 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using fos.SettingsPages;
+using fos.Workarounds;
+using ModernWpf.Controls;
 
 namespace fos
 {
     /// <summary>
-    /// Логика взаимодействия для SettingsWindow.xaml
+    ///     Логика взаимодействия для SettingsWindow.xaml
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        private bool _isActive;
+
         public SettingsWindow()
         {
             InitializeComponent();
-            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon.ico", UriKind.RelativeOrAbsolute));
-            double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon.ico",
+                UriKind.RelativeOrAbsolute));
+            var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
             if (factor > 1.0)
-                Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon2.ico", UriKind.RelativeOrAbsolute));
+                Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon2.ico",
+                    UriKind.RelativeOrAbsolute));
         }
 
-        private void NavigationView_SelectionChanged(ModernWpf.Controls.NavigationView sender, ModernWpf.Controls.NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(NavigationView sender,
+            NavigationViewSelectionChangedEventArgs args)
         {
-            var selectedItem = (ModernWpf.Controls.NavigationViewItem)args.SelectedItem;
+            var selectedItem = (NavigationViewItem)args.SelectedItem;
             if (selectedItem != null)
             {
-                string Tag = (string)selectedItem.Tag;
+                var Tag = (string)selectedItem.Tag;
 
                 switch (Tag)
                 {
                     case "General":
-                        ContentFrame.Navigate(typeof(SettingsPages.General));
+                        ContentFrame.Navigate(typeof(General));
                         NavView.Header = Properties.Resources.SettingsGeneral;
                         break;
                     case "Hotkeys":
-                        ContentFrame.Navigate(typeof(SettingsPages.Hotkeys));
+                        ContentFrame.Navigate(typeof(Hotkeys));
                         NavView.Header = Properties.Resources.SettingsHotkeys;
                         break;
                     case "About":
-                        ContentFrame.Navigate(typeof(SettingsPages.About));
+                        ContentFrame.Navigate(typeof(About));
                         NavView.Header = Properties.Resources.SettingsAbout;
                         break;
                     case "Monitors":
-                        ContentFrame.Navigate(typeof(SettingsPages.Monitors));
+                        ContentFrame.Navigate(typeof(Monitors));
                         NavView.Header = Properties.Resources.SettingsMonitors;
                         break;
                 }
@@ -65,13 +63,11 @@ namespace fos
             NavView.SelectedItem = AboutItem;
         }
 
-        private bool _isActive;
-
         protected override void OnActivated(EventArgs e)
         {
             if (!_isActive)
             {
-                Workarounds.RenderLoopFix.ApplyFix();
+                RenderLoopFix.ApplyFix();
                 _isActive = true;
             }
 
@@ -87,7 +83,7 @@ namespace fos
         {
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             Hide();
             e.Cancel = true;

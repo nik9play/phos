@@ -1,26 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Management;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ModernWpf;
+using fos.ViewModels;
 
 namespace fos
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -28,7 +16,7 @@ namespace fos
         {
             InitializeComponent();
 
-            DataContext = new ViewModels.MainWindowViewModel();
+            DataContext = new MainWindowViewModel();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -39,7 +27,7 @@ namespace fos
         {
             var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
-            double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+            var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
             if (currentMonitorInfo.WorkingArea.Height < currentMonitorInfo.Bounds.Height)
             {
@@ -71,7 +59,7 @@ namespace fos
                     ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
                 }
             }
-            
+
             Height = currentMonitorInfo.WorkingArea.Height / factor;
 
             //Left = desktopWorkingArea.Right / factor - ActualWidth;
@@ -108,10 +96,7 @@ namespace fos
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.System && e.SystemKey == Key.F4)
-            {
-                e.Handled = true;
-            }
+            if (e.Key == Key.System && e.SystemKey == Key.F4) e.Handled = true;
         }
     }
 }

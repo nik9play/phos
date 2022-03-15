@@ -1,35 +1,32 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace fos
 {
     /// <summary>
-    /// Логика взаимодействия для WelcomeWindow.xaml
+    ///     Логика взаимодействия для WelcomeWindow.xaml
     /// </summary>
     public partial class WelcomeWindow : Window
     {
+        private readonly DispatcherTimer _closingTimer = new()
+        {
+            Interval = TimeSpan.FromMilliseconds(400)
+        };
+
+        private bool _isClosing;
+
         public WelcomeWindow()
         {
             InitializeComponent();
 
-            closingTimer.Tick += (s, e) =>
+            _closingTimer.Tick += (s, e) =>
             {
                 Close();
-                closingTimer.Stop();
+                _closingTimer.Stop();
             };
         }
 
@@ -42,7 +39,7 @@ namespace fos
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+                DragMove();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -50,24 +47,18 @@ namespace fos
             Close();
         }
 
-        private bool IsClosing = false;
-        private DispatcherTimer closingTimer = new DispatcherTimer
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Interval = TimeSpan.FromMilliseconds(400)
-        };
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!IsClosing)
+            if (!_isClosing)
             {
                 SettingsController.Store.FirstStart = false;
                 SettingsController.SaveSettings();
 
-                (FindResource("ClosingAnimation") as Storyboard).Begin(this);
+                (FindResource("ClosingAnimation") as Storyboard)?.Begin(this);
 
                 e.Cancel = true;
-                IsClosing = true;
-                closingTimer.Start();
+                _isClosing = true;
+                _closingTimer.Start();
             }
         }
     }

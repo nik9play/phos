@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace fos
 {
     public class MouseWheelBehavior
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
-                "Value", typeof(int), typeof(MouseWheelBehavior), new PropertyMetadata(Value));
+            "Value", typeof(int), typeof(MouseWheelBehavior), new PropertyMetadata(Value));
 
         public static void SetValue(Slider element, int value)
         {
@@ -28,26 +22,20 @@ namespace fos
         {
             if (d is Slider)
             {
-                Slider slider = (Slider)d;
+                var slider = (Slider)d;
                 slider.PreviewMouseWheel += (s, arg) =>
                 {
-                    Slider sl = s as Slider;
-                    
+                    var sl = s as Slider;
+
                     if (arg.Delta < 0)
                     {
-                        double newVal = sl.Value - sl.SmallChange * GetValue(sl);
-                        if (newVal < sl.Minimum)
-                            sl.Value = sl.Minimum;
-                        else
-                            sl.Value = newVal;
+                        var newVal = sl.Value - sl.SmallChange * GetValue(sl);
+                        sl.Value = newVal < sl.Minimum ? sl.Minimum : newVal;
                     }
                     else
                     {
-                        double newVal = sl.Value + sl.SmallChange * GetValue(sl);
-                        if (newVal > sl.Maximum)
-                            sl.Value = sl.Maximum;
-                        else
-                            sl.Value = newVal;
+                        var newVal = sl.Value + sl.SmallChange * GetValue(sl);
+                        sl.Value = newVal > sl.Maximum ? sl.Maximum : newVal;
                     }
                 };
             }

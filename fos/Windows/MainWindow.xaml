@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:fos"
-        xmlns:tools="clr-namespace:fos.Tools"
-        xmlns:ui="http://schemas.modernwpf.com/2019" 
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:viewmodels="clr-namespace:fos.ViewModels"
         xmlns:res="clr-namespace:fos.Properties"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
@@ -29,31 +28,10 @@
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
-        <Storyboard x:Key="ShowPopup">
-            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-            </ObjectAnimationUsingKeyFrames>
 
-            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="380" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="0" KeySpline="0.3, 0.9, 0.2, 1" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <Storyboard x:Key="HidePopup">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
-            </DoubleAnimationUsingKeyFrames>
-
-            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
-
-        <local:BooleanToVisibilityConverter 
-            x:Key="BooleanToVisibilityConverter" 
-            True="Visible" 
+        <local:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            True="Visible"
             False="Collapsed" />
 
         <local:BooleanToVisibilityConverter
@@ -68,7 +46,8 @@
                 <TranslateTransform x:Name="T1" />
             </ui:ThemeShadowChrome.RenderTransform>
 
-            <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True" BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+            <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True"
+                    BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -76,7 +55,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <ItemsControl Grid.Row="0" 
+                    <ItemsControl Grid.Row="0"
                                   Visibility="{Binding AllMonitorsModeEnabled, 
                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}"
                                   dd:DragDrop.IsDragSource="True"
@@ -91,96 +70,100 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="5" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Padding="8,8,4,8" x:Name="Outer">
+                                <Border CornerRadius="5"
+                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                        Padding="8,8,4,8" x:Name="Outer">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="32"/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="48"/>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="48" />
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
+                                            <RowDefinition />
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
 
-                                        <ui:FontIcon Grid.Row="1" VerticalAlignment="Center" 
+                                        <ui:FontIcon Grid.Row="1" VerticalAlignment="Center"
                                                      HorizontalAlignment="Left" Glyph="&#xEC8A;" FontSize="26" />
                                         <TextBlock AllowDrop="True"
-                                                   Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" 
+                                                   Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10"
                                                    Grid.ColumnSpan="3" Text="{Binding Path=Name}"
-                                                   Cursor="SizeAll"/>
-                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Brightness}" 
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                                                   Cursor="SizeAll" />
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Brightness}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="16" />
                                         <Slider IsMoveToPointEnabled="True"
                                                 Value="{Binding Path=Brightness}"
                                                 Maximum="100"
                                                 Style="{StaticResource Win11SliderStyle}"
                                                 local:MouseWheelBehavior.Value="2"
                                                 TickFrequency="1" SmallChange="1"
-                                                Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                                Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                                HorizontalAlignment="Stretch" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    
-                    
-                    <StackPanel 
+
+                    <StackPanel
                         Visibility="{Binding AllMonitorsModeEnabled, 
-                                             Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                Margin="0,0,0,16">
+                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Margin="0,0,0,16">
                         <Border Margin="16,16,8,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32"/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="48" />
                                 </Grid.ColumnDefinitions>
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <ui:FontIcon Grid.Row="1" VerticalAlignment="Center" 
-                                        HorizontalAlignment="Left" Glyph="&#xEC8A;" FontSize="26" />
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10" 
-                                        Grid.ColumnSpan="3" Text="{x:Static res:Resources.AllMonitorsMode}" />
-                                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AllMonitorsBrightness}" 
-                                        HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                                <ui:FontIcon Grid.Row="1" VerticalAlignment="Center"
+                                             HorizontalAlignment="Left" Glyph="&#xEC8A;" FontSize="26" />
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,10"
+                                           Grid.ColumnSpan="3" Text="{x:Static res:Resources.AllMonitorsMode}" />
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AllMonitorsBrightness}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
                                 <Slider IsMoveToPointEnabled="True"
-                                        IsSnapToTickEnabled="True" 
+                                        IsSnapToTickEnabled="True"
                                         Value="{Binding AllMonitorsBrightness}"
-                                        Maximum="100" 
+                                        Maximum="100"
                                         local:MouseWheelBehavior.Value="2"
                                         Style="{StaticResource Win11SliderStyle}"
-                                        TickFrequency="1" SmallChange="1" 
-                                        Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                        TickFrequency="1" SmallChange="1"
+                                        Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                        HorizontalAlignment="Stretch" />
                             </Grid>
                         </Border>
                     </StackPanel>
 
                     <Grid Grid.Row="1">
                         <Border CornerRadius="0,0,10,10" BorderThickness="0,0,0,0"
-                                BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
+                                BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                             <ui:CommandBar DefaultLabelPosition="Collapsed" Background="Transparent">
                                 <ui:AppBarToggleButton
                                     Width="36"
                                     IsChecked="{Binding AllMonitorsModeEnabled}"
                                     ToolTip="{x:Static res:Resources.AllMonitorsMode}" Icon="Link" />
-                                <ui:AppBarButton 
+                                <ui:AppBarButton
                                     Width="36"
                                     ToolTip="{x:Static res:Resources.SettingsTitle}" Icon="Setting"
-                                    Command="{Binding OpenSettingsWindowCommand}"/>
-                                <ui:AppBarButton 
+                                    Command="{Binding OpenSettingsWindowCommand}" />
+                                <ui:AppBarButton
                                     Width="36"
                                     CornerRadius="0,0,8,0"
                                     ToolTip="{x:Static res:Resources.ReloadList}"
                                     Command="{Binding UpdateCommand}" Icon="Refresh" />
                             </ui:CommandBar>
-                        </Border> 
+                        </Border>
                     </Grid>
                 </Grid>
             </Border>

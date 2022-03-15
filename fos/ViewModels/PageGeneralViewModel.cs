@@ -1,78 +1,90 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Resources;
-using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+using fos.Properties;
+using Microsoft.Win32;
 
 namespace fos.ViewModels
 {
-    class Language
+    internal class Language
     {
         public string Id { get; set; }
         public string Name { get; set; }
     }
-    class PageGeneralViewModel : INotifyPropertyChanged
-    { 
-        private RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        private bool autoStart;
+
+    internal class PageGeneralViewModel : INotifyPropertyChanged
+    {
+        private uint _allMonitorsbrightnessChangeInterval = SettingsController.Store.AllMonitorsBrightnessChangeInterval;
+
+        private bool _autoCheckUpdates = SettingsController.Store.AutoUpdateCheckEnabled;
+        private bool _autoStart;
+
+        private uint _brightnessChangeInterval = SettingsController.Store.BrightnessChangeInterval;
+
+        private bool _restartRequired;
+
+        private readonly RegistryKey _rkApp =
+            Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+        private string _selectedLanguage = SettingsController.Store.Language;
+
+        public PageGeneralViewModel()
+        {
+            _autoStart = _rkApp.GetValue("phos") != null;
+        }
+
         public bool AutoStart
         {
-            get { return autoStart; }
+            get => _autoStart;
 
             set
             {
-                autoStart = value;
+                _autoStart = value;
                 if (value)
-                    rkApp.SetValue("phos", Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "phos.exe"));
+                    _rkApp.SetValue("phos",
+                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "phos.exe"));
                 else
-                    rkApp.DeleteValue("phos");
+                    _rkApp.DeleteValue("phos");
 
                 OnPropertyChanged();
             }
         }
 
-        private uint brightnessChangeInterval = SettingsController.Store.BrightnessChangeInterval;
         public uint BrightnessChangeInterval
         {
-            get { return brightnessChangeInterval; }
+            get => _brightnessChangeInterval;
             set
             {
-                brightnessChangeInterval = value;
-                SettingsController.Store.BrightnessChangeInterval = brightnessChangeInterval;
+                _brightnessChangeInterval = value;
+                SettingsController.Store.BrightnessChangeInterval = _brightnessChangeInterval;
                 RestartRequired = true;
                 OnPropertyChanged();
             }
         }
 
-        private uint allMonitorsbrightnessChangeInterval = SettingsController.Store.AllMonitorsBrightnessChangeInterval;
         public uint AllMonitorsBrightnessChangeInterval
         {
-            get { return allMonitorsbrightnessChangeInterval; }
+            get => _allMonitorsbrightnessChangeInterval;
             set
             {
-                allMonitorsbrightnessChangeInterval = value;
-                SettingsController.Store.AllMonitorsBrightnessChangeInterval = allMonitorsbrightnessChangeInterval;
+                _allMonitorsbrightnessChangeInterval = value;
+                SettingsController.Store.AllMonitorsBrightnessChangeInterval = _allMonitorsbrightnessChangeInterval;
                 RestartRequired = true;
                 OnPropertyChanged();
             }
         }
 
-        private bool autoCheckUpdates = SettingsController.Store.AutoUpdateCheckEnabled;
         public bool AutoCheckUpdates
         {
-            get { return autoCheckUpdates; }
+            get => _autoCheckUpdates;
 
-            set 
+            set
             {
-                autoCheckUpdates = value;
+                _autoCheckUpdates = value;
                 SettingsController.Store.AutoUpdateCheckEnabled = value;
 
                 if (value)
@@ -86,53 +98,61 @@ namespace fos.ViewModels
 
         public ObservableCollection<Language> AvailableLanguages { get; } = GetAvailableLanguages();
 
-        public PageGeneralViewModel()
-        {
-            autoStart = rkApp.GetValue("phos") != null;
-        }
-
-        private string selectedLanguage = SettingsController.Store.Language;
         public string SelectedLanguage
         {
-            get { return selectedLanguage; }
-            set { selectedLanguage = value; SettingsController.Store.Language = value; RestartRequired = true; OnPropertyChanged(); }
+            get => _selectedLanguage;
+            set
+            {
+                _selectedLanguage = value;
+                SettingsController.Store.Language = value;
+                RestartRequired = true;
+                OnPropertyChanged();
+            }
         }
 
-        private bool restartRequired = false;
         public bool RestartRequired
         {
-            get { return restartRequired; }
-            set { restartRequired = value; OnPropertyChanged();}
+            get => _restartRequired;
+            set
+            {
+                _restartRequired = value;
+                OnPropertyChanged();
+            }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public static ObservableCollection<Language> GetAvailableLanguages()
         {
             var languages = new ObservableCollection<Language>();
-            languages.Add(new Language() { Id = "system", Name = Properties.Resources.SettingsGeneralLanguageSystem });
+            languages.Add(new Language { Id = "system", Name = Resources.SettingsGeneralLanguageSystem });
 
-            ResourceManager rm = new ResourceManager(typeof(Properties.Resources));
+            var rm = new ResourceManager(typeof(Resources));
 
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-            foreach (CultureInfo culture in cultures)
-            {
+            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            foreach (var culture in cultures)
                 try
                 {
                     if (culture.Equals(CultureInfo.InvariantCulture))
                     {
-                        languages.Add(new Language() { Id = "en", Name = "English - English [en]" });
+                        languages.Add(new Language { Id = "en", Name = "English - English [en]" });
                         continue;
                     }
 
-                    ResourceSet rs = rm.GetResourceSet(culture, true, false);
+                    var rs = rm.GetResourceSet(culture, true, false);
                     if (rs != null)
-                        languages.Add(new Language() { Id = culture.Name, Name = $"{culture.NativeName} - {culture.EnglishName} [{culture.Name}]" });
+                        languages.Add(new Language
+                        {
+                            Id = culture.Name, Name = $"{culture.NativeName} - {culture.EnglishName} [{culture.Name}]"
+                        });
                 }
-                catch (CultureNotFoundException) { }
-            }
+                catch (CultureNotFoundException)
+                {
+                }
+
             return languages;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

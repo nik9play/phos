@@ -1,14 +1,17 @@
-﻿namespace fos.SettingsPages
+﻿using fos.ViewModels;
+using ModernWpf.Controls;
+
+namespace fos.SettingsPages
 {
     /// <summary>
-    /// Логика взаимодействия для Monitors.xaml
+    ///     Логика взаимодействия для Monitors.xaml
     /// </summary>
-    public partial class Monitors : ModernWpf.Controls.Page
+    public partial class Monitors : Page
     {
         public Monitors()
         {
             InitializeComponent();
-            DataContext = new ViewModels.PageMonitorsViewModel();
+            DataContext = new PageMonitorsViewModel();
         }
     }
 }

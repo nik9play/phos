@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using fos.Extensions;
+using fos.Properties;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace fos
@@ -40,9 +37,9 @@ namespace fos
     static class UpdateManager
     {
 #if DEBUG
-        static readonly string apiUrl = "http://localhost:8000/huita.json";
+        private const string ApiUrl = "http://localhost:8000/huita.json";
 #else
-        static readonly string apiUrl = "https://api.github.com/repos/nik9play/phos/releases/latest";
+        private const string ApiUrl = "https://api.github.com/repos/nik9play/phos/releases/latest";
 #endif
 
         private static readonly HttpClient client = new HttpClient();
@@ -55,7 +52,7 @@ namespace fos
 
         public static async Task<UpdateCheckResult> CheckUpdates()
         {
-            using (var response = await client.GetAsync(apiUrl))
+            using (var response = await client.GetAsync(ApiUrl))
             {
                 using (var content = response.Content)
                 {
@@ -66,17 +63,13 @@ namespace fos
                     string downloadUrl = result.assets[0].browser_download_url;
                     string changeLog = result.body;
 
-                    Version currentVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion);
+                    Version currentVersion = new Version(FileVersionInfo
+                        .GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion);
 
-                    bool updateAvailable = false;
-
-                    if (version.CompareTo(currentVersion) > 0)
-                    {
-                        updateAvailable = true;
-                    }
+                    bool updateAvailable = version.CompareTo(currentVersion) > 0;
 
                     return new UpdateCheckResult
-                    { 
+                    {
                         UpdateAvailable = updateAvailable,
                         LatestVersionUrl = downloadUrl,
                         LatestChangeLog = changeLog,
@@ -86,12 +79,14 @@ namespace fos
             }
         }
 
-        public static async Task Update(UpdateCheckResult updateCheckResult, IProgress<float> progress, CancellationToken cancellationToken)
+        public static async Task Update(UpdateCheckResult updateCheckResult, IProgress<float> progress,
+            CancellationToken cancellationToken)
         {
             Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "phos.updates"));
-            string fileName = Path.Combine(Path.GetTempPath(), "phos.updates", "phos_update_" + Guid.NewGuid().ToString() + ".exe");
+            string fileName = Path.Combine(Path.GetTempPath(), "phos.updates",
+                "phos_update_" + Guid.NewGuid().ToString() + ".exe");
 
-            using (var fileStream = new FileStream(fileName, FileMode.CreateNew))
+            await using (var fileStream = new FileStream(fileName, FileMode.CreateNew))
             {
                 await client.DownloadAsync(updateCheckResult.LatestVersionUrl, fileStream, progress, cancellationToken);
             }
@@ -106,22 +101,22 @@ namespace fos
             Application.Current.Shutdown();
         }
 
-        static private DispatcherTimer checkUpdateTimer = new DispatcherTimer
+        private static readonly DispatcherTimer CheckUpdateTimer = new()
         {
             Interval = TimeSpan.FromHours(2)
         };
 
-        static public void StartTimer()
+        public static void StartTimer()
         {
-            checkUpdateTimer.Start();
+            CheckUpdateTimer.Start();
         }
 
-        static public void StopTimer()
+        public static void StopTimer()
         {
-            checkUpdateTimer.Stop();
+            CheckUpdateTimer.Stop();
         }
 
-        static public async Task CheckUpdatesSilent()
+        public static async Task CheckUpdatesSilent()
         {
             try
             {
@@ -131,17 +126,20 @@ namespace fos
                 {
                     new ToastContentBuilder()
                         .AddArgument("action", "update")
-                        .AddText(Properties.Resources.SettingsAboutUpdateAvailable)
-                        .AddText(Properties.Resources.SettingsAboutVersion + updateCheckResult.LatestVersion)
+                        .AddText(Resources.SettingsAboutUpdateAvailable)
+                        .AddText(Resources.SettingsAboutVersion + updateCheckResult.LatestVersion)
                         .Show();
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
-        static public void InitTimer()
+        public static void InitTimer()
         {
-            checkUpdateTimer.Tick += new EventHandler(async (object s, EventArgs a) => await CheckUpdatesSilent());
+            CheckUpdateTimer.Tick += async (_, _) => await CheckUpdatesSilent();
         }
     }
 }

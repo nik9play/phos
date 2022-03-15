@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace fos
 {
     /// <summary>
-    /// Логика взаимодействия для HotkeyWindow.xaml
+    ///     Логика взаимодействия для HotkeyWindow.xaml
     /// </summary>
     public partial class HotkeyWindow : Window
     {
+        private readonly DispatcherTimer HideTimer = new()
+        {
+            Interval = new TimeSpan(0, 0, 3)
+        };
+
         public HotkeyWindow()
         {
-            HideTimer.Tick += (senderT, eT) => {
+            HideTimer.Tick += (senderT, eT) =>
+            {
                 HideMe();
                 HideTimer.Stop();
             };
@@ -32,21 +29,16 @@ namespace fos
             SetPosition();
         }
 
-        private readonly DispatcherTimer HideTimer = new DispatcherTimer()
-        {
-            Interval = new TimeSpan(0, 0, 3)
-        };
-
         public void SetPosition()
         {
             var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
-            double factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+            var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
 
             switch (SettingsController.Store.HotkeyPopupLocation)
             {
                 case HotkeyPopupLocationEnum.TopLeft:
-                    Top = currentMonitorInfo.WorkingArea.Y/ factor;
+                    Top = currentMonitorInfo.WorkingArea.Y / factor;
                     Left = currentMonitorInfo.WorkingArea.X / factor;
                     break;
                 case HotkeyPopupLocationEnum.BottomLeft:
@@ -63,11 +55,13 @@ namespace fos
                     break;
                 case HotkeyPopupLocationEnum.BottomCenter:
                     Top = (currentMonitorInfo.WorkingArea.Y + currentMonitorInfo.WorkingArea.Height) / factor - Height;
-                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor - Width / 2;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor -
+                           Width / 2;
                     break;
                 case HotkeyPopupLocationEnum.TopCenter:
                     Top = currentMonitorInfo.WorkingArea.Y / factor;
-                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor - Width / 2;
+                    Left = (currentMonitorInfo.WorkingArea.X + currentMonitorInfo.WorkingArea.Width / 2) / factor -
+                           Width / 2;
                     break;
             }
         }
@@ -87,7 +81,6 @@ namespace fos
                     (FindResource("HidePopupDown") as Storyboard).Begin(this);
                     break;
             }
-            
         }
 
         private void ShowMe()
@@ -125,10 +118,7 @@ namespace fos
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.System && e.SystemKey == Key.F4)
-            {
-                e.Handled = true;
-            }
+            if (e.Key == Key.System && e.SystemKey == Key.F4) e.Handled = true;
         }
     }
 }

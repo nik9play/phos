@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +8,8 @@ namespace fos.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task DownloadAsync(this HttpClient client, string requestUri, Stream destination, IProgress<float> progress = null, 
+        public static async Task DownloadAsync(this HttpClient client, string requestUri, Stream destination,
+            IProgress<float> progress = null,
             CancellationToken cancellationToken = default)
         {
             using (var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead))
@@ -26,7 +24,8 @@ namespace fos.Extensions
                         return;
                     }
 
-                    var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
+                    var relativeProgress = new Progress<long>(totalBytes =>
+                        progress.Report((float)totalBytes / contentLength.Value));
                     await download.CopyToAsync(destination, 81920, relativeProgress, cancellationToken);
                     progress.Report(1);
                 }

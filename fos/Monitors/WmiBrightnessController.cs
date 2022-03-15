@@ -1,56 +1,46 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace fos
 {
-    class WmiBrightnessController
+    internal class WmiBrightnessController
     {
         //private uint minBrightness = 0;
-        private uint maxBrightness;
+        private readonly uint _maxBrightness;
+        private readonly ObjectQuery _query = new("SELECT * FROM WmiMonitorBrightness");
+        private readonly SelectQuery _queryMethods = new("WmiMonitorBrightnessMethods");
 
-        private ManagementScope scope = new ManagementScope("root\\WMI");
-        private ObjectQuery query = new ObjectQuery("SELECT * FROM WmiMonitorBrightness");
-        private SelectQuery queryMethods = new SelectQuery("WmiMonitorBrightnessMethods");
+        private readonly ManagementScope _scope = new("root\\WMI");
 
         public WmiBrightnessController()
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
+            var searcher = new ManagementObjectSearcher(_scope, _query);
 
-            ManagementObjectCollection queryCollection = searcher.Get();
+            var queryCollection = searcher.Get();
 
-            foreach (ManagementObject m in queryCollection)
-            {
-                maxBrightness = (uint)m["Levels"] - 1;
-            }
+            foreach (ManagementObject m in queryCollection) _maxBrightness = (uint)m["Levels"] - 1;
         }
 
         public uint GetBrightness()
         {
-            using ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, query);
-            using ManagementObjectCollection queryCollection = searcher.Get();
+            using var searcher = new ManagementObjectSearcher(_scope, _query);
+            using var queryCollection = searcher.Get();
 
             foreach (ManagementObject m in queryCollection)
-            {
-                return (uint)(Convert.ToSingle(m["CurrentBrightness"]) / maxBrightness * 100);
-            }
+                return (uint)(Convert.ToSingle(m["CurrentBrightness"]) / _maxBrightness * 100);
 
             return 0;
         }
 
         public void SetBrightness(uint brightness)
         {
-            using ManagementObjectSearcher searcher = new ManagementObjectSearcher(scope, queryMethods);
-            using ManagementObjectCollection objectCollection = searcher.Get();
+            using var searcher = new ManagementObjectSearcher(_scope, _queryMethods);
+            using var objectCollection = searcher.Get();
 
             foreach (ManagementObject m in objectCollection)
             {
                 m.InvokeMethod("WmiSetBrightness",
-                    new object[] { uint.MaxValue, (uint)(brightness / 100.0f * maxBrightness) });
+                    new object[] { uint.MaxValue, (uint)(brightness / 100.0f * _maxBrightness) });
                 break;
             }
         }
