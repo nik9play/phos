@@ -15,7 +15,5 @@ namespace fos
         public Size Resolution { get; }
         public Point Position { get; }
         public uint Brightness { get; set; }
-
-        public void SetBrightness(uint brightness);
     }
 }

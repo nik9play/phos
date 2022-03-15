@@ -22,11 +22,11 @@ namespace fos
         public Point Position { get; }
         public string DeviceName { get; }
 
-        public string DeviceId { get => $"{DeviceName}\\{Name}"; }
+        public string DeviceId => $"{DeviceName}\\{Name}";
 
         public string Name
         { 
-            get { return _name; } 
+            get => _name;
             set
             {
                 _name = value;
@@ -35,7 +35,7 @@ namespace fos
         }
         public uint Brightness
         {
-            get { return _brightness; }
+            get => _brightness;
             set
             {
                 _brightness = value;
@@ -48,11 +48,6 @@ namespace fos
                 _throttleDispatcher.Throttle(() => Task.Run(() => _contoller.SetBrightness(newBrightness)));
                 OnPropertyChanged();
             }
-        }
-
-        public void SetBrightness(uint brightness)
-        {
-            Brightness = brightness;
         }
 
         public Monitor(string deviceName, string name, Size resolution, Point position, IntPtr monitorHandle)

@@ -169,12 +169,10 @@
                                 <ui:AppBarToggleButton
                                     Width="36"
                                     IsChecked="{Binding AllMonitorsModeEnabled}"
-                                    ToolTip="{x:Static res:Resources.AllMonitorsMode}"
-                                    Icon="Link" />
+                                    ToolTip="{x:Static res:Resources.AllMonitorsMode}" Icon="Link" />
                                 <ui:AppBarButton 
                                     Width="36"
-                                    ToolTip="{x:Static res:Resources.SettingsTitle}"
-                                    Icon="Setting"
+                                    ToolTip="{x:Static res:Resources.SettingsTitle}" Icon="Setting"
                                     Command="{Binding OpenSettingsWindowCommand}"/>
                                 <ui:AppBarButton 
                                     Width="36"
