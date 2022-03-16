@@ -73,12 +73,12 @@ namespace fos
                 case HotkeyPopupLocationEnum.TopLeft:
                 case HotkeyPopupLocationEnum.TopRight:
                 case HotkeyPopupLocationEnum.TopCenter:
-                    (FindResource("HidePopupUp") as Storyboard).Begin(this);
+                    (TryFindResource("HidePopupUp") as Storyboard)?.Begin(this);
                     break;
                 case HotkeyPopupLocationEnum.BottomLeft:
                 case HotkeyPopupLocationEnum.BottomRight:
                 case HotkeyPopupLocationEnum.BottomCenter:
-                    (FindResource("HidePopupDown") as Storyboard).Begin(this);
+                    (TryFindResource("HidePopupDown") as Storyboard)?.Begin(this);
                     break;
             }
         }

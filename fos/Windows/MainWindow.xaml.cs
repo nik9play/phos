@@ -73,15 +73,13 @@ namespace fos
             if (Visibility != Visibility.Hidden) return;
 
             Visibility = Visibility.Visible;
-            var storyBoard = TryFindResource("ShowPopup") as Storyboard;
-            storyBoard?.Begin(this);
+            (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
             Activate();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            var storyBoard = TryFindResource("HidePopup") as Storyboard;
-            storyBoard?.Begin(this);
+            (TryFindResource("HidePopup") as Storyboard)?.Begin(this);
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

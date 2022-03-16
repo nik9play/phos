@@ -49,17 +49,15 @@ namespace fos
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!_isClosing)
-            {
-                SettingsController.Store.FirstStart = false;
-                SettingsController.SaveSettings();
+            if (_isClosing) return;
+            SettingsController.Store.FirstStart = false;
+            SettingsController.SaveSettings();
 
-                (FindResource("ClosingAnimation") as Storyboard)?.Begin(this);
+            (TryFindResource("ClosingAnimation") as Storyboard)?.Begin(this);
 
-                e.Cancel = true;
-                _isClosing = true;
-                _closingTimer.Start();
-            }
+            e.Cancel = true;
+            _isClosing = true;
+            _closingTimer.Start();
         }
     }
 }
