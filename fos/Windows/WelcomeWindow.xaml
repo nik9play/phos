@@ -47,12 +47,13 @@
                 </ui:SimpleStackPanel>
 
                 <MediaElement Grid.Row="1" Width="400" Height="300"
-                              Source="Assets/welcome_video.mp4" Name="video"
+                              Source="Assets\welcome_video.mp4" Name="video"
                               MediaEnded="video_MediaEnded" />
 
                 <Button Grid.Row="2" HorizontalAlignment="Center"
                         Click="Button_Click"
                         FontSize="18"
+                        Padding="15,10"
                         Content="{x:Static res:Resources.WelcomeWindowOk}" />
             </Grid>
         </Border>
