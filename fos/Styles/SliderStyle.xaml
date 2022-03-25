@@ -18,8 +18,8 @@
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="0" Direction="0" Color="{DynamicResource SystemChromeAltLowColor}" Opacity="0.2" />
             </Grid.Effect>
-            
-            <Path x:Name="grip" Width="20" Height="20" Fill="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" 
+
+            <Path x:Name="grip" Width="20" Height="20" Fill="{DynamicResource SystemControlBackgroundChromeMediumBrush}" 
                   Stretch="Fill" SnapsToDevicePixels="False" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
                     <EllipseGeometry RadiusX="10" RadiusY="10"></EllipseGeometry>
