@@ -59,6 +59,7 @@ Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Namotion.
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\phos.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\phos.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Assets\welcome_video.mp4"; DestDir: "{app}\Assets"; Flags: ignoreversion
 ;Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\ru\*"; DestDir: "{app}\ru"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\ru-RU\*"; DestDir: "{app}\ru-RU"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\ru\phos.resources.dll"; DestDir: "{app}\ru"; Flags: ignoreversion
