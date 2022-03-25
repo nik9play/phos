@@ -85,8 +85,6 @@ namespace fos
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Hide();
-            e.Cancel = true;
         }
     }
 }
