@@ -3,23 +3,22 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace fos
+namespace fos;
+
+internal class ScrollViewerEx : ScrollViewer
 {
-    internal class ScrollViewerEx : ScrollViewer
+    protected override void OnInitialized(EventArgs e)
     {
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
+        base.OnInitialized(e);
 
-            if (Style == null && ReadLocalValue(StyleProperty) == DependencyProperty.UnsetValue)
-                SetResourceReference(StyleProperty, typeof(ScrollViewer));
-        }
+        if (Style == null && ReadLocalValue(StyleProperty) == DependencyProperty.UnsetValue)
+            SetResourceReference(StyleProperty, typeof(ScrollViewer));
+    }
 
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
-        {
-            if (e.Handled) return;
-            ScrollViewerHelperEx.OnMouseWheel(this, e);
-            e.Handled = true;
-        }
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+        if (e.Handled) return;
+        ScrollViewerHelperEx.OnMouseWheel(this, e);
+        e.Handled = true;
     }
 }

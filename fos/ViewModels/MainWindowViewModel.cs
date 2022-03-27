@@ -8,100 +8,99 @@ using DebounceThrottle;
 using fos.Tools;
 using Microsoft.Toolkit.Mvvm.Input;
 
-namespace fos.ViewModels
+namespace fos.ViewModels;
+
+internal class MainWindowViewModel : INotifyPropertyChanged
 {
-    internal class MainWindowViewModel : INotifyPropertyChanged
+    private static uint allMonitorsBrightness;
+
+    private static readonly ThrottleDispatcher ThrottleDispatcher =
+        new((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
+
+    private bool _allMonitorsModeEnabled;
+
+    public MainWindowViewModel()
     {
-        private static uint allMonitorsBrightness;
+        Monitors = MonitorTools.GetMonitorList();
+        AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
+        Monitors.CollectionChanged += Monitors_CollectionChanged;
+    }
 
-        private static readonly ThrottleDispatcher ThrottleDispatcher =
-            new((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
+    public static ObservableCollection<IMonitor> Monitors { get; set; }
 
-        private bool _allMonitorsModeEnabled;
+    public static uint AllMonitorsBrightness
+    {
+        get => allMonitorsBrightness;
 
-        public MainWindowViewModel()
+        set
         {
-            Monitors = MonitorTools.GetMonitorList();
-            AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
-            Monitors.CollectionChanged += Monitors_CollectionChanged;
-        }
+            allMonitorsBrightness = value;
 
-        public static ObservableCollection<IMonitor> Monitors { get; set; }
-
-        public static uint AllMonitorsBrightness
-        {
-            get => allMonitorsBrightness;
-
-            set
+            ThrottleDispatcher.Throttle(() => Task.Run(() =>
             {
-                allMonitorsBrightness = value;
-
-                ThrottleDispatcher.Throttle(() => Task.Run(() =>
-                {
-                    foreach (var el in Monitors) el.Brightness = value;
-                }));
+                foreach (var el in Monitors) el.Brightness = value;
+            }));
 
 
-                RaiseStaticPropertyChanged();
-            }
+            RaiseStaticPropertyChanged();
         }
+    }
 
-        public bool AllMonitorsModeEnabled
+    public bool AllMonitorsModeEnabled
+    {
+        get => _allMonitorsModeEnabled;
+
+        set
         {
-            get => _allMonitorsModeEnabled;
+            _allMonitorsModeEnabled = value;
+            SettingsController.Store.AllMonitorsModeEnabled = value;
 
-            set
+            if (Monitors.Count > 0 && value)
             {
-                _allMonitorsModeEnabled = value;
-                SettingsController.Store.AllMonitorsModeEnabled = value;
+                uint newBrightness = 0;
+                foreach (var el in Monitors)
+                    newBrightness += el.Brightness;
 
-                if (Monitors.Count > 0 && value)
-                {
-                    uint newBrightness = 0;
-                    foreach (var el in Monitors)
-                        newBrightness += el.Brightness;
+                newBrightness /= (uint)Monitors.Count;
 
-                    newBrightness /= (uint)Monitors.Count;
-
-                    AllMonitorsBrightness = newBrightness;
-                }
-
-                OnPropertyChanged();
+                AllMonitorsBrightness = newBrightness;
             }
+
+            OnPropertyChanged();
         }
+    }
 
-        public RelayCommand UpdateCommand { get; } = new(() =>
-        {
-            Monitors.Clear();
+    public RelayCommand UpdateCommand { get; } = new(() =>
+    {
+        Monitors.Clear();
 
-            var list = MonitorTools.GetMonitorList();
+        var list = MonitorTools.GetMonitorList();
 
-            foreach (var el in list)
-                Monitors.Add(el);
-        });
+        foreach (var el in list)
+            Monitors.Add(el);
+    });
 
-        public RelayCommand OpenSettingsWindowCommand => CommonCommands.OpenSettingsWindowCommand;
+    public RelayCommand OpenSettingsWindowCommand => CommonCommands.OpenSettingsWindowCommand;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Monitors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            SettingsController.Store.MonitorListLocationOverwrites.Clear();
-            foreach (var el in Monitors) SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
+    private void Monitors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        SettingsController.Store.MonitorListLocationOverwrites.Clear();
+        foreach (var el in Monitors) SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
 
-            SettingsController.SaveSettings();
-        }
+        SettingsController.SaveSettings();
+    }
 
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
+    public void OnPropertyChanged([CallerMemberName] string prop = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+    }
 
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+    public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
-        public static void RaiseStaticPropertyChanged([CallerMemberName] string prop = "")
-        {
-            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(prop));
-        }
+    public static void RaiseStaticPropertyChanged([CallerMemberName] string prop = "")
+    {
+        StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(prop));
     }
 }

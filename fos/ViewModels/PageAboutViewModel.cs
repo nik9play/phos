@@ -8,208 +8,207 @@ using System.Threading.Tasks;
 using fos.Properties;
 using Microsoft.Toolkit.Mvvm.Input;
 
-namespace fos.ViewModels
+namespace fos.ViewModels;
+
+internal class PageAboutViewModel : INotifyPropertyChanged
 {
-    internal class PageAboutViewModel : INotifyPropertyChanged
+    private static bool updateChecking;
+
+    private static UpdateCheckResult checkResult;
+
+    private static bool isError;
+
+    private static string errorMessage;
+
+    private static string updatesText = Resources.SettingsAboutNoUpdates;
+
+    private static bool updateAvailable;
+
+    private static float progress;
+
+    private static int progressPercent;
+
+    private static bool updateInstalling;
+
+    private readonly CancellationTokenSource _cancelTokenSource = new();
+
+    public PageAboutViewModel()
     {
-        private static bool updateChecking;
+        CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
+        UpdateCommand = new AsyncRelayCommand(Update);
+    }
 
-        private static UpdateCheckResult checkResult;
+    public string Version =>
+        FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
-        private static bool isError;
-
-        private static string errorMessage;
-
-        private static string updatesText = Resources.SettingsAboutNoUpdates;
-
-        private static bool updateAvailable;
-
-        private static float progress;
-
-        private static int progressPercent;
-
-        private static bool updateInstalling;
-
-        private readonly CancellationTokenSource _cancelTokenSource = new();
-
-        public PageAboutViewModel()
+    public bool UpdateChecking
+    {
+        get => updateChecking;
+        set
         {
-            CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
-            UpdateCommand = new AsyncRelayCommand(Update);
+            updateChecking = value;
+            OnPropertyChanged();
         }
+    }
 
-        public string Version =>
-            FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
-
-        public bool UpdateChecking
+    public UpdateCheckResult CheckResult
+    {
+        get => checkResult;
+        set
         {
-            get => updateChecking;
-            set
+            checkResult = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsError
+    {
+        get => isError;
+        set
+        {
+            isError = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => errorMessage;
+        set
+        {
+            errorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string UpdatesText
+    {
+        get => updatesText;
+        set
+        {
+            updatesText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public IAsyncRelayCommand CheckUpdatesCommand { get; }
+
+    public bool UpdateAvailable
+    {
+        get => updateAvailable;
+        set
+        {
+            updateAvailable = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public float ProgressFloat
+    {
+        get => progress;
+        set
+        {
+            progress = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int ProgressPercent
+    {
+        get => progressPercent;
+        set
+        {
+            progressPercent = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool UpdateInstalling
+    {
+        get => updateInstalling;
+        set
+        {
+            updateInstalling = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public IAsyncRelayCommand UpdateCommand { get; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private async Task CheckUpdates()
+    {
+        UpdateChecking = true;
+        IsError = false;
+
+        try
+        {
+            CheckResult = await UpdateManager.CheckUpdates();
+            if (CheckResult.UpdateAvailable)
             {
-                updateChecking = value;
-                OnPropertyChanged();
+                UpdatesText = Resources.SettingsAboutUpdateAvailable;
+                UpdateAvailable = true;
+            }
+            else
+            {
+                UpdatesText = Resources.SettingsAboutNoUpdates;
+                UpdateAvailable = false;
             }
         }
-
-        public UpdateCheckResult CheckResult
-        {
-            get => checkResult;
-            set
-            {
-                checkResult = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsError
-        {
-            get => isError;
-            set
-            {
-                isError = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string ErrorMessage
-        {
-            get => errorMessage;
-            set
-            {
-                errorMessage = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string UpdatesText
-        {
-            get => updatesText;
-            set
-            {
-                updatesText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IAsyncRelayCommand CheckUpdatesCommand { get; }
-
-        public bool UpdateAvailable
-        {
-            get => updateAvailable;
-            set
-            {
-                updateAvailable = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public float ProgressFloat
-        {
-            get => progress;
-            set
-            {
-                progress = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int ProgressPercent
-        {
-            get => progressPercent;
-            set
-            {
-                progressPercent = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool UpdateInstalling
-        {
-            get => updateInstalling;
-            set
-            {
-                updateInstalling = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IAsyncRelayCommand UpdateCommand { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private async Task CheckUpdates()
-        {
-            UpdateChecking = true;
-            IsError = false;
-
-            try
-            {
-                CheckResult = await UpdateManager.CheckUpdates();
-                if (CheckResult.UpdateAvailable)
-                {
-                    UpdatesText = Resources.SettingsAboutUpdateAvailable;
-                    UpdateAvailable = true;
-                }
-                else
-                {
-                    UpdatesText = Resources.SettingsAboutNoUpdates;
-                    UpdateAvailable = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                IsError = true;
-                ErrorMessage = $"{Resources.SettingsAboutErrorMessage}: {ex.Message}";
-            }
-
-            UpdateChecking = false;
-        }
-
-        private void ReportProgress(float value)
-        {
-            ProgressFloat = value;
-            ProgressPercent = (int)(value * 100);
-        }
-
-        private void ShowError(Exception ex)
+        catch (Exception ex)
         {
             IsError = true;
-            ErrorMessage = $"{ex.Message}";
-            UpdateAvailable = false;
-            UpdateInstalling = false;
-            UpdatesText = Resources.SettingsAboutErrorMessage;
+            ErrorMessage = $"{Resources.SettingsAboutErrorMessage}: {ex.Message}";
         }
 
-        private async Task Update()
+        UpdateChecking = false;
+    }
+
+    private void ReportProgress(float value)
+    {
+        ProgressFloat = value;
+        ProgressPercent = (int)(value * 100);
+    }
+
+    private void ShowError(Exception ex)
+    {
+        IsError = true;
+        ErrorMessage = $"{ex.Message}";
+        UpdateAvailable = false;
+        UpdateInstalling = false;
+        UpdatesText = Resources.SettingsAboutErrorMessage;
+    }
+
+    private async Task Update()
+    {
+        var progressIndicator = new Progress<float>(ReportProgress);
+        UpdateInstalling = true;
+        IsError = false;
+        ProgressFloat = 0;
+        ProgressPercent = 0;
+
+        var cancellationToken = _cancelTokenSource.Token;
+
+        try
         {
-            var progressIndicator = new Progress<float>(ReportProgress);
-            UpdateInstalling = true;
-            IsError = false;
-            ProgressFloat = 0;
-            ProgressPercent = 0;
-
-            var cancellationToken = _cancelTokenSource.Token;
-
-            try
-            {
-                await UpdateManager.Update(checkResult, progressIndicator, cancellationToken);
-            }
-            catch (Win32Exception ex)
-            {
-                if (ex.NativeErrorCode == 1223)
-                    UpdateInstalling = false;
-                else
-                    ShowError(ex);
-            }
-            catch (Exception ex)
-            {
+            await UpdateManager.Update(checkResult, progressIndicator, cancellationToken);
+        }
+        catch (Win32Exception ex)
+        {
+            if (ex.NativeErrorCode == 1223)
+                UpdateInstalling = false;
+            else
                 ShowError(ex);
-            }
         }
-
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        catch (Exception ex)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            ShowError(ex);
         }
+    }
+
+    public void OnPropertyChanged([CallerMemberName] string prop = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

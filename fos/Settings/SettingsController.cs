@@ -8,121 +8,120 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NJsonSchema;
 
-namespace fos
+namespace fos;
+
+public static class SettingsController
 {
-    public static class SettingsController
+    private static readonly string ConfigPath =
+        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
+
+    public static readonly Settings DefaultSettings = new();
+
+    //private static readonly JsonSerializerOptions _options;
+
+    static SettingsController()
     {
-        private static readonly string ConfigPath =
-            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
+        //_options = new JsonSerializerOptions
+        //{
+        //    Converters = {
+        //        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+        //    },
+        //    WriteIndented = true,
+        //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        //};
+    }
 
-        public static readonly Settings DefaultSettings = new();
+    public static Settings Store { get; private set; }
 
-        //private static readonly JsonSerializerOptions _options;
-
-        static SettingsController()
+    public static void LoadSettings()
+    {
+        if (File.Exists(ConfigPath))
         {
-            //_options = new JsonSerializerOptions
-            //{
-            //    Converters = {
-            //        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-            //    },
-            //    WriteIndented = true,
-            //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            //};
-        }
-
-        public static Settings Store { get; private set; }
-
-        public static void LoadSettings()
-        {
-            if (File.Exists(ConfigPath))
+            var json = File.ReadAllText(ConfigPath);
+            try
             {
-                var json = File.ReadAllText(ConfigPath);
-                try
-                {
-                    var schema = JsonSchema.FromType<Settings>();
+                var schema = JsonSchema.FromType<Settings>();
 
-                    var errors = schema.Validate(json);
+                var errors = schema.Validate(json);
 
-                    //foreach (var error in errors)
-                    //    Debug.WriteLine(error.Path + ": " + error.Kind);
+                //foreach (var error in errors)
+                //    Debug.WriteLine(error.Path + ": " + error.Kind);
 
-                    if (errors.Count > 0)
-                    {
-                        Store = new Settings();
-
-                        new ToastContentBuilder()
-                            .AddText(Resources.SettingsSchemaErrorTitle)
-                            .AddText(Resources.SettingsSchemaErrorDescription)
-                            .Show();
-
-                        return;
-                    }
-
-                    Store = JsonConvert.DeserializeObject<Settings>(json);
-                }
-                catch
+                if (errors.Count > 0)
                 {
                     Store = new Settings();
 
                     new ToastContentBuilder()
-                        .AddText(Resources.LoadSettingsErrorTitle)
-                        .AddText(Resources.LoadSettingsErrorDescription)
+                        .AddText(Resources.SettingsSchemaErrorTitle)
+                        .AddText(Resources.SettingsSchemaErrorDescription)
                         .Show();
+
+                    return;
                 }
+
+                Store = JsonConvert.DeserializeObject<Settings>(json);
             }
-            else
+            catch
             {
                 Store = new Settings();
-                try
-                {
-                    SaveSettings();
-                }
-                catch
-                {
-                    new ToastContentBuilder()
-                        .AddText(Resources.LoadSettingsErrorTitle)
-                        .AddText(Resources.LoadSettingsErrorDescription)
-                        .Show();
-                }
+
+                new ToastContentBuilder()
+                    .AddText(Resources.LoadSettingsErrorTitle)
+                    .AddText(Resources.LoadSettingsErrorDescription)
+                    .Show();
             }
         }
-
-        public static void LoadLanguage()
+        else
         {
-            CultureInfo language;
-            switch (Store.Language)
+            Store = new Settings();
+            try
             {
-                case "ru":
-                    language = new CultureInfo(Store.Language);
-                    break;
-                case "en":
-                    language = CultureInfo.InvariantCulture;
-                    break;
-                case "system":
-                default:
-                    language = CultureInfo.InstalledUICulture;
-                    break;
+                SaveSettings();
             }
-
-            Thread.CurrentThread.CurrentCulture = language;
-            Thread.CurrentThread.CurrentUICulture = language;
-            CultureInfo.DefaultThreadCurrentCulture = language;
-            CultureInfo.DefaultThreadCurrentUICulture = language;
+            catch
+            {
+                new ToastContentBuilder()
+                    .AddText(Resources.LoadSettingsErrorTitle)
+                    .AddText(Resources.LoadSettingsErrorDescription)
+                    .Show();
+            }
         }
+    }
 
-        public static void SaveSettings()
+    public static void LoadLanguage()
+    {
+        CultureInfo language;
+        switch (Store.Language)
         {
-            File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
+            case "ru":
+                language = new CultureInfo(Store.Language);
+                break;
+            case "en":
+                language = CultureInfo.InvariantCulture;
+                break;
+            case "system":
+            default:
+                language = CultureInfo.InstalledUICulture;
+                break;
         }
 
-        public static void OpenSettingsFolder()
-        {
-            if (!File.Exists(ConfigPath)) return;
+        Thread.CurrentThread.CurrentCulture = language;
+        Thread.CurrentThread.CurrentUICulture = language;
+        CultureInfo.DefaultThreadCurrentCulture = language;
+        CultureInfo.DefaultThreadCurrentUICulture = language;
+    }
 
-            var argument = "/select, \"" + ConfigPath + "\"";
+    public static void SaveSettings()
+    {
+        File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
+    }
 
-            Process.Start("explorer.exe", argument);
-        }
+    public static void OpenSettingsFolder()
+    {
+        if (!File.Exists(ConfigPath)) return;
+
+        var argument = "/select, \"" + ConfigPath + "\"";
+
+        Process.Start("explorer.exe", argument);
     }
 }

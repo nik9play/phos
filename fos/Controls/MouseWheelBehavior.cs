@@ -1,44 +1,43 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace fos
+namespace fos;
+
+public class MouseWheelBehavior
 {
-    public class MouseWheelBehavior
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
+        "Value", typeof(int), typeof(MouseWheelBehavior), new PropertyMetadata(Value));
+
+    public static void SetValue(Slider element, int value)
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
-            "Value", typeof(int), typeof(MouseWheelBehavior), new PropertyMetadata(Value));
+        element.SetValue(ValueProperty, value);
+    }
 
-        public static void SetValue(Slider element, int value)
-        {
-            element.SetValue(ValueProperty, value);
-        }
+    public static int GetValue(Slider element)
+    {
+        return (int)element.GetValue(ValueProperty);
+    }
 
-        public static int GetValue(Slider element)
+    private static void Value(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Slider)
         {
-            return (int)element.GetValue(ValueProperty);
-        }
-
-        private static void Value(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is Slider)
+            var slider = (Slider)d;
+            slider.PreviewMouseWheel += (s, arg) =>
             {
-                var slider = (Slider)d;
-                slider.PreviewMouseWheel += (s, arg) =>
-                {
-                    var sl = s as Slider;
+                var sl = s as Slider;
 
-                    if (arg.Delta < 0)
-                    {
-                        var newVal = sl.Value - sl.SmallChange * GetValue(sl);
-                        sl.Value = newVal < sl.Minimum ? sl.Minimum : newVal;
-                    }
-                    else
-                    {
-                        var newVal = sl.Value + sl.SmallChange * GetValue(sl);
-                        sl.Value = newVal > sl.Maximum ? sl.Maximum : newVal;
-                    }
-                };
-            }
+                if (arg.Delta < 0)
+                {
+                    var newVal = sl.Value - sl.SmallChange * GetValue(sl);
+                    sl.Value = newVal < sl.Minimum ? sl.Minimum : newVal;
+                }
+                else
+                {
+                    var newVal = sl.Value + sl.SmallChange * GetValue(sl);
+                    sl.Value = newVal > sl.Maximum ? sl.Maximum : newVal;
+                }
+            };
         }
     }
 }

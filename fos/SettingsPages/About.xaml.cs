@@ -1,17 +1,16 @@
 ﻿using fos.ViewModels;
 using ModernWpf.Controls;
 
-namespace fos.SettingsPages
+namespace fos.SettingsPages;
+
+/// <summary>
+///     Логика взаимодействия для About.xaml
+/// </summary>
+public partial class About : Page
 {
-    /// <summary>
-    ///     Логика взаимодействия для About.xaml
-    /// </summary>
-    public partial class About : Page
+    public About()
     {
-        public About()
-        {
-            InitializeComponent();
-            DataContext = new PageAboutViewModel();
-        }
+        InitializeComponent();
+        DataContext = new PageAboutViewModel();
     }
 }

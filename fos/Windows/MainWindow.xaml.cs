@@ -5,96 +5,95 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using fos.ViewModels;
 
-namespace fos
+namespace fos;
+
+/// <summary>
+///     Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
+        InitializeComponent();
+
+        DataContext = new MainWindowViewModel();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+    }
+
+    public void SetPosition()
+    {
+        var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
+
+        var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+
+        if (currentMonitorInfo.WorkingArea.Height < currentMonitorInfo.Bounds.Height)
         {
-            InitializeComponent();
-
-            DataContext = new MainWindowViewModel();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        public void SetPosition()
-        {
-            var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
-
-            var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
-
-            if (currentMonitorInfo.WorkingArea.Height < currentMonitorInfo.Bounds.Height)
+            if (currentMonitorInfo.WorkingArea.Y > 0)
             {
-                if (currentMonitorInfo.WorkingArea.Y > 0)
-                {
-                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
-                    Top = currentMonitorInfo.WorkingArea.Top / factor + 5;
-                    ContentGrid.VerticalAlignment = VerticalAlignment.Top;
-                }
-                else
-                {
-                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
-                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
-                    ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
-                }
+                Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                Top = currentMonitorInfo.WorkingArea.Top / factor + 5;
+                ContentGrid.VerticalAlignment = VerticalAlignment.Top;
             }
-            else if (currentMonitorInfo.WorkingArea.Width < currentMonitorInfo.Bounds.Width)
+            else
             {
-                if (currentMonitorInfo.WorkingArea.X > 0)
-                {
-                    Left = currentMonitorInfo.WorkingArea.Left / factor;
-                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
-                    ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
-                }
-                else
-                {
-                    Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
-                    Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
-                    ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
-                }
+                Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
+                ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
             }
-
-            Height = currentMonitorInfo.WorkingArea.Height / factor;
-
-            //Left = desktopWorkingArea.Right / factor - ActualWidth;
-            //Top = desktopWorkingArea.Bottom / factor - ActualHeight;
         }
-
-        public void TogglePopup()
+        else if (currentMonitorInfo.WorkingArea.Width < currentMonitorInfo.Bounds.Width)
         {
-            SetPosition();
-
-            if (Visibility != Visibility.Hidden) return;
-
-            Visibility = Visibility.Visible;
-            (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
-            Activate();
+            if (currentMonitorInfo.WorkingArea.X > 0)
+            {
+                Left = currentMonitorInfo.WorkingArea.Left / factor;
+                Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
+                ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else
+            {
+                Left = currentMonitorInfo.WorkingArea.Right / factor - ActualWidth;
+                Top = currentMonitorInfo.WorkingArea.Bottom / factor - ActualHeight;
+                ContentGrid.VerticalAlignment = VerticalAlignment.Bottom;
+            }
         }
 
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            (TryFindResource("HidePopup") as Storyboard)?.Begin(this);
-        }
+        Height = currentMonitorInfo.WorkingArea.Height / factor;
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowManager.OpenSettingsWindow();
-        }
+        //Left = desktopWorkingArea.Right / factor - ActualWidth;
+        //Top = desktopWorkingArea.Bottom / factor - ActualHeight;
+    }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetPosition();
-        }
+    public void TogglePopup()
+    {
+        SetPosition();
 
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.System && e.SystemKey == Key.F4) e.Handled = true;
-        }
+        if (Visibility != Visibility.Hidden) return;
+
+        Visibility = Visibility.Visible;
+        (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
+        Activate();
+    }
+
+    private void Window_Deactivated(object sender, EventArgs e)
+    {
+        (TryFindResource("HidePopup") as Storyboard)?.Begin(this);
+    }
+
+    private void AppBarButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowManager.OpenSettingsWindow();
+    }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        SetPosition();
+    }
+
+    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.System && e.SystemKey == Key.F4) e.Handled = true;
     }
 }

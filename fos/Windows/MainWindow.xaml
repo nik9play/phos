@@ -46,7 +46,7 @@
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-        
+
         <local:BooleanToVisibilityConverter
             x:Key="BooleanToVisibilityConverter"
             True="Visible"

@@ -4,55 +4,54 @@ using System.Windows.Input;
 using fos.ViewModels;
 using Page = ModernWpf.Controls.Page;
 
-namespace fos.SettingsPages
+namespace fos.SettingsPages;
+
+/// <summary>
+///     Логика взаимодействия для Hotkeys.xaml
+/// </summary>
+public partial class Hotkeys : Page
 {
-    /// <summary>
-    ///     Логика взаимодействия для Hotkeys.xaml
-    /// </summary>
-    public partial class Hotkeys : Page
+    public Hotkeys()
     {
-        public Hotkeys()
-        {
-            InitializeComponent();
-            DataContext = new PageHotkeysViewModel();
-            //Properties.Resources.Sett
-        }
+        InitializeComponent();
+        DataContext = new PageHotkeysViewModel();
+        //Properties.Resources.Sett
+    }
 
-        private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (e.Command == ApplicationCommands.Copy ||
-                e.Command == ApplicationCommands.Cut ||
-                e.Command == ApplicationCommands.Paste)
-                e.Handled = true;
-        }
-
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
+    private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (e.Command == ApplicationCommands.Copy ||
+            e.Command == ApplicationCommands.Cut ||
+            e.Command == ApplicationCommands.Paste)
             e.Handled = true;
+    }
 
-            var key = e.Key == Key.System ? e.SystemKey : e.Key;
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        e.Handled = true;
 
-            if (key == Key.LeftShift || key == Key.RightShift
-                                     || key == Key.LeftCtrl || key == Key.RightCtrl
-                                     || key == Key.LeftAlt || key == Key.RightAlt
-                                     || key == Key.LWin || key == Key.RWin)
-                return;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
 
-            ((TextBox)sender).Text = GetHotkey(key);
+        if (key == Key.LeftShift || key == Key.RightShift
+                                 || key == Key.LeftCtrl || key == Key.RightCtrl
+                                 || key == Key.LeftAlt || key == Key.RightAlt
+                                 || key == Key.LWin || key == Key.RWin)
+            return;
 
-            FocusManager.SetFocusedElement(FocusManager.GetFocusScope((TextBox)sender), null);
-            Keyboard.ClearFocus();
-        }
+        ((TextBox)sender).Text = GetHotkey(key);
 
-        private string GetHotkey(Key key)
-        {
-            var HotkeyText = new StringBuilder();
-            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0) HotkeyText.Append("Ctrl+");
-            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0) HotkeyText.Append("Shift+");
-            if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0) HotkeyText.Append("Alt+");
-            HotkeyText.Append(key.ToString());
+        FocusManager.SetFocusedElement(FocusManager.GetFocusScope((TextBox)sender), null);
+        Keyboard.ClearFocus();
+    }
 
-            return HotkeyText.ToString();
-        }
+    private string GetHotkey(Key key)
+    {
+        var HotkeyText = new StringBuilder();
+        if ((Keyboard.Modifiers & ModifierKeys.Control) != 0) HotkeyText.Append("Ctrl+");
+        if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0) HotkeyText.Append("Shift+");
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0) HotkeyText.Append("Alt+");
+        HotkeyText.Append(key.ToString());
+
+        return HotkeyText.ToString();
     }
 }

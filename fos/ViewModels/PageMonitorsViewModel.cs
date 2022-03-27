@@ -2,34 +2,33 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace fos.ViewModels
+namespace fos.ViewModels;
+
+internal class PageMonitorsViewModel : INotifyPropertyChanged
 {
-    internal class PageMonitorsViewModel : INotifyPropertyChanged
+    public PageMonitorsViewModel()
     {
-        public PageMonitorsViewModel()
+        foreach (var el in MainWindowViewModel.Monitors)
         {
-            foreach (var el in MainWindowViewModel.Monitors)
+            SettingsController.Store.MonitorCustomLimits.TryGetValue(el.DeviceId, out var foundMonitorCustomLimits);
+
+            foundMonitorCustomLimits ??= new MonitorCustomLimits();
+
+            MonitorSettings.Add(new MonitorSettingsElement
             {
-                SettingsController.Store.MonitorCustomLimits.TryGetValue(el.DeviceId, out var foundMonitorCustomLimits);
-
-                foundMonitorCustomLimits ??= new MonitorCustomLimits();
-
-                MonitorSettings.Add(new MonitorSettingsElement
-                {
-                    DeviceId = el.DeviceId,
-                    Name = el.Name,
-                    MonitorCustomLimits = foundMonitorCustomLimits
-                });
-            }
+                DeviceId = el.DeviceId,
+                Name = el.Name,
+                MonitorCustomLimits = foundMonitorCustomLimits
+            });
         }
+    }
 
-        public ObservableCollection<MonitorSettingsElement> MonitorSettings { get; set; } = new();
+    public ObservableCollection<MonitorSettingsElement> MonitorSettings { get; set; } = new();
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
+    public void OnPropertyChanged([CallerMemberName] string prop = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

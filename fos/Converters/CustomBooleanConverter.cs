@@ -4,35 +4,34 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace fos
+namespace fos;
+
+public class CustomBooleanConverter<T> : IValueConverter
 {
-    public class CustomBooleanConverter<T> : IValueConverter
+    public CustomBooleanConverter(T trueValue, T falseValue)
     {
-        public CustomBooleanConverter(T trueValue, T falseValue)
-        {
-            True = trueValue;
-            False = falseValue;
-        }
-
-        public T True { get; set; }
-        public T False { get; set; }
-
-        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value is bool && (bool)value ? True : False;
-        }
-
-        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value is T && EqualityComparer<T>.Default.Equals((T)value, True);
-        }
+        True = trueValue;
+        False = falseValue;
     }
 
-    public sealed class BooleanToVisibilityConverter : CustomBooleanConverter<Visibility>
+    public T True { get; set; }
+    public T False { get; set; }
+
+    public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public BooleanToVisibilityConverter() :
-            base(Visibility.Visible, Visibility.Collapsed)
-        {
-        }
+        return value is bool && (bool)value ? True : False;
+    }
+
+    public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is T && EqualityComparer<T>.Default.Equals((T)value, True);
+    }
+}
+
+public sealed class BooleanToVisibilityConverter : CustomBooleanConverter<Visibility>
+{
+    public BooleanToVisibilityConverter() :
+        base(Visibility.Visible, Visibility.Collapsed)
+    {
     }
 }

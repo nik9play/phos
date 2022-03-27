@@ -1,39 +1,38 @@
-﻿namespace fos
+﻿namespace fos;
+
+internal static class WindowManager
 {
-    internal static class WindowManager
+    public static HotkeyWindow HotkeyWindow { get; private set; }
+    public static MainWindow MainWindow { get; private set; }
+    public static SettingsWindow SettingsWindow { get; private set; }
+    public static WelcomeWindow WelcomeWindow { get; private set; }
+    public static bool WindowsInitialized { get; private set; }
+
+    public static void CreateWindows()
     {
-        public static HotkeyWindow HotkeyWindow { get; private set; }
-        public static MainWindow MainWindow { get; private set; }
-        public static SettingsWindow SettingsWindow { get; private set; } = null;
-        public static WelcomeWindow WelcomeWindow { get; private set; } = null;
-        public static bool WindowsInitialized { get; private set; }
+        MainWindow = new MainWindow();
+        HotkeyWindow = new HotkeyWindow();
 
-        public static void CreateWindows()
+        if (SettingsController.Store.FirstStart)
         {
-            MainWindow = new MainWindow();
-            HotkeyWindow = new HotkeyWindow();
-
-            if (SettingsController.Store.FirstStart)
-            {
-                WelcomeWindow = new WelcomeWindow();
-                WelcomeWindow.Show();
-            }
-
-            WindowsInitialized = true;
+            WelcomeWindow = new WelcomeWindow();
+            WelcomeWindow.Show();
         }
 
-        public static void OpenSettingsWindow()
+        WindowsInitialized = true;
+    }
+
+    public static void OpenSettingsWindow()
+    {
+        SettingsController.LoadLanguage();
+
+        if (SettingsWindow == null)
         {
-            SettingsController.LoadLanguage();
-
-            if (SettingsWindow == null)
-            {
-                SettingsWindow = new SettingsWindow();
-                SettingsWindow.Closed += (s, e) => SettingsWindow = null;
-            }
-
-            SettingsWindow.Show();
-            SettingsWindow.Activate();
+            SettingsWindow = new SettingsWindow();
+            SettingsWindow.Closed += (s, e) => SettingsWindow = null;
         }
+
+        SettingsWindow.Show();
+        SettingsWindow.Activate();
     }
 }
