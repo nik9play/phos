@@ -24,6 +24,8 @@
 
         public static void OpenSettingsWindow()
         {
+            SettingsController.LoadLanguage();
+
             if (SettingsWindow == null)
             {
                 SettingsWindow = new SettingsWindow();
