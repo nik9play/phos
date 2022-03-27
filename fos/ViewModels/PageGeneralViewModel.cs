@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using fos.Properties;
+using fos.Tools;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 
 namespace fos.ViewModels
@@ -32,6 +34,8 @@ namespace fos.ViewModels
 
         private string _selectedLanguage = SettingsController.Store.Language;
 
+        public RelayCommand RestartApplicationCommand => CommonCommands.RestartApplicationCommand;
+
         public PageGeneralViewModel()
         {
             _autoStart = _rkApp.GetValue("phos") != null;
@@ -46,7 +50,7 @@ namespace fos.ViewModels
                 _autoStart = value;
                 if (value)
                     _rkApp.SetValue("phos",
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "phos.exe"));
+                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "phos.exe"));
                 else
                     _rkApp.DeleteValue("phos");
 

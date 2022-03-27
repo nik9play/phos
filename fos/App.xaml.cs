@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Windows;
+using fos.Tools;
 using fos.Workarounds;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
@@ -11,8 +12,6 @@ namespace fos
     /// </summary>
     public partial class App : Application
     {
-        private Mutex _mutex;
-
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             try
@@ -29,7 +28,7 @@ namespace fos
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            _mutex = new Mutex(true, "phos.megaworld", out var aIsNewInstance);
+            AppMutex.CurrentMutex = new Mutex(true, "phos.megaworld", out var aIsNewInstance);
             if (!aIsNewInstance) Current.Shutdown();
 
             SettingsController.LoadSettings();

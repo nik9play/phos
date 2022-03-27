@@ -13,7 +13,7 @@ namespace fos
     public static class SettingsController
     {
         private static readonly string ConfigPath =
-            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config.json");
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
 
         public static readonly Settings DefaultSettings = new();
 
@@ -107,6 +107,8 @@ namespace fos
 
             Thread.CurrentThread.CurrentCulture = language;
             Thread.CurrentThread.CurrentUICulture = language;
+            CultureInfo.DefaultThreadCurrentCulture = language;
+            CultureInfo.DefaultThreadCurrentUICulture = language;
         }
 
         public static void SaveSettings()
