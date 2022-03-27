@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/nik9play/phos/master/fos/Resources/icon.png" alt="phos logo" width="120"/>
+<img src="https://raw.githubusercontent.com/nik9play/phos/master/fos/Resources/icon.png" alt="phos logo" width="128"/>
 </p>
 
 <h1 align="center">phos</h1>
