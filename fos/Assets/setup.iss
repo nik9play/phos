@@ -1,5 +1,5 @@
 #define phosAppName "phos"
-#define phosAppVersion "0.0.1"
+#define phosAppVersion "0.0.2"
 #define phosAppPublisher "megaworld"
 #define phosAppURL "https://megaworld.space"
 #define phosAppExeName "phos.exe"
