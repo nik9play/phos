@@ -60,7 +60,7 @@ public static class UpdateManager
 
                 var result = await JsonSerializer.DeserializeAsync<ApiResponse>(json);
                 var version = new Version(result.tag_name);
-                var downloadUrl = result.assets[0].browser_download_url;
+                var downloadUrl = result.assets[1].browser_download_url;
                 var changeLog = result.body;
 
                 var currentVersion = new Version(FileVersionInfo
