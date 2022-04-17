@@ -119,6 +119,7 @@
                                                 local:MouseWheelBehavior.Value="2"
                                                 TickFrequency="1" SmallChange="1"
                                                 Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                                local:SliderTools.MoveToPointOnDrag="True"
                                                 HorizontalAlignment="Stretch" />
                                     </Grid>
                                 </Border>
@@ -156,6 +157,7 @@
                                         local:MouseWheelBehavior.Value="2"
                                         Style="{StaticResource Win11SliderStyle}"
                                         TickFrequency="1" SmallChange="1"
+                                        local:SliderTools.MoveToPointOnDrag="True"
                                         Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
                                         HorizontalAlignment="Stretch" />
                             </Grid>
