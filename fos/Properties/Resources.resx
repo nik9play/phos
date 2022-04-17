@@ -283,4 +283,7 @@
   <data name="CancelButton" xml:space="preserve">
 	  <value>Cancel</value>
   </data>
+  <data name="SettingsAboutRateLimitError" xml:space="preserve">
+	  <value>Rate limit exceeded. Please try again later.</value>
+  </data>
 </root>

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using fos.Properties;
 using Microsoft.Toolkit.Mvvm.Input;
+using Octokit;
 
 namespace fos.ViewModels;
 
@@ -37,6 +38,24 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
         UpdateCommand = new AsyncRelayCommand(Update);
         CancelCommand = new RelayCommand(() => cancelTokenSource.Cancel());
+
+        if (UpdateManager.LatestUpdateCheckResult != null)
+        {
+            CheckResult = UpdateManager.LatestUpdateCheckResult;
+
+            UpdateAvailable = UpdateManager.LatestUpdateCheckResult.UpdateAvailable;
+
+            if (CheckResult.UpdateAvailable)
+            {
+                UpdatesText = Resources.SettingsAboutUpdateAvailable;
+                UpdateAvailable = true;
+            }
+            else
+            {
+                UpdatesText = Resources.SettingsAboutNoUpdates;
+                UpdateAvailable = false;
+            }
+        }
     }
 
     public string Version =>
@@ -172,8 +191,13 @@ internal class PageAboutViewModel : INotifyPropertyChanged
 
     private void ShowError(Exception ex)
     {
+        ShowError(ex.Message);
+    }
+
+    private void ShowError(string message)
+    {
         IsError = true;
-        ErrorMessage = $"{ex.Message}";
+        ErrorMessage = $"{message}";
         UpdateAvailable = false;
         UpdateInstalling = false;
         UpdatesText = Resources.SettingsAboutErrorMessage;
@@ -204,6 +228,10 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         catch (TaskCanceledException)
         {
             UpdateInstalling = false;
+        }
+        catch (RateLimitExceededException)
+        {
+            ShowError(Resources.SettingsAboutRateLimitError);
         }
         catch (Exception ex)
         {

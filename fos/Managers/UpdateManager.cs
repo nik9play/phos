@@ -43,6 +43,8 @@ public static class UpdateManager
     private static readonly HttpClient HttpClient = new();
     private static readonly GitHubClient GitHubClient = new(new ProductHeaderValue("phos"));
 
+    public static UpdateCheckResult LatestUpdateCheckResult { get; private set; }
+
     static UpdateManager()
     {
         HttpClient.Timeout = TimeSpan.FromSeconds(15);
@@ -68,13 +70,15 @@ public static class UpdateManager
 
         var updateAvailable = latestVersion.CompareTo(currentVersion) > 0;
 
-        return new UpdateCheckResult
+        LatestUpdateCheckResult = new UpdateCheckResult
         {
             UpdateAvailable = updateAvailable,
             LatestVersionUrl = downloadUrl,
             LatestChangeLog = latest.Body,
             LatestVersion = latestVersion
         };
+
+        return LatestUpdateCheckResult;
     }
 
     public static async Task Update(UpdateCheckResult updateCheckResult, IProgress<float> progress,

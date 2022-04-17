@@ -252,6 +252,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Rate limit exceeded. Please try again later..
+        /// </summary>
+        public static string SettingsAboutRateLimitError {
+            get {
+                return ResourceManager.GetString("SettingsAboutRateLimitError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Update available.
         /// </summary>
         public static string SettingsAboutUpdateAvailable {

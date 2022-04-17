@@ -283,4 +283,7 @@
   <data name="CancelButton" xml:space="preserve">
 	  <value>Отмена</value>
   </data>
+  <data name="SettingsAboutRateLimitError" xml:space="preserve">
+	  <value>Ограничение запросов на обновление превышено. Пожалуйста, повторите попытку позже.</value>
+  </data>
 </root>
