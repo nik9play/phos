@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Windows;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +14,8 @@ using fos.Properties;
 using fos.Tools;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Octokit;
+using Application = System.Windows.Application;
+using FileMode = System.IO.FileMode;
 
 namespace fos;
 
@@ -43,13 +44,18 @@ public static class UpdateManager
     private static readonly HttpClient HttpClient = new();
     private static readonly GitHubClient GitHubClient = new(new ProductHeaderValue("phos"));
 
-    public static UpdateCheckResult LatestUpdateCheckResult { get; private set; }
+    private static readonly DispatcherTimer CheckUpdateTimer = new()
+    {
+        Interval = TimeSpan.FromHours(2)
+    };
 
     static UpdateManager()
     {
         HttpClient.Timeout = TimeSpan.FromSeconds(15);
         HttpClient.DefaultRequestHeaders.Add("user-agent", "request");
     }
+
+    public static UpdateCheckResult LatestUpdateCheckResult { get; private set; }
 
     private static string GetInstaller(IEnumerable<ReleaseAsset> assetsList)
     {
@@ -66,13 +72,12 @@ public static class UpdateManager
         var downloadUrl = GetInstaller(latest.Assets);
 
         var latestVersion = new Version(latest.TagName);
-        var currentVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion!);
-
-        var updateAvailable = latestVersion.CompareTo(currentVersion) > 0;
+        var currentVersion =
+            new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion!);
 
         LatestUpdateCheckResult = new UpdateCheckResult
         {
-            UpdateAvailable = updateAvailable,
+            UpdateAvailable = latestVersion > currentVersion,
             LatestVersionUrl = downloadUrl,
             LatestChangeLog = latest.Body,
             LatestVersion = latestVersion
@@ -88,7 +93,7 @@ public static class UpdateManager
         var fileName = Path.Combine(Path.GetTempPath(), "phos.updates",
             "phos_update_" + Guid.NewGuid() + ".exe");
 
-        await using (var fileStream = new FileStream(fileName, System.IO.FileMode.CreateNew))
+        await using (var fileStream = new FileStream(fileName, FileMode.CreateNew))
         {
             await HttpClient.DownloadAsync(updateCheckResult.LatestVersionUrl, fileStream, progress, cancellationToken);
         }
@@ -104,13 +109,8 @@ public static class UpdateManager
 
         process.Start();
 
-        System.Windows.Application.Current.Shutdown();
+        Application.Current.Shutdown();
     }
-
-    private static readonly DispatcherTimer CheckUpdateTimer = new()
-    {
-        Interval = TimeSpan.FromHours(2)
-    };
 
     public static void StartTimer()
     {

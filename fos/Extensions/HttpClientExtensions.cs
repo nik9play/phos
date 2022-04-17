@@ -12,7 +12,8 @@ public static class HttpClientExtensions
         IProgress<float> progress = null,
         CancellationToken cancellationToken = default)
     {
-        using var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using var response =
+            await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         var contentLength = response.Content.Headers.ContentLength;
 
         await using var download = await response.Content.ReadAsStreamAsync(cancellationToken);

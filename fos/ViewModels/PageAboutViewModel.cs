@@ -155,6 +155,10 @@ internal class PageAboutViewModel : INotifyPropertyChanged
 
     public IAsyncRelayCommand UpdateCommand { get; }
 
+    public IRelayCommand CancelCommand { get; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
     private async Task CheckUpdates()
     {
         UpdateChecking = true;
@@ -238,10 +242,6 @@ internal class PageAboutViewModel : INotifyPropertyChanged
             ShowError(ex);
         }
     }
-
-    public IRelayCommand CancelCommand { get; }
-    
-    public event PropertyChangedEventHandler PropertyChanged;
 
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {
