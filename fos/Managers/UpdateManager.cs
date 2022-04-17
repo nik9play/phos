@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Text.Json;
+using System.Windows;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
 using fos.Extensions;
 using fos.Properties;
+using fos.Tools;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Octokit;
 
 namespace fos;
 
@@ -36,47 +40,41 @@ public class ApiResponse
 
 public static class UpdateManager
 {
-#if DEBUG
-    private const string ApiUrl = "http://localhost:8000/huita.json";
-#else
-        private const string ApiUrl = "https://api.github.com/repos/nik9play/phos/releases/latest";
-#endif
-
-    private static readonly HttpClient client = new();
+    private static readonly HttpClient HttpClient = new();
+    private static readonly GitHubClient GitHubClient = new(new ProductHeaderValue("phos"));
 
     static UpdateManager()
     {
-        client.Timeout = TimeSpan.FromSeconds(15);
-        client.DefaultRequestHeaders.Add("user-agent", "request");
+        HttpClient.Timeout = TimeSpan.FromSeconds(15);
+        HttpClient.DefaultRequestHeaders.Add("user-agent", "request");
+    }
+
+    private static string GetInstaller(IEnumerable<ReleaseAsset> assetsList)
+    {
+        var regex = new Regex("^phos_setup.+\\.exe$");
+        var result = assetsList.Where(el => regex.IsMatch(el.Name));
+
+        return result.FirstOrDefault()?.BrowserDownloadUrl;
     }
 
     public static async Task<UpdateCheckResult> CheckUpdates()
     {
-        using (var response = await client.GetAsync(ApiUrl))
+        var releases = await GitHubClient.Repository.Release.GetAll("nik9play", "phos");
+        var latest = releases[0];
+        var downloadUrl = GetInstaller(latest.Assets);
+
+        var latestVersion = new Version(latest.TagName);
+        var currentVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion!);
+
+        var updateAvailable = latestVersion.CompareTo(currentVersion) > 0;
+
+        return new UpdateCheckResult
         {
-            using (var content = response.Content)
-            {
-                var json = await content.ReadAsStreamAsync();
-
-                var result = await JsonSerializer.DeserializeAsync<ApiResponse>(json);
-                var version = new Version(result.tag_name);
-                var downloadUrl = result.assets[1].browser_download_url;
-                var changeLog = result.body;
-
-                var currentVersion = new Version(FileVersionInfo
-                    .GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion);
-
-                var updateAvailable = version.CompareTo(currentVersion) > 0;
-
-                return new UpdateCheckResult
-                {
-                    UpdateAvailable = updateAvailable,
-                    LatestVersionUrl = downloadUrl,
-                    LatestChangeLog = changeLog,
-                    LatestVersion = version
-                };
-            }
-        }
+            UpdateAvailable = updateAvailable,
+            LatestVersionUrl = downloadUrl,
+            LatestChangeLog = latest.Body,
+            LatestVersion = latestVersion
+        };
     }
 
     public static async Task Update(UpdateCheckResult updateCheckResult, IProgress<float> progress,
@@ -86,9 +84,9 @@ public static class UpdateManager
         var fileName = Path.Combine(Path.GetTempPath(), "phos.updates",
             "phos_update_" + Guid.NewGuid() + ".exe");
 
-        await using (var fileStream = new FileStream(fileName, FileMode.CreateNew))
+        await using (var fileStream = new FileStream(fileName, System.IO.FileMode.CreateNew))
         {
-            await client.DownloadAsync(updateCheckResult.LatestVersionUrl, fileStream, progress, cancellationToken);
+            await HttpClient.DownloadAsync(updateCheckResult.LatestVersionUrl, fileStream, progress, cancellationToken);
         }
 
         var process = new Process();
@@ -97,8 +95,12 @@ public static class UpdateManager
         process.StartInfo.Arguments = "/SILENT";
         process.StartInfo.UseShellExecute = true;
 
+        AppMutex.CurrentMutex.ReleaseMutex();
+        AppMutex.CurrentMutex.Dispose();
+
         process.Start();
-        Application.Current.Shutdown();
+
+        System.Windows.Application.Current.Shutdown();
     }
 
     private static readonly DispatcherTimer CheckUpdateTimer = new()

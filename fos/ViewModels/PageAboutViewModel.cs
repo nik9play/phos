@@ -30,12 +30,13 @@ internal class PageAboutViewModel : INotifyPropertyChanged
 
     private static bool updateInstalling;
 
-    private readonly CancellationTokenSource _cancelTokenSource = new();
+    private static CancellationTokenSource cancelTokenSource;
 
     public PageAboutViewModel()
     {
         CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
         UpdateCommand = new AsyncRelayCommand(Update);
+        CancelCommand = new RelayCommand(() => cancelTokenSource.Cancel());
     }
 
     public string Version =>
@@ -135,8 +136,6 @@ internal class PageAboutViewModel : INotifyPropertyChanged
 
     public IAsyncRelayCommand UpdateCommand { get; }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
     private async Task CheckUpdates()
     {
         UpdateChecking = true;
@@ -188,7 +187,8 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         ProgressFloat = 0;
         ProgressPercent = 0;
 
-        var cancellationToken = _cancelTokenSource.Token;
+        cancelTokenSource = new CancellationTokenSource();
+        var cancellationToken = cancelTokenSource.Token;
 
         try
         {
@@ -196,16 +196,24 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         }
         catch (Win32Exception ex)
         {
-            if (ex.NativeErrorCode == 1223)
+            if (ex.NativeErrorCode == 1223) // Do not show error when user closed installer
                 UpdateInstalling = false;
             else
                 ShowError(ex);
+        }
+        catch (TaskCanceledException)
+        {
+            UpdateInstalling = false;
         }
         catch (Exception ex)
         {
             ShowError(ex);
         }
     }
+
+    public IRelayCommand CancelCommand { get; }
+    
+    public event PropertyChangedEventHandler PropertyChanged;
 
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {

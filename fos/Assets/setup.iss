@@ -57,6 +57,7 @@ Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\WinRT.Run
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\NJsonSchema.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Namotion.Reflection.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Octokit.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\phos.deps.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\phos.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\nik9\source\repos\fos\fos\bin\Release\net6.0\publish\Assets\welcome_video.mp4"; DestDir: "{app}\Assets"; Flags: ignoreversion

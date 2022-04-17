@@ -280,4 +280,7 @@
   <data name="WelcomeWindowOk" xml:space="preserve">
     <value>Got it</value>
   </data>
+  <data name="CancelButton" xml:space="preserve">
+	  <value>Cancel</value>
+  </data>
 </root>
