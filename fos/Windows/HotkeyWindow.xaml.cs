@@ -95,12 +95,12 @@ public partial class HotkeyWindow : Window
                 case HotkeyPopupLocationEnum.TopLeft:
                 case HotkeyPopupLocationEnum.TopRight:
                 case HotkeyPopupLocationEnum.TopCenter:
-                    (FindResource("ShowPopupUp") as Storyboard).Begin(this);
+                    (FindResource("ShowPopupUp") as Storyboard)!.Begin(this);
                     break;
                 case HotkeyPopupLocationEnum.BottomLeft:
                 case HotkeyPopupLocationEnum.BottomRight:
                 case HotkeyPopupLocationEnum.BottomCenter:
-                    (FindResource("ShowPopupDown") as Storyboard).Begin(this);
+                    (FindResource("ShowPopupDown") as Storyboard)!.Begin(this);
                     break;
             }
         }
