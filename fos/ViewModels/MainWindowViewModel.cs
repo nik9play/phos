@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DebounceThrottle;
@@ -22,6 +23,17 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public MainWindowViewModel()
     {
         Monitors = MonitorTools.GetMonitorList();
+
+        uint allBrightness = 0;
+
+        foreach (var el in Monitors)
+            allBrightness += el.Brightness;
+
+        if (Monitors.Count > 0)
+            allMonitorsBrightness = allBrightness / (uint)Monitors.Count;
+
+        Debug.WriteLine(AllMonitorsBrightness);
+
         AllMonitorsModeEnabled = SettingsController.Store.AllMonitorsModeEnabled;
         Monitors.CollectionChanged += Monitors_CollectionChanged;
     }
@@ -36,10 +48,10 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         {
             allMonitorsBrightness = value;
 
-            ThrottleDispatcher.Throttle(() => Task.Run(() =>
+            ThrottleDispatcher.Throttle(() /*=> Task.Run(()*/ =>
             {
                 foreach (var el in Monitors) el.Brightness = value;
-            }));
+            });
 
 
             RaiseStaticPropertyChanged();
