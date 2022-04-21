@@ -45,8 +45,6 @@ internal class BrightnessController : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    [DllImport("user32.dll", EntryPoint = "MonitorFromWindow")]
-    public static extern IntPtr MonitorFromWindow([In] IntPtr hwnd, uint dwFlags);
 
     [DllImport("dxva2.dll", EntryPoint = "DestroyPhysicalMonitors")]
     [return: MarshalAs(UnmanagedType.Bool)]
