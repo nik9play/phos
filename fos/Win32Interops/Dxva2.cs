@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-
 namespace fos.Win32Interops;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

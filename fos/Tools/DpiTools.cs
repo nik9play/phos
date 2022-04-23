@@ -1,55 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Interop;
 
-namespace fos.Tools
+namespace fos.Tools;
+
+public static class DpiTools
 {
-    public static class DpiTools
+    static DpiTools()
     {
-        public static double DpiFactorX { get; private set; } = 1;
-        public static double DpiFactorY { get; private set; } = 1;
+        UpdateDpiFactors();
+    }
 
-        static DpiTools()
-        {
-            UpdateDpiFactors();
-        }
+    public static double DpiFactorX { get; private set; } = 1;
+    public static double DpiFactorY { get; private set; } = 1;
 
-        internal static void UpdateDpiFactors()
+    internal static void UpdateDpiFactors()
+    {
+        using (var source = new HwndSource(new HwndSourceParameters()))
         {
-            using (var source = new HwndSource(new HwndSourceParameters()))
+            if (source.CompositionTarget?.TransformToDevice != null)
             {
-                if (source.CompositionTarget?.TransformToDevice != null)
-                {
-                    DpiFactorX = source.CompositionTarget.TransformToDevice.M11;
-                    DpiFactorY = source.CompositionTarget.TransformToDevice.M22;
-                    return;
-                }
+                DpiFactorX = source.CompositionTarget.TransformToDevice.M11;
+                DpiFactorY = source.CompositionTarget.TransformToDevice.M22;
+                return;
             }
-
-            DpiFactorX = DpiFactorY = 1;
         }
 
-        public static System.Drawing.Point ScalePointWithDpi(this System.Drawing.Point point)
+        DpiFactorX = DpiFactorY = 1;
+    }
+
+    public static Point ScalePointWithDpi(this Point point)
+    {
+        return new Point
         {
-            return new System.Drawing.Point
-            {
-                X = (int)(point.X / DpiFactorX),
-                Y = (int)(point.Y / DpiFactorY),
-            };
-        }
+            X = (int)(point.X / DpiFactorX),
+            Y = (int)(point.Y / DpiFactorY)
+        };
+    }
 
-        public static System.Drawing.Rectangle ScaleRectangleWithDpi(this System.Drawing.Rectangle rectangle)
+    public static Rectangle ScaleRectangleWithDpi(this Rectangle rectangle)
+    {
+        return new Rectangle
         {
-            return new System.Drawing.Rectangle
-            {
-                X = (int)(rectangle.X / DpiFactorX),
-                Y = (int)(rectangle.Y / DpiFactorY),
-                Width = (int)(rectangle.Width / DpiFactorX),
-                Height = (int)(rectangle.Height / DpiFactorY)
-            };
-        }
+            X = (int)(rectangle.X / DpiFactorX),
+            Y = (int)(rectangle.Y / DpiFactorY),
+            Width = (int)(rectangle.Width / DpiFactorX),
+            Height = (int)(rectangle.Height / DpiFactorY)
+        };
     }
 }

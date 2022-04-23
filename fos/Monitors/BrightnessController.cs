@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using fos.Win32Interops;
 
 namespace fos.Monitors;

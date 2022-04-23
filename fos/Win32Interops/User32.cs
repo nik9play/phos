@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using fos.Monitors;
 
 namespace fos.Win32Interops;
 
 public static class User32
 {
+    public delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Shell32.RECT lprcMonitor,
+        IntPtr dwData);
+
     public const int MONITOR_DEFAULTTONEAREST = 2;
 
     [DllImport("user32.dll")]
@@ -49,7 +51,4 @@ public static class User32
         public Point Position { get; set; }
         public Rect Bounds { get; set; }
     }
-
-    public delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Shell32.RECT lprcMonitor,
-        IntPtr dwData);
 }
