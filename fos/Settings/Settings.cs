@@ -40,6 +40,8 @@ public class Settings
 
     [Range(10, 1000)] public uint AllMonitorsBrightnessChangeInterval { get; set; } = 100;
 
+    [Range(100, 1000)] public uint TrayIconBrightnessChangeInterval { get; set; } = 200;
+
     public List<string> MonitorListLocationOverwrites { get; set; } = new();
     public Dictionary<string, MonitorCustomLimits> MonitorCustomLimits { get; set; } = new();
 }

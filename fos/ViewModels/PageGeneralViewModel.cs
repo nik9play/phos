@@ -29,6 +29,7 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
     private bool _autoStart;
 
     private uint _brightnessChangeInterval = SettingsController.Store.BrightnessChangeInterval;
+    private uint _trayIconBrightnessChangeInterval = SettingsController.Store.TrayIconBrightnessChangeInterval;
 
     private bool _restartRequired;
 
@@ -77,6 +78,18 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         {
             _allMonitorsbrightnessChangeInterval = value;
             SettingsController.Store.AllMonitorsBrightnessChangeInterval = _allMonitorsbrightnessChangeInterval;
+            RestartRequired = true;
+            OnPropertyChanged();
+        }
+    }
+
+    public uint TrayIconBrightnessChangeInterval
+    {
+        get => _trayIconBrightnessChangeInterval;
+        set
+        {
+            _trayIconBrightnessChangeInterval = value;
+            SettingsController.Store.TrayIconBrightnessChangeInterval = _trayIconBrightnessChangeInterval;
             RestartRequired = true;
             OnPropertyChanged();
         }

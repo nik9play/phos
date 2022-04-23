@@ -71,6 +71,11 @@ internal class InternalDisplay : IMonitor, INotifyPropertyChanged
         }
     }
 
+    public void SetBrightnessSlow(uint brightness)
+    {
+        Brightness = brightness;
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     public void OnPropertyChanged([CallerMemberName] string prop = "")

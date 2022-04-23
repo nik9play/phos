@@ -10,4 +10,5 @@ public interface IMonitor
     public Size Resolution { get; }
     public Point Position { get; }
     public uint Brightness { get; set; }
+    public void SetBrightnessSlow(uint brightness);
 }

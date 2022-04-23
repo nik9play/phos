@@ -286,4 +286,7 @@
   <data name="SettingsAboutRateLimitError" xml:space="preserve">
 	  <value>Rate limit exceeded. Please try again later.</value>
   </data>
+  <data name="SettingsGeneralBrightnessIntervalTrayIcon" xml:space="preserve">
+	  <value>Brightness change latency when using tray icon (ms)</value>
+  </data>
 </root>

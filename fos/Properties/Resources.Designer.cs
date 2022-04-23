@@ -333,6 +333,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Brightness change latency when using tray icon (ms).
+        /// </summary>
+        public static string SettingsGeneralBrightnessIntervalTrayIcon {
+            get {
+                return ResourceManager.GetString("SettingsGeneralBrightnessIntervalTrayIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Language.
         /// </summary>
         public static string SettingsGeneralLanguage {

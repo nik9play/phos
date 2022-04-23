@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DebounceThrottle;
+using fos.ViewModels;
 
 namespace fos.Monitors;
 
@@ -14,13 +15,16 @@ public class Monitor : IMonitor, INotifyPropertyChanged
     private readonly ThrottleDispatcher _throttleDispatcher =
         new((int)SettingsController.Store.BrightnessChangeInterval);
 
+    private readonly ThrottleDispatcher _slowThrottleDispatcher =
+        new((int)SettingsController.Store.TrayIconBrightnessChangeInterval);
+
     private uint _brightness;
     private string _name;
 
     public Monitor(string deviceName, string name, Size resolution, Point position, IntPtr monitorHandle)
     {
         DeviceName = deviceName;
-        _name = name;
+        Name = name;
         Resolution = resolution;
         Position = position;
 
@@ -75,6 +79,22 @@ public class Monitor : IMonitor, INotifyPropertyChanged
             _throttleDispatcher.Throttle(() => Task.Run(() => _contoller.SetBrightness(newBrightness)));
             OnPropertyChanged();
         }
+    }
+
+    public void SetBrightnessSlow(uint brightness)
+    {
+        _brightness = brightness;
+        var newBrightness = _brightness;
+
+        SettingsController.Store.MonitorCustomLimits.TryGetValue(DeviceId, out var monitorCustomLimits);
+        if (monitorCustomLimits != null)
+            newBrightness =
+                (uint)((float)_brightness / 100 *
+                       (monitorCustomLimits.Maximum - (float)monitorCustomLimits.Minimum) +
+                       monitorCustomLimits.Minimum);
+
+        _slowThrottleDispatcher.Throttle(() => Task.Run(() => _contoller.SetBrightness(newBrightness)));
+        OnPropertyChanged(nameof(Brightness));
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

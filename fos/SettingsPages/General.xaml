@@ -38,6 +38,12 @@
                           SpinButtonPlacementMode="Inline"
                           Value="{Binding AllMonitorsBrightnessChangeInterval}" />
 
+            <TextBlock TextWrapping="Wrap" Text="{x:Static res:Resources.SettingsGeneralBrightnessIntervalTrayIcon}" />
+            <ui:NumberBox HorizontalAlignment="Left" MinWidth="290"
+                          Minimum="100" Maximum="1000"
+                          SpinButtonPlacementMode="Inline"
+                          Value="{Binding TrayIconBrightnessChangeInterval}" />
+
 
             <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}" />
             <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}"

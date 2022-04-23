@@ -286,4 +286,7 @@
   <data name="SettingsAboutRateLimitError" xml:space="preserve">
 	  <value>Ограничение запросов на обновление превышено. Пожалуйста, повторите попытку позже.</value>
   </data>
+  <data name="SettingsGeneralBrightnessIntervalTrayIcon" xml:space="preserve">
+	  <value>Задержка изменения яркости при использовании иконки в трее (мс)</value>
+  </data>
 </root>

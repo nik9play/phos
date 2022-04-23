@@ -2,12 +2,11 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using DebounceThrottle;
 using fos.Properties;
 using fos.Tools;
 using fos.ViewModels;
-using fos.Win32;
+using fos.Win32Interops;
 using H.Hooks;
 using H.NotifyIcon;
 using H.NotifyIcon.Core;
@@ -20,7 +19,7 @@ namespace fos;
 public static class TrayIconManager
 {
     private static readonly ThrottleDispatcher ThrottleDispatcher =
-        new(100);
+        new((int)SettingsController.Store.AllMonitorsBrightnessChangeInterval);
 
     private static TaskbarIcon IconInTray { get; set; }
     private static Guid TrayIconGuid { get; set; }
@@ -71,8 +70,7 @@ public static class TrayIconManager
 
     private static void OnMouseWheel(object sender, MouseEventArgs args)
     {
-        ThrottleDispatcher.Throttle(() =>
-        {
+
             var trayIconRectangle = GetRectangle();
 
             if (trayIconRectangle.HasValue &&
@@ -100,6 +98,7 @@ public static class TrayIconManager
                         }
                         else
                         {
+
                             foreach (var el in MainWindowViewModel.Monitors)
                             {
                                 var newBrightness = el.Brightness + offset;
@@ -110,8 +109,9 @@ public static class TrayIconManager
                                 if (newBrightness > 100)
                                     newBrightness = 100;
 
-                                el.Brightness = (uint)newBrightness;
+                                el.SetBrightnessSlow((uint)newBrightness);
                             }
+
                         }
                     }
                     catch
@@ -119,7 +119,8 @@ public static class TrayIconManager
                         // ignored
                     }
                 });
-        });
+
+
     }
 
     public static Rect? GetRectangle()
@@ -144,7 +145,7 @@ public static class TrayIconManager
 
     public static void UpdateTheme(ApplicationTheme theme)
     {
-        var factor = VisualTreeHelper.GetDpi(WindowManager.MainWindow).DpiScaleX;
+        var factor = DpiTools.DpiFactorX;
         var iconSize = new Size((int)(SystemParameters.SmallIconWidth * factor),
             (int)(SystemParameters.SmallIconHeight * factor));
 
