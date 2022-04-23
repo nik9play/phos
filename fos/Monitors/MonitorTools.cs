@@ -4,38 +4,23 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using fos.Win32Interops;
 using WindowsDisplayAPI.DisplayConfig;
 using WindowsDisplayAPI.Native.DisplayConfig;
 
-namespace fos;
+namespace fos.Monitors;
 
 internal static class MonitorTools
 {
-    private const int MONITOR_DEFAULTTONEAREST = 2;
-
-    [DllImport("user32.dll")]
-    private static extern bool GetCursorPos(out POINT lpPoint);
-
-    [DllImport("user32.dll", ExactSpelling = true)]
-    private static extern IntPtr MonitorFromPoint(POINT pt, uint dwFlags);
-
-
-    [DllImport("user32.dll")]
-    private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumDelegate lpfnEnum,
-        IntPtr dwData);
-
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
-
-    public static MonitorInfo GetCurrentMonitor()
+    public static User32.MonitorInfo GetCurrentMonitor()
     {
-        GetCursorPos(out var point);
-        var currentMonitorHandle = MonitorFromPoint(point, MONITOR_DEFAULTTONEAREST);
-        var monitorInfoEx = new MONITORINFOEX();
+        User32.GetCursorPos(out var point);
+        var currentMonitorHandle = User32.MonitorFromPoint(point, User32.MONITOR_DEFAULTTONEAREST);
+        var monitorInfoEx = new User32.MONITORINFOEX();
         monitorInfoEx.Size = (uint)Marshal.SizeOf(monitorInfoEx);
-        GetMonitorInfo(currentMonitorHandle, ref monitorInfoEx);
+        User32.GetMonitorInfo(currentMonitorHandle, ref monitorInfoEx);
 
-        return new MonitorInfo
+        return new User32.MonitorInfo
         {
             Resolution = new Size(monitorInfoEx.Monitor.Right - monitorInfoEx.Monitor.Left,
                 monitorInfoEx.Monitor.Bottom - monitorInfoEx.Monitor.Top),
@@ -56,18 +41,18 @@ internal static class MonitorTools
     {
         var MonitorHandlesDict = new Dictionary<string, IntPtr>();
 
-        EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
-            delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData)
+        User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+            delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Shell32.RECT lprcMonitor, IntPtr dwData)
             {
-                var mi = new MONITORINFOEX();
+                var mi = new User32.MONITORINFOEX();
                 mi.Size = (uint)Marshal.SizeOf(mi);
-                var success = GetMonitorInfo(hMonitor, ref mi);
+                var success = User32.GetMonitorInfo(hMonitor, ref mi);
                 if (success) MonitorHandlesDict.Add(mi.DeviceName, hMonitor);
                 return true;
             },
             IntPtr.Zero);
 
-        var MonitorList = new ObservableCollection<IMonitor>();
+        var monitorList = new ObservableCollection<IMonitor>();
 
         foreach (var pi in PathInfo.GetActivePaths())
         {
@@ -80,7 +65,7 @@ internal static class MonitorTools
             if (pi.TargetsInfo[0].OutputTechnology == DisplayConfigVideoOutputTechnology.Internal)
                 try
                 {
-                    MonitorList.Add(new InternalDisplay(pi.DisplaySource.DisplayName, pi.Resolution, pi.Position));
+                    monitorList.Add(new InternalDisplay(pi.DisplaySource.DisplayName, pi.Resolution, pi.Position));
                 }
                 catch
                 {
@@ -89,7 +74,7 @@ internal static class MonitorTools
             else if (MonitorHandlesDict.ContainsKey(deviceId))
                 try
                 {
-                    MonitorList.Add(new Monitor(deviceId, name, pi.Resolution, pi.Position,
+                    monitorList.Add(new Monitor(deviceId, name, pi.Resolution, pi.Position,
                         MonitorHandlesDict[deviceId]));
                 }
                 catch
@@ -102,51 +87,11 @@ internal static class MonitorTools
 
         for (var i = 0; i < overwrites.Count; i++)
         {
-            //int index = MonitorList.FindIndex(e => e.Name == overwrites[i]);
-            var index = MonitorList.IndexOf(MonitorList.FirstOrDefault(el => el.DeviceId == overwrites[i]));
+            var index = monitorList.IndexOf(monitorList.FirstOrDefault(el => el.DeviceId == overwrites[i]));
 
-            if (index > -1) MonitorList.Move(index, i);
+            if (index > -1) monitorList.Move(index, i);
         }
 
-        return MonitorList;
+        return monitorList;
     }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct RECT
-    {
-        public readonly int Left;
-        public readonly int Top;
-        public readonly int Right;
-        public readonly int Bottom;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct POINT
-    {
-        public int x;
-        public int y;
-    }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    private struct MONITORINFOEX
-    {
-        public uint Size;
-        public readonly RECT Monitor;
-        public readonly RECT WorkArea;
-        public readonly uint Flags;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public readonly string DeviceName;
-    }
-
-    public class MonitorInfo
-    {
-        public Size Resolution { get; set; }
-        public Rect WorkingArea { get; set; }
-        public Point Position { get; set; }
-        public Rect Bounds { get; set; }
-    }
-
-    private delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor,
-        IntPtr dwData);
 }

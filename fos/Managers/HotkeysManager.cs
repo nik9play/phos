@@ -1,4 +1,5 @@
-﻿using fos.ViewModels;
+﻿using fos.Monitors;
+using fos.ViewModels;
 using NHotkey;
 using NHotkey.Wpf;
 

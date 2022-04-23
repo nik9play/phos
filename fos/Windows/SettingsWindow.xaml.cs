@@ -51,7 +51,7 @@ public partial class SettingsWindow : Window
                     NavView.Header = Properties.Resources.SettingsAbout;
                     break;
                 case "Monitors":
-                    ContentFrame.Navigate(typeof(Monitors));
+                    ContentFrame.Navigate(typeof(SettingsPages.Monitors));
                     NavView.Header = Properties.Resources.SettingsMonitors;
                     break;
             }

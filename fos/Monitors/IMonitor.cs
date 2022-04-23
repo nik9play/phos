@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 
-namespace fos;
+namespace fos.Monitors;
 
 public interface IMonitor
 {

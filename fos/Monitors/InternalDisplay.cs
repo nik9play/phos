@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using DebounceThrottle;
+using fos.Monitors;
 using fos.Properties;
 
 namespace fos;

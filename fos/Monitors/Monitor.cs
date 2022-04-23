@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DebounceThrottle;
 
-namespace fos;
+namespace fos.Monitors;
 
 public class Monitor : IMonitor, INotifyPropertyChanged
 {

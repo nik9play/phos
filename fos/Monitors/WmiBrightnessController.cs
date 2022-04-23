@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Management;
 
-namespace fos;
+namespace fos.Monitors;
 
 internal class WmiBrightnessController
 {
