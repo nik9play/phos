@@ -16,6 +16,7 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         Title="HotkeyWindow" Height="70" Width="220">
     <Window.Resources>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="ShowPopupDown">
             <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
@@ -28,7 +29,7 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.500" Value="0" KeySpline="0.1, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="HidePopupDown">
             <ui:FadeOutThemeAnimation Storyboard.TargetName="ContentGrid" />
 
@@ -41,7 +42,7 @@
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="ShowPopupUp">
             <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
@@ -54,7 +55,7 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.500" Value="0" KeySpline="0.1, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="HidePopupUp">
             <ui:FadeOutThemeAnimation Storyboard.TargetName="ContentGrid" />
 

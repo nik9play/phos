@@ -15,6 +15,7 @@
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Title="WelcomeWindow" Height="580" Width="700">
     <Window.Resources>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="ClosingAnimation">
             <ui:FadeOutThemeAnimation Storyboard.TargetName="WelcomeContent" />
         </Storyboard>
