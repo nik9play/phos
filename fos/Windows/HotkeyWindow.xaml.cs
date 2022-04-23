@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using fos.Monitors;
+using fos.Tools;
 
 namespace fos;
 
@@ -34,7 +35,7 @@ public partial class HotkeyWindow : Window
     {
         var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
-        var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+        var factor = DpiTools.DpiFactorX;
 
         switch (SettingsController.Store.HotkeyPopupLocation)
         {

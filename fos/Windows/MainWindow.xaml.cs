@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using fos.Monitors;
+using fos.Tools;
 using fos.ViewModels;
 
 namespace fos;
@@ -28,7 +29,7 @@ public partial class MainWindow : Window
     {
         var currentMonitorInfo = MonitorTools.GetCurrentMonitor();
 
-        var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+        var factor = DpiTools.DpiFactorX;
 
         if (currentMonitorInfo.WorkingArea.Height < currentMonitorInfo.Bounds.Height)
         {

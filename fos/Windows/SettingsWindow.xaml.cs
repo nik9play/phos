@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using fos.SettingsPages;
+using fos.Tools;
 using fos.Workarounds;
 using ModernWpf.Controls;
 
@@ -21,7 +21,7 @@ public partial class SettingsWindow : Window
         InitializeComponent();
         Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon.ico",
             UriKind.RelativeOrAbsolute));
-        var factor = VisualTreeHelper.GetDpi(this).DpiScaleX;
+        var factor = DpiTools.DpiFactorX;
 
         if (factor > 1.0)
             Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon2.ico",
