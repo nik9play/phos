@@ -16,8 +16,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-
+        Visibility = Visibility.Hidden;
         DataContext = new MainWindowViewModel();
+
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -74,8 +75,15 @@ public partial class MainWindow : Window
         if (Visibility != Visibility.Hidden) return;
 
         Visibility = Visibility.Visible;
+
         (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
         Activate();
+    }
+
+    public void PreloadWindow()
+    {
+        Visibility = Visibility.Visible;
+        Visibility = Visibility.Hidden;
     }
 
     private void Window_Deactivated(object sender, EventArgs e)

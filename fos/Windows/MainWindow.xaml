@@ -21,7 +21,6 @@
         Topmost="True"
         AllowsTransparency="True"
         Background="Transparent"
-        Visibility="Hidden"
         xmlns:dd="urn:gong-wpf-dragdrop"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
         Deactivated="Window_Deactivated"
@@ -67,6 +66,7 @@
             </ui:ThemeShadowChrome.RenderTransform>
 
             <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True"
+                    MinHeight="129"
                     BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
@@ -177,6 +177,7 @@
                                     ToolTip="{x:Static res:Resources.AllMonitorsMode}" Icon="Link" />
                                 <ui:AppBarButton
                                     Width="36"
+                                    IsEnabled="True"
                                     ToolTip="{x:Static res:Resources.SettingsTitle}" Icon="Setting"
                                     Command="{Binding OpenSettingsWindowCommand}" />
                                 <ui:AppBarButton

@@ -11,6 +11,8 @@ internal static class WindowManager
     public static void CreateWindows()
     {
         MainWindow = new MainWindow();
+        MainWindow.PreloadWindow();
+
         HotkeyWindow = new HotkeyWindow();
 
         if (SettingsController.Store.FirstStart)
