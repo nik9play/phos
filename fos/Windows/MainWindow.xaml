@@ -28,19 +28,21 @@
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="ShowPopup">
             <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
-                <DiscreteDoubleKeyFrame KeyTime="0" Value="380" />
+            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
+                <DiscreteDoubleKeyFrame KeyTime="0" Value="{Binding ActualHeight, ElementName=ContentGrid}" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="0" KeySpline="0.3, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Storyboard x:Key="HidePopup">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="T1">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
                 <DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="380" KeySpline="0.2, 0.9, 0.2, 1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="{Binding ActualHeight, ElementName=ContentGrid}" KeySpline="0.2, 0.9, 0.2, 1" />
             </DoubleAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.3" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
