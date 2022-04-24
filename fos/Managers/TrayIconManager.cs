@@ -80,7 +80,8 @@ public static class TrayIconManager
                 args.Position.Y < trayIconRectangle.Value.Y + trayIconRectangle.Value.Height)
                 Application.Current.Dispatcher.Invoke(delegate
                 {
-                    var offset = args.Delta > 0 ? 5 : -5;
+                    var multiplier = args.Delta > 0 ? 1 : -1;
+                    var offset = multiplier * (int)SettingsController.Store.HotkeyStep;
 
                     try
                     {
