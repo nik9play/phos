@@ -70,24 +70,37 @@ public static class TrayIconManager
 
     private static void OnMouseWheel(object sender, MouseEventArgs args)
     {
+        var trayIconRectangle = GetRectangle();
 
-            var trayIconRectangle = GetRectangle();
+        if (trayIconRectangle.HasValue &&
+            args.Position.X > trayIconRectangle?.X &&
+            args.Position.X < trayIconRectangle.Value.X + trayIconRectangle.Value.Width &&
+            args.Position.Y > trayIconRectangle.Value.Y &&
+            args.Position.Y < trayIconRectangle.Value.Y + trayIconRectangle.Value.Height)
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                var multiplier = args.Delta > 0 ? 1 : -1;
+                var offset = multiplier * (int)SettingsController.Store.HotkeyStep;
 
-            if (trayIconRectangle.HasValue &&
-                args.Position.X > trayIconRectangle?.X &&
-                args.Position.X < trayIconRectangle.Value.X + trayIconRectangle.Value.Width &&
-                args.Position.Y > trayIconRectangle.Value.Y &&
-                args.Position.Y < trayIconRectangle.Value.Y + trayIconRectangle.Value.Height)
-                Application.Current.Dispatcher.Invoke(delegate
+                try
                 {
-                    var multiplier = args.Delta > 0 ? 1 : -1;
-                    var offset = multiplier * (int)SettingsController.Store.HotkeyStep;
-
-                    try
+                    if (SettingsController.Store.AllMonitorsModeEnabled)
                     {
-                        if (SettingsController.Store.AllMonitorsModeEnabled)
+                        var newBrightness = MainWindowViewModel.AllMonitorsBrightness + offset;
+
+                        if (newBrightness < 0)
+                            newBrightness = 0;
+
+                        if (newBrightness > 100)
+                            newBrightness = 100;
+
+                        MainWindowViewModel.AllMonitorsBrightness = (uint)newBrightness;
+                    }
+                    else
+                    {
+                        foreach (var el in MainWindowViewModel.Monitors)
                         {
-                            var newBrightness = MainWindowViewModel.AllMonitorsBrightness + offset;
+                            var newBrightness = el.Brightness + offset;
 
                             if (newBrightness < 0)
                                 newBrightness = 0;
@@ -95,33 +108,15 @@ public static class TrayIconManager
                             if (newBrightness > 100)
                                 newBrightness = 100;
 
-                            MainWindowViewModel.AllMonitorsBrightness = (uint)newBrightness;
-                        }
-                        else
-                        {
-
-                            foreach (var el in MainWindowViewModel.Monitors)
-                            {
-                                var newBrightness = el.Brightness + offset;
-
-                                if (newBrightness < 0)
-                                    newBrightness = 0;
-
-                                if (newBrightness > 100)
-                                    newBrightness = 100;
-
-                                el.SetBrightnessSlow((uint)newBrightness);
-                            }
-
+                            el.SetBrightnessSlow((uint)newBrightness);
                         }
                     }
-                    catch
-                    {
-                        // ignored
-                    }
-                });
-
-
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
     }
 
     public static Rect? GetRectangle()
