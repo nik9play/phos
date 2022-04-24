@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -74,12 +75,18 @@ public partial class HotkeyWindow : Window
             case HotkeyPopupLocationEnum.TopLeft:
             case HotkeyPopupLocationEnum.TopRight:
             case HotkeyPopupLocationEnum.TopCenter:
-                (TryFindResource("HidePopupUp") as Storyboard)?.Begin(this);
+                if (!ThemeTools.IsAnimationsEnabled)
+                    (TryFindResource("HidePopupUpNoAnim") as Storyboard)?.Begin(this);
+                else
+                    (TryFindResource("HidePopupUp") as Storyboard)?.Begin(this);
                 break;
             case HotkeyPopupLocationEnum.BottomLeft:
             case HotkeyPopupLocationEnum.BottomRight:
             case HotkeyPopupLocationEnum.BottomCenter:
-                (TryFindResource("HidePopupDown") as Storyboard)?.Begin(this);
+                if (!ThemeTools.IsAnimationsEnabled)
+                    (TryFindResource("HidePopupDownNoAnim") as Storyboard)?.Begin(this);
+                else
+                    (TryFindResource("HidePopupDown") as Storyboard)?.Begin(this);
                 break;
         }
     }
@@ -88,26 +95,33 @@ public partial class HotkeyWindow : Window
     {
         SetPosition();
 
+        HideTimer.Stop();
+        HideTimer.Start();
+
         if (Visibility == Visibility.Hidden)
         {
             Visibility = Visibility.Visible;
+
             switch (SettingsController.Store.HotkeyPopupLocation)
             {
                 case HotkeyPopupLocationEnum.TopLeft:
                 case HotkeyPopupLocationEnum.TopRight:
                 case HotkeyPopupLocationEnum.TopCenter:
-                    (FindResource("ShowPopupUp") as Storyboard)!.Begin(this);
+                    if (!ThemeTools.IsAnimationsEnabled)
+                        (TryFindResource("ShowPopupUpNoAnim") as Storyboard)?.Begin(this);
+                    else
+                        (TryFindResource("ShowPopupUp") as Storyboard)?.Begin(this);
                     break;
                 case HotkeyPopupLocationEnum.BottomLeft:
                 case HotkeyPopupLocationEnum.BottomRight:
                 case HotkeyPopupLocationEnum.BottomCenter:
-                    (FindResource("ShowPopupDown") as Storyboard)!.Begin(this);
+                    if (!ThemeTools.IsAnimationsEnabled)
+                        (TryFindResource("ShowPopupDownNoAnim") as Storyboard)?.Begin(this);
+                    else
+                        (TryFindResource("ShowPopupDown") as Storyboard)?.Begin(this);
                     break;
             }
         }
-
-        HideTimer.Stop();
-        HideTimer.Start();
     }
 
     public void SetValue(uint value)

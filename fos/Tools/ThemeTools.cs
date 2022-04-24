@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Microsoft.Win32;
@@ -49,6 +50,9 @@ public static class ThemeTools
         ThemeChangeTimer = new() { Interval = TimeSpan.FromMilliseconds(2000) };
 
     private static ApplicationTheme LastCurrentTheme;
+
+    public static bool IsAnimationsEnabled => SystemParameters.ClientAreaAnimation &&
+                                       RenderCapability.Tier > 0;
 
     static ThemeTools()
     {

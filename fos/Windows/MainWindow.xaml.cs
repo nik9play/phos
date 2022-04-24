@@ -76,7 +76,11 @@ public partial class MainWindow : Window
 
         Visibility = Visibility.Visible;
 
-        (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
+        if (ThemeTools.IsAnimationsEnabled)
+            (TryFindResource("ShowPopup") as Storyboard)?.Begin(this);
+        else
+            (TryFindResource("ShowPopupNoAnim") as Storyboard)?.Begin(this);
+
         Activate();
     }
 
@@ -88,7 +92,10 @@ public partial class MainWindow : Window
 
     private void Window_Deactivated(object sender, EventArgs e)
     {
-        (TryFindResource("HidePopup") as Storyboard)?.Begin(this);
+        if (ThemeTools.IsAnimationsEnabled)
+            (TryFindResource("HidePopup") as Storyboard)?.Begin(this);
+        else
+            (TryFindResource("HidePopupNoAnim") as Storyboard)?.Begin(this);
     }
 
     private void AppBarButton_Click(object sender, RoutedEventArgs e)

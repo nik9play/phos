@@ -47,6 +47,24 @@
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
+        <Storyboard x:Key="ShowPopupNoAnim">
+            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
+        <Storyboard x:Key="HidePopupNoAnim">
+            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="(TranslateTransform.Y)" Storyboard.TargetName="T1">
+                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ActualHeight, ElementName=ContentGrid}" />
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames BeginTime="0" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
 
         <local:BooleanToVisibilityConverter
             x:Key="BooleanToVisibilityConverter"
