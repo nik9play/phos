@@ -57,7 +57,7 @@ public static class TrayIconManager
             NoLeftClickDelay = true
         };
 
-        TrayIconGuid = TrayIcon.CreateUniqueGuidForEntryAssembly();
+        TrayIconGuid = TrayIcon.CreateUniqueGuidForEntryAssemblyLocation();
 
         MouseHook = new LowLevelMouseHook();
 
