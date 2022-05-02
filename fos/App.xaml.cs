@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using fos.Tools;
 using fos.Workarounds;
@@ -28,8 +29,12 @@ public partial class App : Application
 
     private async void Application_Startup(object sender, StartupEventArgs e)
     {
-        AppMutex.CurrentMutex = new Mutex(true, "phos.megaworld", out var aIsNewInstance);
-        if (!aIsNewInstance) Current.Shutdown();
+        AppMutex.CurrentMutex = new Mutex(false, "phos.megaworld", out var aIsNewInstance);
+        if (!aIsNewInstance)
+        {
+            Current.Shutdown();
+            return;
+        }
 
         SettingsController.LoadSettings();
         SettingsController.LoadLanguage();
