@@ -36,6 +36,25 @@ public partial class App : Application
             return;
         }
 
+        ToastNotificationManagerCompat.OnActivated += toastArgs =>
+        {
+            var args = ToastArguments.Parse(toastArgs.Argument);
+
+            args.TryGetValue("action", out var action);
+
+            if (action == "update")
+                Current.Dispatcher.Invoke(delegate
+                {
+                    WindowManager.OpenSettingsWindow();
+                    WindowManager.SettingsWindow.OpenAboutPage();
+                });
+
+            if (action == "test")
+            {
+                MessageBox.Show("test123");
+            }
+        };
+
         SettingsController.LoadSettings();
         SettingsController.LoadLanguage();
         WindowManager.CreateWindows();
@@ -52,20 +71,6 @@ public partial class App : Application
             UpdateManager.StartTimer();
             await UpdateManager.CheckUpdatesSilent();
         }
-
-        ToastNotificationManagerCompat.OnActivated += toastArgs =>
-        {
-            var args = ToastArguments.Parse(toastArgs.Argument);
-
-            args.TryGetValue("action", out var action);
-
-            if (action == "update")
-                Current.Dispatcher.Invoke(delegate
-                {
-                    WindowManager.OpenSettingsWindow();
-                    WindowManager.SettingsWindow.OpenAboutPage();
-                });
-        };
     }
 
     private void ThemeTools_ThemeChanged(object sender, ThemeChangingArgs e)

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  IgnorableNamespaces="uap rescap com desktop">
+
+  <Identity
+    Name="806b37d5-6a1d-4fb1-af15-0f7511fb68ed"
+    Publisher="CN=nik9"
+    Version="1.0.5.0" />
+
+  <Properties>
+    <DisplayName>fos.package</DisplayName>
+    <PublisherDisplayName>nik9</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="fos.package"
+        Description="fos.package"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+	    <Extensions>
+
+		    <!--Specify which CLSID to activate when toast clicked-->
+		    <desktop:Extension Category="windows.toastNotificationActivation">
+			    <desktop:ToastNotificationActivation ToastActivatorCLSID="301b4701-6acb-4465-ba57-42d204f876e2" />
+		    </desktop:Extension>
+
+		    <!--Register COM CLSID LocalServer32 registry key-->
+		    <com:Extension Category="windows.comServer">
+			    <com:ComServer>
+				    <com:ExeServer Executable="fos\phos.exe" Arguments="-ToastActivated" DisplayName="Toast activator">
+					    <com:Class Id="301b4701-6acb-4465-ba57-42d204f876e2" DisplayName="Toast activator"/>
+				    </com:ExeServer>
+			    </com:ComServer>
+		    </com:Extension>
+
+	    </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
