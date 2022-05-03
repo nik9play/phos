@@ -114,6 +114,7 @@ public static class UpdateManager
 
     public static void StartTimer()
     {
+        if (PackageHelper.IsContainerized()) return;
         CheckUpdateTimer.Start();
     }
 
@@ -124,6 +125,8 @@ public static class UpdateManager
 
     public static async Task CheckUpdatesSilent()
     {
+        if (PackageHelper.IsContainerized()) return;
+
         try
         {
             var updateCheckResult = await CheckUpdates();
@@ -143,6 +146,7 @@ public static class UpdateManager
 
     public static void InitTimer()
     {
+        if (PackageHelper.IsContainerized()) return;
         CheckUpdateTimer.Tick += async (_, _) => await CheckUpdatesSilent();
     }
 }
