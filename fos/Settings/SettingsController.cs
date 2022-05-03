@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using fos.Properties;
+using fos.Tools;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NJsonSchema;
@@ -12,8 +14,7 @@ namespace fos;
 
 public static class SettingsController
 {
-    private static readonly string ConfigPath =
-        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
+    private static readonly string ConfigPath;
 
     public static readonly Settings DefaultSettings = new();
 
@@ -29,6 +30,14 @@ public static class SettingsController
         //    WriteIndented = true,
         //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         //};
+
+        if (PackageHelper.IsContainerized())
+            ConfigPath =
+                Path.Combine(Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.LocalApplicationData), "phos/config.json"));
+        else
+            ConfigPath =
+                Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
     }
 
     public static Settings Store { get; private set; }
@@ -113,6 +122,9 @@ public static class SettingsController
 
     public static void SaveSettings()
     {
+        if (!File.Exists(ConfigPath))
+            Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
+
         File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
     }
 
