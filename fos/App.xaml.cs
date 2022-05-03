@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using fos.Tools;
+using fos.Win32Interops;
 using fos.Workarounds;
 using Microsoft.Toolkit.Uwp.Notifications;
 using ModernWpf;
@@ -82,5 +83,13 @@ public partial class App : Application
     {
         ThemeManager.Current.ApplicationTheme = currentTheme;
         TrayIconManager.UpdateTheme(currentTheme);
+    }
+
+    private void App_OnSessionEnding(object sender, SessionEndingCancelEventArgs e)
+    {
+        MessageBox.Show("Aboba");
+        Kernel32.RegisterApplicationRestart("", Kernel32.RestartFlags.RESTART_NO_CRASH |
+                                                                Kernel32.RestartFlags.RESTART_NO_HANG |
+                                                                Kernel32.RestartFlags.RESTART_NO_REBOOT);
     }
 }
