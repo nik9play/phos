@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using fos.Properties;
+using fos.Tools;
 using Microsoft.Toolkit.Mvvm.Input;
 using Octokit;
 
@@ -38,6 +39,10 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
         UpdateCommand = new AsyncRelayCommand(Update);
         CancelCommand = new RelayCommand(() => cancelTokenSource.Cancel());
+        OpenStoreCommand =
+            new RelayCommand(() =>
+                Process.Start(new ProcessStartInfo("ms-windows-store://pdp/?ProductId=<your app's Store ID>")
+                    { UseShellExecute = true }));
 
         if (UpdateManager.LatestUpdateCheckResult != null)
         {
@@ -57,6 +62,8 @@ internal class PageAboutViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    public bool IsContainerized => PackageHelper.IsContainerized();
 
     public string Version =>
         FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
@@ -112,6 +119,7 @@ internal class PageAboutViewModel : INotifyPropertyChanged
     }
 
     public IAsyncRelayCommand CheckUpdatesCommand { get; }
+    public RelayCommand OpenStoreCommand { get; }
 
     public bool UpdateAvailable
     {
