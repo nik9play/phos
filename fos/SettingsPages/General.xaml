@@ -15,6 +15,11 @@
             x:Key="BooleanToVisibilityConverter"
             True="Visible"
             False="Collapsed" />
+
+        <f:BooleanToVisibilityConverter
+            x:Key="InvertBooleanToVisibilityConverter"
+            True="Collapsed"
+            False="Visible" />
     </ui:Page.Resources>
 
     <f:ScrollViewerEx Padding="0,0,20,0">
@@ -45,9 +50,14 @@
                           Value="{Binding TrayIconBrightnessChangeInterval}" />
 
 
-            <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}" />
-            <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}"
-                             Header="{x:Static res:Resources.SettingsGeneralAutoCheck}" />
+            <ui:SimpleStackPanel Spacing="8"
+                                 Visibility="{Binding IsContainerized, 
+                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}" />
+                <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}"
+                                 Header="{x:Static res:Resources.SettingsGeneralAutoCheck}" />
+
+            </ui:SimpleStackPanel>
             <Border Padding="10"
                     CornerRadius="5"
                     Visibility="{Binding RestartRequired,

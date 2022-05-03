@@ -137,6 +137,8 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         }
     }
 
+    public bool IsContainerized => PackageHelper.IsContainerized();
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     public static ObservableCollection<Language> GetAvailableLanguages()
