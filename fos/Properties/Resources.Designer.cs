@@ -261,6 +261,24 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Open Microsoft Store.
+        /// </summary>
+        public static string SettingsAboutStoreButton {
+            get {
+                return ResourceManager.GetString("SettingsAboutStoreButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You can check and install updates from Microsoft Store..
+        /// </summary>
+        public static string SettingsAboutStoreMessage {
+            get {
+                return ResourceManager.GetString("SettingsAboutStoreMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Update available.
         /// </summary>
         public static string SettingsAboutUpdateAvailable {

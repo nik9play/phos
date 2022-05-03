@@ -289,4 +289,10 @@
   <data name="SettingsGeneralBrightnessIntervalTrayIcon" xml:space="preserve">
 	  <value>Brightness change latency when using tray icon (ms)</value>
   </data>
+  <data name="SettingsAboutStoreMessage" xml:space="preserve">
+	  <value>You can check and install updates from Microsoft Store.</value>
+  </data>
+  <data name="SettingsAboutStoreButton" xml:space="preserve">
+	  <value>Open Microsoft Store</value>
+  </data>
 </root>
