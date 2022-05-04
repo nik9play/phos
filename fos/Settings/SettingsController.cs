@@ -9,6 +9,7 @@ using fos.Tools;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NJsonSchema;
+using NJsonSchema.Generation;
 
 namespace fos;
 
@@ -49,7 +50,7 @@ public static class SettingsController
             var json = File.ReadAllText(ConfigPath);
             try
             {
-                var schema = JsonSchema.FromType<Settings>();
+                var schema = JsonSchema.FromType<Settings>(new JsonSchemaGeneratorSettings { AlwaysAllowAdditionalObjectProperties = true });
 
                 var errors = schema.Validate(json);
 
