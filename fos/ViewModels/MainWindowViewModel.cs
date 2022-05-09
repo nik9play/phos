@@ -98,10 +98,13 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     private void Monitors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        SettingsController.Store.MonitorListLocationOverwrites.Clear();
-        foreach (var el in Monitors) SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
+        if (e.Action == NotifyCollectionChangedAction.Move)
+        {
+            SettingsController.Store.MonitorListLocationOverwrites.Clear();
+            foreach (var el in Monitors) SettingsController.Store.MonitorListLocationOverwrites.Add(el.DeviceId);
 
-        SettingsController.SaveSettings();
+            SettingsController.SaveSettings();
+        }
     }
 
     public void OnPropertyChanged([CallerMemberName] string prop = "")
