@@ -81,7 +81,10 @@
                                Text="{x:Static res:Resources.SettingsRestartRequired}" />
                     <Button Command="{Binding RestartApplicationCommand}" Grid.Column="2" Margin="5,0,0,0"
                             HorizontalAlignment="Right"
+                            Visibility="{Binding IsContainerized, 
+                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}"
                             Content="{x:Static res:Resources.RestartButton}" />
+
                 </Grid>
             </Border>
         </ui:SimpleStackPanel>
