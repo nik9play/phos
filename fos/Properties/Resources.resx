@@ -295,4 +295,22 @@
   <data name="SettingsAboutStoreButton" xml:space="preserve">
 	  <value>Open Microsoft Store</value>
   </data>
+  <data name="SettingsSchedulerTitle" xml:space="preserve">
+	  <value>Brightness Scheduler</value>
+  </data>
+  <data name="SettingsSchedulerDescription" xml:space="preserve">
+	  <value>Automatically set brightness of monitors at desired time every day.</value>
+  </data>
+  <data name="SettingsSchedulerAddTitle" xml:space="preserve">
+	  <value>Add new scheduled brightness</value>
+  </data>
+  <data name="SettingsSchedulerAddButton" xml:space="preserve">
+	  <value>Add</value>
+  </data>
+  <data name="SettingsSchedulerEditButton" xml:space="preserve">
+	  <value>Edit</value>
+  </data>
+  <data name="SettingsSchedulerRemoveButton" xml:space="preserve">
+	  <value>Remove</value>
+  </data>
 </root>

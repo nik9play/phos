@@ -540,6 +540,60 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Add.
+        /// </summary>
+        public static string SettingsSchedulerAddButton {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerAddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Add new scheduled brightness.
+        /// </summary>
+        public static string SettingsSchedulerAddTitle {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerAddTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Automatically set brightness of monitors at desired time every day..
+        /// </summary>
+        public static string SettingsSchedulerDescription {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit.
+        /// </summary>
+        public static string SettingsSchedulerEditButton {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerEditButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Remove.
+        /// </summary>
+        public static string SettingsSchedulerRemoveButton {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerRemoveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Brightness Scheduler.
+        /// </summary>
+        public static string SettingsSchedulerTitle {
+            get {
+                return ResourceManager.GetString("SettingsSchedulerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The settings file contains errors. Restart phos to fix it..
         /// </summary>
         public static string SettingsSchemaErrorDescription {
