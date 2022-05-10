@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Threading;
 using System.Windows;
 using fos.Tools;
@@ -30,8 +30,9 @@ public partial class App : Application
 
     private async void Application_Startup(object sender, StartupEventArgs e)
     {
-        AppMutex.CurrentMutex = new Mutex(false, "phos.megaworld", out var aIsNewInstance);
-        if (!aIsNewInstance)
+        AppMutex.CurrentMutex = new Mutex(false, "phos.megaworld");
+        bool isAnotherInstanceOpen = !AppMutex.CurrentMutex.WaitOne(TimeSpan.Zero);
+        if (isAnotherInstanceOpen)
         {
             Current.Shutdown();
             return;
