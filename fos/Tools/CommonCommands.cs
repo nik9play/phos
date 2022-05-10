@@ -13,8 +13,7 @@ public static class CommonCommands
 
     public static RelayCommand RestartApplicationCommand { get; } = new(() =>
     {
-        AppMutex.CurrentMutex.ReleaseMutex();
-        AppMutex.CurrentMutex.Dispose();
+        AppMutex.RealeseMutex();
         var process = new Process();
         process.StartInfo.UseShellExecute = true;
         process.StartInfo.FileName =

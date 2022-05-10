@@ -6,7 +6,7 @@ public static class AppMutex
 {
     public static Mutex CurrentMutex { get; set; }
 
-    public static void UnrealeseMutex()
+    public static void RealeseMutex()
     {
         CurrentMutex.ReleaseMutex();
         CurrentMutex.Dispose();

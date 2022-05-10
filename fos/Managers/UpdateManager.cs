@@ -104,7 +104,7 @@ public static class UpdateManager
         process.StartInfo.Arguments = "/SILENT";
         process.StartInfo.UseShellExecute = true;
 
-        AppMutex.UnrealeseMutex();
+        AppMutex.RealeseMutex();
 
         process.Start();
 
