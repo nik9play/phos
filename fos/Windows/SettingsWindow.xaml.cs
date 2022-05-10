@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using fos.SettingsPages;
-using fos.Tools;
 using fos.Workarounds;
 using ModernWpf.Controls;
 
@@ -19,13 +17,6 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
-        Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon.ico",
-            UriKind.RelativeOrAbsolute));
-        var factor = DpiTools.DpiFactorX;
-
-        if (factor > 1.0)
-            Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/TaskBarIcon2.ico",
-                UriKind.RelativeOrAbsolute));
     }
 
     private void NavigationView_SelectionChanged(NavigationView sender,
@@ -53,6 +44,10 @@ public partial class SettingsWindow : Window
                 case "Monitors":
                     ContentFrame.Navigate(typeof(SettingsPages.Monitors));
                     NavView.Header = Properties.Resources.SettingsMonitors;
+                    break;
+                case "BrightnessScheduler":
+                    ContentFrame.Navigate(typeof(SettingsPages.BrightnessScheduler));
+                    NavView.Header = "sc";
                     break;
             }
         }

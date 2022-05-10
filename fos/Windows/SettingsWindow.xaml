@@ -35,6 +35,7 @@
                 <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsHotkeys}" Tag="Hotkeys" Icon="57668" />
                 <!--<ui:NavigationViewItem Content="{x:Static res:Resources.SettingsAppearance}" Tag="Appearance" Icon="59577"></ui:NavigationViewItem>-->
                 <ui:NavigationViewItem Content="{x:Static res:Resources.SettingsMonitors}" Tag="Monitors" Icon="59380" />
+                <!--<ui:NavigationViewItem Content="scheduler" Tag="BrightnessScheduler" Icon="59380" />-->
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem x:Name="AboutItem" Content="{x:Static res:Resources.SettingsAbout}" Tag="About"
