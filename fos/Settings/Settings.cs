@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -22,6 +23,19 @@ public class MonitorCustomLimits
     public int Maximum { get; set; } = 100;
 }
 
+
+
+//public class BrightnessTask
+//{
+//    public string Monitor { get; set; }
+
+//    [Range(0,100)]
+//    public uint Brightness { get; set; }
+
+//    [JsonConverter(typeof(TimespanConverter))]
+//    public TimeSpan Time { get; set; }
+//}
+
 public class Settings
 {
     public bool FirstStart { get; set; } = true;
@@ -44,4 +58,5 @@ public class Settings
 
     public List<string> MonitorListLocationOverwrites { get; set; } = new();
     public Dictionary<string, MonitorCustomLimits> MonitorCustomLimits { get; set; } = new();
+    //public List<BrightnessTask> BrightnessScheduler { get; set; } = new();
 }
