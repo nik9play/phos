@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace fos;
 
-internal class MonitorSettingsElement : INotifyPropertyChanged
+public class MonitorSettingsElement : INotifyPropertyChanged
 {
     private string _deviceId;
     private string _name;
