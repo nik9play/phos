@@ -7,6 +7,9 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:viewmodels="clr-namespace:fos.ViewModels"
         xmlns:res="clr-namespace:fos.Properties"
+        xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="phos"
@@ -84,7 +87,6 @@
             </ui:ThemeShadowChrome.RenderTransform>
 
             <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True"
-                    MinHeight="129"
                     BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
                 <Grid>
@@ -103,7 +105,15 @@
                                   ItemsSource="{Binding Monitors}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ui:SimpleStackPanel Margin="8,8,4,8" Spacing="0" />
+                                <ui:SimpleStackPanel Margin="8,8,4,8" Spacing="0">
+                                    <Behaviors:Interaction.Behaviors>
+                                        <Behaviors:FluidMoveBehavior Duration="00:00:00.2" AppliesTo="Children">
+                                            <Behaviors:FluidMoveBehavior.EaseY>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </Behaviors:FluidMoveBehavior.EaseY>
+                                        </Behaviors:FluidMoveBehavior>
+                                    </Behaviors:Interaction.Behaviors>
+                                </ui:SimpleStackPanel>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
