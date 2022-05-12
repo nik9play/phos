@@ -36,14 +36,19 @@
                 <Run Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}"
                      Text="{Binding Version, Mode=OneWay}" />
             </TextBlock>
-            <TextBlock
-                Visibility="{Binding UpdateAvailable, 
+
+            <ui:SimpleStackPanel Spacing="8" Visibility="{Binding IsContainerized, 
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock
+                    Visibility="{Binding UpdateAvailable, 
                                               Converter={StaticResource InvertBooleanToVisibilityConverter}}"
-                TextWrapping="Wrap"
-                Text="{x:Static res:Resources.SettingsAboutStoreMessage}" />
-            <Button Style="{DynamicResource AccentButtonStyle}"
-                    Content="{x:Static res:Resources.SettingsAboutStoreButton}"
-                    Command="{Binding OpenStoreCommand}"/>
+                    TextWrapping="Wrap"
+                    Text="{x:Static res:Resources.SettingsAboutStoreMessage}" />
+                <Button Style="{DynamicResource AccentButtonStyle}"
+                        Content="{x:Static res:Resources.SettingsAboutStoreButton}"
+                        Command="{Binding OpenStoreCommand}"/>
+            </ui:SimpleStackPanel>
+
 
             <StackPanel
                 Visibility="{Binding IsContainerized, 
