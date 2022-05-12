@@ -9,12 +9,9 @@
          xmlns:viewmodels="clr-namespace:fos.ViewModels"
          d:DataContext="{d:DesignInstance Type=viewmodels:PageAboutViewModel}"
          xmlns:ui="http://schemas.modernwpf.com/2019"
-         xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
-
          Title="About">
 
     <ui:Page.Resources>
-        <f:InverseBooleanConverter x:Key="inverter" />
         <f:BooleanToVisibilityConverter
             x:Key="BooleanToVisibilityConverter"
             True="Visible"
@@ -108,23 +105,16 @@
                                          Visibility="{Binding UpdateInstalling, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                         <Button Style="{DynamicResource AccentButtonStyle}"
                                 Content="{x:Static res:Resources.SettingsAboutInstallUpdate}"
-                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}"
+                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource InvertBooleanToVisibilityConverter}}"
                                 Command="{Binding UpdateCommand}" />
 
                         <Button Command="{Binding CheckUpdatesCommand}"
                                 Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
-                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource inverter}}" />
+                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
                     </ui:SimpleStackPanel>
 
-
-                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                               Text="{x:Static res:Resources.SettingsAboutChanges}" />
-
-                    <mdxam:MarkdownScrollViewer
-                        VerticalScrollBarVisibility="Disabled"
-                        MarkdownStyle="{StaticResource MdStyle}"
-                        Markdown="{Binding CheckResult.LatestChangeLog}"
-                        ClickAction="OpenBrowser" />
+                    <ui:HyperlinkButton Content="{x:Static res:Resources.SettingsAboutChanges}"
+                                        NavigateUri="https://github.com/nik9play/phos/releases/latest"/>
                 </ui:SimpleStackPanel>
             </StackPanel>
 
