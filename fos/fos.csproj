@@ -33,8 +33,8 @@
 		<PackageReference Include="DebounceThrottle" Version="1.0.0" />
 		<PackageReference Include="gong-wpf-dragdrop" Version="3.1.1" />
 		<PackageReference Include="H.Hooks" Version="1.4.21" />
-		<PackageReference Include="H.NotifyIcon" Version="2.0.46" />
-		<PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.46" />
+		<PackageReference Include="H.NotifyIcon" Version="2.0.48" />
+		<PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.48" />
 		<PackageReference Include="MdXaml" Version="1.13.0" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
@@ -44,7 +44,7 @@
 		<PackageReference Include="NHotkey" Version="2.1.0" />
 		<PackageReference Include="NHotkey.Wpf" Version="2.1.0" />
 		<PackageReference Include="NJsonSchema" Version="10.6.10" />
-		<PackageReference Include="Octokit" Version="0.50.0" />
+		<PackageReference Include="Octokit" Version="0.51.0" />
 		<PackageReference Include="System.Management" Version="6.0.0" />
 		<PackageReference Include="WindowsDisplayAPI" Version="1.3.0.13" />
 	</ItemGroup>
