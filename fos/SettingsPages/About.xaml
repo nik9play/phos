@@ -12,6 +12,7 @@
          Title="About">
 
     <ui:Page.Resources>
+        <f:InverseBooleanConverter x:Key="Inverter" />
         <f:BooleanToVisibilityConverter
             x:Key="BooleanToVisibilityConverter"
             True="Visible"
@@ -63,7 +64,7 @@
                     <Button Style="{DynamicResource AccentButtonStyle}"
                             Command="{Binding CheckUpdatesCommand}"
                             Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
-                            IsEnabled="{Binding UpdateChecking, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+                            IsEnabled="{Binding UpdateChecking, Converter={StaticResource Inverter}}" />
 
                     <ui:ProgressRing IsActive="{Binding UpdateChecking}" />
                 </ui:SimpleStackPanel>
@@ -105,12 +106,12 @@
                                          Visibility="{Binding UpdateInstalling, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                         <Button Style="{DynamicResource AccentButtonStyle}"
                                 Content="{x:Static res:Resources.SettingsAboutInstallUpdate}"
-                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource Inverter}}"
                                 Command="{Binding UpdateCommand}" />
 
                         <Button Command="{Binding CheckUpdatesCommand}"
                                 Content="{x:Static res:Resources.SettingsAboutCheckUpdates}"
-                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+                                IsEnabled="{Binding UpdateChecking, Converter={StaticResource Inverter}}" />
                     </ui:SimpleStackPanel>
 
                     <ui:HyperlinkButton Content="{x:Static res:Resources.SettingsAboutChanges}"
