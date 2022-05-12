@@ -12,7 +12,6 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="Styles/SliderStyle.xaml" />
                 <ResourceDictionary Source="Styles/CommandBarStyle.xaml" />
-                <ResourceDictionary Source="Styles/MdStyle.xaml" />
 
                 <ResourceDictionary>
                     <FontFamily x:Key="DefaultFontFamily">Segoe UI</FontFamily>
