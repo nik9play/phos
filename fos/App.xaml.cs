@@ -88,9 +88,8 @@ public partial class App : Application
 
     private void App_OnSessionEnding(object sender, SessionEndingCancelEventArgs e)
     {
-        MessageBox.Show("Aboba");
         Kernel32.RegisterApplicationRestart("", Kernel32.RestartFlags.RESTART_NO_CRASH |
-                                                                Kernel32.RestartFlags.RESTART_NO_HANG |
-                                                                Kernel32.RestartFlags.RESTART_NO_REBOOT);
+                                                Kernel32.RestartFlags.RESTART_NO_HANG |
+                                                Kernel32.RestartFlags.RESTART_NO_REBOOT);
     }
 }
