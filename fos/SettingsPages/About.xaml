@@ -48,11 +48,11 @@
             </ui:SimpleStackPanel>
 
 
-            <StackPanel
+            <ui:SimpleStackPanel
                 Visibility="{Binding IsContainerized, 
                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                           Text="{Binding UpdatesText}" />
+                           Text="{Binding UpdatesText}" Margin="0,0,0,8" />
 
                 <TextBlock Visibility="{Binding IsError, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
@@ -117,7 +117,7 @@
                     <ui:HyperlinkButton Content="{x:Static res:Resources.SettingsAboutChanges}"
                                         NavigateUri="https://github.com/nik9play/phos/releases/latest"/>
                 </ui:SimpleStackPanel>
-            </StackPanel>
+            </ui:SimpleStackPanel>
 
         </ui:SimpleStackPanel>
     </f:ScrollViewerEx>
