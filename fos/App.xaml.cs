@@ -73,6 +73,15 @@ public partial class App : Application
             UpdateManager.StartTimer();
             await UpdateManager.CheckUpdatesSilent();
         }
+
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+    }
+
+    private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        // Prevent mouse freeze
+        TrayIconManager.StopMouseHook();
+        Current.Shutdown();
     }
 
     private void ThemeTools_ThemeChanged(object sender, ThemeChangingArgs e)
