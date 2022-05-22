@@ -11,10 +11,10 @@
   <Identity
     Name="806b37d5-6a1d-4fb1-af15-0f7511fb68ed"
     Publisher="CN=nik9"
-    Version="1.0.10.0" />
+    Version="1.0.1.0" />
 
   <Properties>
-    <DisplayName>fos.package</DisplayName>
+    <DisplayName>phos</DisplayName>
     <PublisherDisplayName>nik9</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -34,7 +34,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="phos"
-        Description="fos.package"
+        Description="phos is a utility that allows you to control the brightness of your monitors using a user-friendly interface"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
