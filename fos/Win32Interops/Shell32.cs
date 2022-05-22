@@ -6,7 +6,7 @@ namespace fos.Win32Interops;
 public static class Shell32
 {
     [DllImport("shell32.dll", SetLastError = true)]
-    private static extern long Shell_NotifyIconGetRect([In] ref NOTIFYICONIDENTIFIER identifier,
+    private static extern int Shell_NotifyIconGetRect([In] ref NOTIFYICONIDENTIFIER identifier,
         [Out] out RECT iconLocation);
 
     public static RECT GetNotifyIconRect(Guid taskbarIconGuid)
@@ -16,7 +16,7 @@ public static class Shell32
         notifyIcon.guidItem = taskbarIconGuid;
 
         var hresult = Shell_NotifyIconGetRect(ref notifyIcon, out var rect);
-        if (hresult == 0x80004005) throw new Exception("Failed to get icon position.");
+        //if (hresult == 0x80004005) throw new Exception("Failed to get icon position.");
 
         if (hresult != 0) throw new Exception("Unknown error");
 
