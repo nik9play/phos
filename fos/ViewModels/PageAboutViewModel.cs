@@ -41,7 +41,7 @@ internal class PageAboutViewModel : INotifyPropertyChanged
         CancelCommand = new RelayCommand(() => cancelTokenSource.Cancel());
         OpenStoreCommand =
             new RelayCommand(() =>
-                Process.Start(new ProcessStartInfo("ms-windows-store://pdp/?ProductId=<your app's Store ID>")
+                Process.Start(new ProcessStartInfo("ms-windows-store://pdp/?productid=9NJGMVXZMB4M")
                     { UseShellExecute = true }));
 
         if (UpdateManager.LatestUpdateCheckResult != null)
