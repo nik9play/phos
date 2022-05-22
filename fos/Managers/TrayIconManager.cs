@@ -68,6 +68,11 @@ public static class TrayIconManager
         MouseHook.Start();
     }
 
+    public static void StopMouseHook()
+    {
+        MouseHook.Stop();
+    }
+
     private static void OnMouseWheel(object sender, MouseEventArgs args)
     {
         var trayIconRectangle = GetRectangle();
@@ -133,8 +138,9 @@ public static class TrayIconManager
                 Height = rect.Bottom - rect.Top
             };
         }
-        catch
+        catch  (Exception exception)
         {
+            MessageBox.Show(exception.Message);
             return null;
         }
     }
