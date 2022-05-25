@@ -35,6 +35,9 @@
                      Text="{Binding Version, Mode=OneWay}" />
             </TextBlock>
 
+            <ui:HyperlinkButton Content="GitHub"
+                                NavigateUri="https://github.com/nik9play/phos"/>
+
             <ui:SimpleStackPanel Spacing="8" Visibility="{Binding IsContainerized, 
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
                 <TextBlock

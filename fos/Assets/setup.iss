@@ -1,5 +1,5 @@
 #define phosAppName "phos"
-#define phosAppVersion "0.0.4"
+#define phosAppVersion "0.0.5"
 #define phosAppPublisher "megaworld"
 #define phosAppURL "https://megaworld.space"
 #define phosAppExeName "phos.exe"
@@ -44,8 +44,6 @@ Source: "{#publishFolder}\GongSolutions.WPF.DragDrop.dll"; DestDir: "{app}"; Fla
 Source: "{#publishFolder}\H.Hooks.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#publishFolder}\H.NotifyIcon.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#publishFolder}\H.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#publishFolder}\ICSharpCode.AvalonEdit.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#publishFolder}\MdXaml.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#publishFolder}\Microsoft.Toolkit.Mvvm.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#publishFolder}\Microsoft.Toolkit.Uwp.Notifications.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#publishFolder}\Microsoft.Windows.SDK.NET.dll"; DestDir: "{app}"; Flags: ignoreversion

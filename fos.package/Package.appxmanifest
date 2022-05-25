@@ -11,7 +11,7 @@
   <Identity
     Name="806b37d5-6a1d-4fb1-af15-0f7511fb68ed"
     Publisher="CN=nik9"
-    Version="1.0.1.0" />
+    Version="1.0.0.5" />
 
   <Properties>
     <DisplayName>phos</DisplayName>
