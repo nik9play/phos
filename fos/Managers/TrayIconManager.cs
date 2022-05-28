@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using DebounceThrottle;
 using fos.Properties;
 using fos.Tools;
@@ -63,20 +65,44 @@ public static class TrayIconManager
 
         IconInTray.ForceCreate();
 
-        MouseHook.Wheel += OnMouseWheel;
+        IconInTray.TrayMouseMove += IconInTray_TrayMouseMove;
+        StopHookTimer.Tick += (sender, args) =>
+        {
+            StopMouseHook();
+        };
 
-        MouseHook.Start();
+        MouseHook.Wheel += OnMouseWheel;
     }
+
+    private static void IconInTray_TrayMouseMove(object sender, RoutedEventArgs e)
+    {
+        StartMouseHook();
+
+        StopHookTimer.Stop();
+        StopHookTimer.Start();
+    }
+
+    private static readonly DispatcherTimer StopHookTimer = new()
+    {
+        Interval = new TimeSpan(0, 0, 2)
+    };
 
     public static void StopMouseHook()
     {
-        MouseHook.Stop();
+        if (MouseHook.IsStarted)
+            MouseHook.Stop();
+    }
+
+    public static void StartMouseHook()
+    {
+        if (!MouseHook.IsStarted)
+            MouseHook.Start();
     }
 
     private static void OnMouseWheel(object sender, MouseEventArgs args)
     {
         var trayIconRectangle = GetRectangle();
-
+        Debug.WriteLine("ABOBA2!!!");
         if (trayIconRectangle.HasValue &&
             args.Position.X > trayIconRectangle?.X &&
             args.Position.X < trayIconRectangle.Value.X + trayIconRectangle.Value.Width &&
@@ -84,6 +110,13 @@ public static class TrayIconManager
             args.Position.Y < trayIconRectangle.Value.Y + trayIconRectangle.Value.Height)
             Application.Current.Dispatcher.Invoke(delegate
             {
+                StartMouseHook();
+
+                StopHookTimer.Stop();
+                StopHookTimer.Start();
+
+                Debug.WriteLine("ABOBA!!!");
+
                 var multiplier = args.Delta > 0 ? 1 : -1;
                 var offset = multiplier * (int)SettingsController.Store.HotkeyStep;
 
