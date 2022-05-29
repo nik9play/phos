@@ -9,13 +9,13 @@
   IgnorableNamespaces="uap rescap com desktop">
 
   <Identity
-    Name="806b37d5-6a1d-4fb1-af15-0f7511fb68ed"
-    Publisher="CN=nik9"
-    Version="1.0.0.5" />
+    Name="15973megaworld.phos"
+    Publisher="CN=B9640EDB-1E12-418E-B809-0E976415E714"
+    Version="0.0.5.0" />
 
   <Properties>
     <DisplayName>phos</DisplayName>
-    <PublisherDisplayName>nik9</PublisherDisplayName>
+    <PublisherDisplayName>megaworld</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -45,7 +45,6 @@
             <uap:ShowOn Tile="square310x310Logo"/>
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
-        <uap:SplashScreen Image="Images\SplashScreen.png" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="landscape"/>
           <uap:Rotation Preference="portrait"/>

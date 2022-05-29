@@ -64,6 +64,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -111,6 +112,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BadgeLogo.scale-100.png" />
+    <Content Include="BadgeLogo.scale-125.png" />
+    <Content Include="BadgeLogo.scale-150.png" />
+    <Content Include="BadgeLogo.scale-200.png" />
+    <Content Include="BadgeLogo.scale-400.png" />
     <Content Include="Images\LargeTile.scale-100.png" />
     <Content Include="Images\LargeTile.scale-125.png" />
     <Content Include="Images\LargeTile.scale-150.png" />
@@ -140,6 +146,11 @@
     <Content Include="Images\StoreLogo.scale-200.png" />
     <Content Include="Images\StoreLogo.scale-400.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
+    <Content Include="SplashScreen.scale-100.png" />
+    <Content Include="SplashScreen.scale-125.png" />
+    <Content Include="SplashScreen.scale-150.png" />
+    <Content Include="SplashScreen.scale-400.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <None Include="fos.package_TemporaryKey.pfx" />
     <Content Include="Images\SmallTile.scale-100.png" />
     <Content Include="Images\SmallTile.scale-125.png" />
