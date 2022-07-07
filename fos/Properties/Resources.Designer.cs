@@ -79,6 +79,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Close.
+        /// </summary>
+        public static string CloseButton {
+            get {
+                return ResourceManager.GetString("CloseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Exit.
         /// </summary>
         public static string ContextExit {
@@ -302,6 +311,60 @@ namespace fos.Properties {
         public static string SettingsAppearance {
             get {
                 return ResourceManager.GetString("SettingsAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings backup.
+        /// </summary>
+        public static string SettingsBackup {
+            get {
+                return ResourceManager.GetString("SettingsBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings failed to load.
+        /// </summary>
+        public static string SettingsBackupErrorTitle {
+            get {
+                return ResourceManager.GetString("SettingsBackupErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Export settings....
+        /// </summary>
+        public static string SettingsBackupExport {
+            get {
+                return ResourceManager.GetString("SettingsBackupExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Import settings....
+        /// </summary>
+        public static string SettingsBackupImport {
+            get {
+                return ResourceManager.GetString("SettingsBackupImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .
+        /// </summary>
+        public static string SettingsBackupSuccessDescription {
+            get {
+                return ResourceManager.GetString("SettingsBackupSuccessDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .
+        /// </summary>
+        public static string SettingsBackupSuccessTitle {
+            get {
+                return ResourceManager.GetString("SettingsBackupSuccessTitle", resourceCulture);
             }
         }
         

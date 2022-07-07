@@ -313,4 +313,25 @@
   <data name="SettingsSchedulerRemoveButton" xml:space="preserve">
 	  <value>Удалить</value>
   </data>
+  <data name="SettingsBackupExport" xml:space="preserve">
+	  <value>Экспорт настроек...</value>
+  </data>
+  <data name="SettingsBackupImport" xml:space="preserve">
+	  <value>Импорт настроек...</value>
+  </data>
+  <data name="SettingsBackup" xml:space="preserve">
+	  <value>Бэкап настроек</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+	  <value>Закрыть</value>
+  </data>
+  <data name="SettingsBackupErrorTitle" xml:space="preserve">
+	  <value>Ошибка загрузки настроек</value>
+  </data>
+  <data name="SettingsBackupSuccessTitle" xml:space="preserve">
+	  <value>Успешно</value>
+  </data>
+  <data name="SettingsBackupSuccessDescription" xml:space="preserve">
+	  <value>Настройки загружены успешно. Возможно Вам необходимо перезапустить phos для применения всех настроек.</value>
+  </data>
 </root>

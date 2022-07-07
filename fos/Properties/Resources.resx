@@ -313,4 +313,25 @@
   <data name="SettingsSchedulerRemoveButton" xml:space="preserve">
 	  <value>Remove</value>
   </data>
+  <data name="SettingsBackupExport" xml:space="preserve">
+	  <value>Export settings...</value>
+  </data>
+  <data name="SettingsBackupImport" xml:space="preserve">
+	  <value>Import settings...</value>
+  </data>
+  <data name="SettingsBackup" xml:space="preserve">
+	  <value>Settings backup</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+	  <value>Close</value>
+  </data>
+  <data name="SettingsBackupErrorTitle" xml:space="preserve">
+	  <value>Settings failed to load</value>
+  </data>
+  <data name="SettingsBackupSuccessTitle" xml:space="preserve">
+	  <value>Success</value>
+  </data>
+  <data name="SettingsBackupSuccessDescription" xml:space="preserve">
+	  <value>Settings loaded successfully. You may need to restart phos to all settings to take effect.</value>
+  </data>
 </root>
