@@ -15,7 +15,7 @@ namespace fos;
 
 public static class SettingsController
 {
-    private static readonly string ConfigPath;
+    public static string ConfigPath { get; }
 
     public static readonly Settings DefaultSettings = new();
 
@@ -41,7 +41,7 @@ public static class SettingsController
                 Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "config.json");
     }
 
-    public static Settings Store { get; private set; }
+    public static Settings Store { get; set; }
 
     public static void LoadSettings()
     {
