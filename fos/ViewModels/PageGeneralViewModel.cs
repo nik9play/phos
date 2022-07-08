@@ -1,14 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
+using System.Text;
 using fos.Properties;
 using fos.Tools;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
+using ModernWpf.Controls;
+using Newtonsoft.Json;
+using NJsonSchema;
+using NJsonSchema.Generation;
+using ValidationError = NJsonSchema.Validation.ValidationError;
 
 namespace fos.ViewModels;
 
@@ -38,9 +47,116 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
     public PageGeneralViewModel()
     {
         _autoStart = _rkApp.GetValue("phos") != null;
+
+        ImportCommand = new(() =>
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Config file|*.json";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string fileName = openFileDialog.FileName;
+                if (File.Exists(fileName))
+                {
+                    var json = File.ReadAllText(fileName);
+
+                    var schema = JsonSchema.FromType<Settings>(new JsonSchemaGeneratorSettings { AlwaysAllowAdditionalObjectProperties = false });
+
+                    try
+                    {
+                        List<ValidationError> errors = schema.Validate(json).ToList();
+
+                        if (errors.Count > 0)
+                        {
+                            var errorStringBuilder = new StringBuilder();
+
+                            foreach (var error in errors)
+                            {
+                                errorStringBuilder.Append($"{error}\n");
+                            }
+
+                            ShowError(errorStringBuilder.ToString());
+                            return;
+                        }
+
+                        var settings = JsonConvert.DeserializeObject<Settings>(json);
+
+                        if (settings == null)
+                        {
+                            ShowError("Settings is null");
+                            return;
+                        }
+
+                        settings.FirstStart = false;
+
+                        SettingsController.Store = settings;
+
+                        SettingsController.SaveSettings();
+
+                        ShowMessage();
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowError(ex.Message);
+                        return;
+                    }
+
+                }
+            }
+        });
+
+        ExportCommand = new(() =>
+        {
+            var openFileDialog = new SaveFileDialog();
+            openFileDialog.Filter = "Config file|*.json";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string fileName = openFileDialog.FileName;
+                string directoryName = Path.GetDirectoryName(openFileDialog.FileName);
+                
+                try
+                {
+                    Directory.CreateDirectory(directoryName!);
+                    File.WriteAllText(fileName,
+                        JsonConvert.SerializeObject(SettingsController.Store, Formatting.Indented));
+                }
+                catch
+                {
+                    ShowError("Сука.");
+                }
+            }
+        });
+    }
+
+    public void ShowError(string message)
+    {
+        _ = new ContentDialog
+        {
+            Title = Properties.Resources.SettingsBackupErrorTitle,
+            Content = message,
+            CloseButtonText = Properties.Resources.CloseButton,
+            
+
+        }.ShowAsync();
+    }
+
+    public void ShowMessage()
+    {
+        _ = new ContentDialog
+        {
+            Title = Properties.Resources.SettingsBackupSuccessTitle,
+            Content = Properties.Resources.SettingsBackupSuccessDescription,
+            CloseButtonText = Properties.Resources.CloseButton,
+            CloseButtonCommand = CommonCommands.RestartApplicationCommand
+
+        }.ShowAsync();
     }
 
     public RelayCommand RestartApplicationCommand => CommonCommands.RestartApplicationCommand;
+
+    public RelayCommand ImportCommand { get; }
+    public RelayCommand ExportCommand { get; }
 
     public bool AutoStart
     {
