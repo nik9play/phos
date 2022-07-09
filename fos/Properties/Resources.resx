@@ -332,6 +332,6 @@
 	  <value>Success</value>
   </data>
   <data name="SettingsBackupSuccessDescription" xml:space="preserve">
-	  <value>Settings loaded successfully. You may need to restart phos to all settings to take effect.</value>
+	  <value>Settings loaded successfully. You need to restart phos to all settings to take effect.</value>
   </data>
 </root>

@@ -135,9 +135,7 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         {
             Title = Properties.Resources.SettingsBackupErrorTitle,
             Content = message,
-            CloseButtonText = Properties.Resources.CloseButton,
-            
-
+            CloseButtonText = Properties.Resources.CloseButton
         }.ShowAsync();
     }
 
@@ -147,8 +145,8 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         {
             Title = Properties.Resources.SettingsBackupSuccessTitle,
             Content = Properties.Resources.SettingsBackupSuccessDescription,
-            CloseButtonText = Properties.Resources.CloseButton,
-            CloseButtonCommand = CommonCommands.RestartApplicationCommand
+            PrimaryButtonText = Properties.Resources.RestartButton,
+            PrimaryButtonCommand = CommonCommands.RestartApplicationCommand,
 
         }.ShowAsync();
     }
