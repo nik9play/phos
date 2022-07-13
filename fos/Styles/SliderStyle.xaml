@@ -21,14 +21,14 @@
             </Grid.Effect>
 
             <Path x:Name="grip" Width="20" Height="20"
-                  Fill="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                  Fill="{DynamicResource SliderOuterThumbBackground}"
                   Stretch="Fill" SnapsToDevicePixels="False" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
                     <EllipseGeometry RadiusX="10" RadiusY="10" />
                 </Path.Data>
             </Path>
             <Path x:Name="grip2" Width="10" Height="10"
-                  Fill="{DynamicResource SystemControlHighlightListAccentHighBrush}"
+                  Fill="{DynamicResource SliderThumbBackground}"
                   Stretch="Fill" SnapsToDevicePixels="False" UseLayoutRounding="False" VerticalAlignment="Center">
                 <Path.Data>
                     <EllipseGeometry RadiusX="10" RadiusY="10" />
@@ -195,13 +195,13 @@
                 <Track x:Name="PART_Track" Grid.Row="1">
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Height="4"
-                                      Background="{DynamicResource SystemControlHighlightListAccentHighBrush}"
+                                      Background="{DynamicResource SliderThumbBackground}"
                                       Command="{x:Static Slider.DecreaseLarge}"
                                       Style="{StaticResource RepeatButtonTransparent}" Margin="0,0,-4,0" />
                     </Track.DecreaseRepeatButton>
                     <Track.IncreaseRepeatButton>
                         <RepeatButton Height="4"
-                                      Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                                      Background="{DynamicResource SliderTrackFill}"
                                       UseLayoutRounding="False"
                                       Command="{x:Static Slider.IncreaseLarge}"
                                       Style="{StaticResource RepeatButtonTransparent}" Margin="-4,0,0,0" />
