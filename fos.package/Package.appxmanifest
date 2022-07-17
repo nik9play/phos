@@ -59,7 +59,7 @@
 		    </desktop:Extension>
 
             <desktop:Extension Category="windows.startupTask" Executable="fos\phos.exe" EntryPoint="Windows.FullTrustApplication">
-	            <desktop:StartupTask TaskId="App" Enabled="true" DisplayName="phos"/>
+	            <desktop:StartupTask TaskId="phosStartupTask" Enabled="true" DisplayName="phos"/>
 			</desktop:Extension>
 
 		    <!--Register COM CLSID LocalServer32 registry key-->
