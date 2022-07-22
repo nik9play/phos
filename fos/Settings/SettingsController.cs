@@ -111,8 +111,7 @@ public static class SettingsController
                 break;
             case "system":
             default:
-                language = CultureInfo.InstalledUICulture;
-                break;
+                return;
         }
 
         Thread.CurrentThread.CurrentCulture = language;
@@ -126,7 +125,10 @@ public static class SettingsController
         if (!File.Exists(ConfigPath))
             Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
 
-        File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Store, Formatting.Indented));
+        var config = JsonConvert.SerializeObject(Store, Formatting.Indented);
+
+        if (config != "null")
+            File.WriteAllText(ConfigPath, config);
     }
 
     public static void OpenSettingsFolder()
