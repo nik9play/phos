@@ -25,6 +25,11 @@ public static class User32
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    public static extern int MoveWindow(IntPtr hWnd, int X, int Y,
+        int nWidth, int nHeight,
+        [MarshalAs(UnmanagedType.Bool)] bool bRepaint);
+
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT
     {
