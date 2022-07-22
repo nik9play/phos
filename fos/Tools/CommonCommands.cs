@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -9,17 +10,24 @@ namespace fos.Tools;
 public static class CommonCommands
 {
     public static RelayCommand OpenSettingsWindowCommand { get; } =
-        new(WindowManager.OpenSettingsWindow, () => WindowManager.WindowsInitialized);
+        new(WindowManager.OpenSettingsWindow);
 
-    public static RelayCommand RestartApplicationCommand { get; } = new(() =>
+    public static AsyncRelayCommand RestartApplicationCommand { get; } = new(async () =>
     {
-        AppMutex.RealeseMutex();
-        var process = new Process();
-        process.StartInfo.UseShellExecute = true;
-        process.StartInfo.FileName =
-            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "phos.exe");
-        process.Start();
-        Application.Current.Shutdown();
+        if (PackageHelper.IsContainerized())
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync("");
+        }
+        else
+        {
+            AppMutex.RealeseMutex();
+            var process = new Process();
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.FileName =
+                Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "phos.exe");
+            process.Start();
+            Application.Current.Shutdown();
+        }
     });
 
     public static RelayCommand TogglePopupCommand { get; } =
