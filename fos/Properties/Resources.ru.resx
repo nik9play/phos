@@ -334,4 +334,16 @@
   <data name="SettingsBackupSuccessDescription" xml:space="preserve">
 	  <value>Настройки загружены успешно. Вам необходимо перезапустить phos для применения всех настроек.</value>
   </data>
+  <data name="SettingsAboutLinks" xml:space="preserve">
+	  <value>Ссылки:</value>
+  </data>
+  <data name="SettingsAboutReleases" xml:space="preserve">
+	  <value>Релизы</value>
+  </data>
+  <data name="SettingsGeneralAutostartMessage" xml:space="preserve">
+	  <value>Чтобы управлять автозапуском из приложения, Вам необходимо включить автозапуск в диспетчере задач или в приложении Параметры.</value>
+  </data>
+  <data name="SettingsGeneralAutostartOpenSettings" xml:space="preserve">
+	  <value>Открыть Параметры</value>
+  </data>
 </root>

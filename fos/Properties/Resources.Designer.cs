@@ -252,6 +252,15 @@ namespace fos.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Links:.
+        /// </summary>
+        public static string SettingsAboutLinks {
+            get {
+                return ResourceManager.GetString("SettingsAboutLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на You have latest version of phos.
         /// </summary>
         public static string SettingsAboutNoUpdates {
@@ -266,6 +275,15 @@ namespace fos.Properties {
         public static string SettingsAboutRateLimitError {
             get {
                 return ResourceManager.GetString("SettingsAboutRateLimitError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Releases.
+        /// </summary>
+        public static string SettingsAboutReleases {
+            get {
+                return ResourceManager.GetString("SettingsAboutReleases", resourceCulture);
             }
         }
         
@@ -351,7 +369,7 @@ namespace fos.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Settings loaded successfully. You need to restart phos to all settings to take effect..
         /// </summary>
         public static string SettingsBackupSuccessDescription {
             get {
@@ -360,7 +378,7 @@ namespace fos.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Success.
         /// </summary>
         public static string SettingsBackupSuccessTitle {
             get {
@@ -392,6 +410,24 @@ namespace fos.Properties {
         public static string SettingsGeneralAutoStart {
             get {
                 return ResourceManager.GetString("SettingsGeneralAutoStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You need to enable autorun in Task Manager or the Settings application to control autorun from the application..
+        /// </summary>
+        public static string SettingsGeneralAutostartMessage {
+            get {
+                return ResourceManager.GetString("SettingsGeneralAutostartMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Open Settings.
+        /// </summary>
+        public static string SettingsGeneralAutostartOpenSettings {
+            get {
+                return ResourceManager.GetString("SettingsGeneralAutostartOpenSettings", resourceCulture);
             }
         }
         

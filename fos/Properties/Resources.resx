@@ -334,4 +334,16 @@
   <data name="SettingsBackupSuccessDescription" xml:space="preserve">
 	  <value>Settings loaded successfully. You need to restart phos to all settings to take effect.</value>
   </data>
+  <data name="SettingsAboutLinks" xml:space="preserve">
+	  <value>Links:</value>
+  </data>
+  <data name="SettingsAboutReleases" xml:space="preserve">
+	  <value>Releases</value>
+  </data>
+  <data name="SettingsGeneralAutostartMessage" xml:space="preserve">
+	  <value>You need to enable autorun in Task Manager or the Settings application to control autorun from the application.</value>
+  </data>
+  <data name="SettingsGeneralAutostartOpenSettings" xml:space="preserve">
+	  <value>Open Settings</value>
+  </data>
 </root>
