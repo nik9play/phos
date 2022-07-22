@@ -11,7 +11,9 @@ public enum OSVersions
 {
     RS3 = 16299,
     RS4 = 17134,
-    RS5_1809 = 17763
+    RS5_1809 = 17763,
+    WIN11_21H2 = 22000,
+    WIN11_INSIDER = 22523
 }
 
 public static class OperatingSystemExtensions
