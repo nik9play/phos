@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Windows.ApplicationModel;
 using fos.Properties;
 using fos.Tools;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -36,6 +37,7 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
 
     private bool _autoCheckUpdates = SettingsController.Store.AutoUpdateCheckEnabled;
     private bool _autoStart;
+    private bool _autoStartEnabled = true;
 
     private uint _brightnessChangeInterval = SettingsController.Store.BrightnessChangeInterval;
     private uint _trayIconBrightnessChangeInterval = SettingsController.Store.TrayIconBrightnessChangeInterval;
@@ -46,7 +48,10 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
 
     public PageGeneralViewModel()
     {
-        _autoStart = _rkApp.GetValue("phos") != null;
+        if (IsContainerized)
+            SetAutoStart();
+        else 
+            _autoStart = _rkApp.GetValue("phos") != null;
 
         ImportCommand = new(() =>
         {
@@ -129,13 +134,42 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         });
     }
 
+    private async void SetAutoStart()
+    {
+        var state = await PackageHelper.GetStartupTaskState();
+
+        switch (state)
+        {
+            case StartupTaskState.Enabled:
+                _autoStart = true;
+                AutoStartEnabled = true;
+                break;
+            case StartupTaskState.EnabledByPolicy:
+                _autoStart = true;
+                AutoStartEnabled = false;
+                break;
+            case StartupTaskState.Disabled:
+                _autoStart = false;
+                AutoStartEnabled = true;
+                break;
+            case StartupTaskState.DisabledByPolicy:
+                _autoStart = false;
+                AutoStartEnabled = false;
+                break;
+            case StartupTaskState.DisabledByUser:
+                _autoStart = false;
+                AutoStartEnabled = false;
+                break;
+        }
+    }
+
     public void ShowError(string message)
     {
         _ = new ContentDialog
         {
-            Title = Properties.Resources.SettingsBackupErrorTitle,
+            Title = Resources.SettingsBackupErrorTitle,
             Content = message,
-            CloseButtonText = Properties.Resources.CloseButton
+            CloseButtonText = Resources.CloseButton
         }.ShowAsync();
     }
 
@@ -143,15 +177,15 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
     {
         _ = new ContentDialog
         {
-            Title = Properties.Resources.SettingsBackupSuccessTitle,
-            Content = Properties.Resources.SettingsBackupSuccessDescription,
-            PrimaryButtonText = Properties.Resources.RestartButton,
+            Title = Resources.SettingsBackupSuccessTitle,
+            Content = Resources.SettingsBackupSuccessDescription,
+            PrimaryButtonText = Resources.RestartButton,
             PrimaryButtonCommand = CommonCommands.RestartApplicationCommand,
 
         }.ShowAsync();
     }
 
-    public RelayCommand RestartApplicationCommand => CommonCommands.RestartApplicationCommand;
+    public AsyncRelayCommand RestartApplicationCommand => CommonCommands.RestartApplicationCommand;
 
     public RelayCommand ImportCommand { get; }
     public RelayCommand ExportCommand { get; }
@@ -163,12 +197,30 @@ internal class PageGeneralViewModel : INotifyPropertyChanged
         set
         {
             _autoStart = value;
-            if (value)
-                _rkApp.SetValue("phos",
-                    Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "phos.exe"));
-            else
-                _rkApp.DeleteValue("phos");
 
+            if (IsContainerized)
+            {
+                PackageHelper.SetStartupTaskState(value);
+            }
+            else
+            {
+                if (value)
+                    _rkApp.SetValue("phos",
+                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "phos.exe"));
+                else
+                    _rkApp.DeleteValue("phos");
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    public bool AutoStartEnabled
+    {
+        get => _autoStartEnabled;
+        set
+        {
+            _autoStartEnabled = value;
             OnPropertyChanged();
         }
     }
