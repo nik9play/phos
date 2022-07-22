@@ -49,11 +49,27 @@
                           SpinButtonPlacementMode="Inline"
                           Value="{Binding TrayIconBrightnessChangeInterval}" />
 
+            <ui:ToggleSwitch IsOn="{Binding AutoStart}" 
+                             IsEnabled="{Binding AutoStartEnabled}"
+                             Header="{x:Static res:Resources.SettingsGeneralAutoStart}" />
+
+            <TextBlock Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding AutoStartEnabled, 
+                                           Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                       Text="{x:Static res:Resources.SettingsGeneralAutostartMessage}"/>
+
+            <ui:HyperlinkButton Content="{x:Static res:Resources.SettingsGeneralAutostartOpenSettings}"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding AutoStartEnabled, 
+                                           Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                                Click="OpenSettingsApp"
+                                Cursor="Hand"/>
+
 
             <ui:SimpleStackPanel Spacing="8"
                                  Visibility="{Binding IsContainerized, 
                                               Converter={StaticResource InvertBooleanToVisibilityConverter}}">
-                <ui:ToggleSwitch IsOn="{Binding AutoStart}" Header="{x:Static res:Resources.SettingsGeneralAutoStart}" />
                 <ui:ToggleSwitch IsOn="{Binding AutoCheckUpdates}"
                                  Header="{x:Static res:Resources.SettingsGeneralAutoCheck}" />
 

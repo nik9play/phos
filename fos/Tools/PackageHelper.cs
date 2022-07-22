@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using fos.Win32Interops;
 
@@ -60,5 +62,23 @@ public class PackageHelper
         }
 
         return isContainerized.Value;
+    }
+
+    public static async Task<StartupTaskState> GetStartupTaskState()
+    {
+        StartupTask startupTask = await StartupTask.GetAsync("phosStartupTask");
+        Debug.WriteLine(startupTask.State);
+
+        return startupTask.State;
+    }
+
+    public static async void SetStartupTaskState(bool state)
+    {
+        StartupTask startupTask = await StartupTask.GetAsync("phosStartupTask");
+
+        if (state)
+            await startupTask.RequestEnableAsync();
+        else
+            startupTask.Disable();
     }
 }
