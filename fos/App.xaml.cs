@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using fos.Tools;
 using fos.Win32Interops;
 using fos.Workarounds;
@@ -37,6 +38,10 @@ public partial class App : Application
             Current.Shutdown();
             return;
         }
+
+        // set new windows 11 icons
+        if (Environment.OSVersion.IsAtLeast(OSVersions.WIN11_21H2))
+            Resources["SymbolThemeFontFamily"] = new FontFamily("Segoe Fluent Icons");
 
         ToastNotificationManagerCompat.OnActivated += toastArgs =>
         {
