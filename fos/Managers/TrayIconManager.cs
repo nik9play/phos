@@ -32,14 +32,14 @@ public static class TrayIconManager
         var settingsItem = new MenuItem
         {
             Header = Resources.SettingsTitle,
-            Icon = new FontIcon { Glyph = Icons.Settings },
+            Icon = new FontIcon { Glyph = Icons.Settings, FontFamily = PlatformTools.GetSymbolFont() },
             Command = CommonCommands.OpenSettingsWindowCommand
         };
 
         var exitItem = new MenuItem
         {
             Header = Resources.ContextExit,
-            Icon = new FontIcon { Glyph = Icons.PowerButton },
+            Icon = new FontIcon { Glyph = Icons.PowerButton, FontFamily = PlatformTools.GetSymbolFont() },
             Command = CommonCommands.ExitApplicationCommand
         };
 
