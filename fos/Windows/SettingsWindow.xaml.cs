@@ -1,8 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 using fos.SettingsPages;
+using fos.Win32Interops;
 using fos.Workarounds;
+using ModernWpf;
 using ModernWpf.Controls;
 
 namespace fos;
@@ -17,8 +21,30 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
+        _hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
     }
 
+    private readonly IntPtr _hWnd;
+
+    private void SetMica()
+    {
+        if (Environment.OSVersion.IsAtLeast(OSVersions.WIN11_INSIDER))
+        {
+            int immersiveDarkMode = 0x00;
+            
+            if (ThemeTools.CurrentTheme == ApplicationTheme.Dark)
+                immersiveDarkMode = 0x01;
+
+            DwmAPI.DwmSetWindowAttribute(_hWnd, DwmAPI.DwmWindowAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE,
+                ref immersiveDarkMode, Marshal.SizeOf(typeof(int)));
+
+            int backdropValue = 0x02;
+
+            DwmAPI.DwmSetWindowAttribute(_hWnd, DwmAPI.DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE,
+                ref backdropValue, Marshal.SizeOf(typeof(int)));
+        }
+    }
+    
     private void NavigationView_SelectionChanged(NavigationView sender,
         NavigationViewSelectionChangedEventArgs args)
     {
@@ -80,5 +106,10 @@ public partial class SettingsWindow : Window
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
+    }
+
+    private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        //SetMica();
     }
 }
