@@ -34,9 +34,18 @@
                 <Run Foreground="{DynamicResource SystemControlBackgroundBaseMediumBrush}"
                      Text="{Binding Version, Mode=OneWay}" />
             </TextBlock>
-
-            <ui:HyperlinkButton Content="GitHub"
-                                NavigateUri="https://github.com/nik9play/phos"/>
+            
+            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static res:Resources.SettingsAboutLinks}"/>
+                <ui:HyperlinkButton Content="GitHub"
+                                    VerticalAlignment="Center"
+                                    Padding="5"
+                                    NavigateUri="https://github.com/nik9play/phos"/>
+                <ui:HyperlinkButton Content="{x:Static res:Resources.SettingsAboutReleases}"
+                                    VerticalAlignment="Center"
+                                    Padding="5"
+                                    NavigateUri="https://github.com/nik9play/phos/releases" Cursor="Hand"/>
+            </ui:SimpleStackPanel>
 
             <ui:SimpleStackPanel Spacing="8" Visibility="{Binding IsContainerized, 
                                                             Converter={StaticResource BooleanToVisibilityConverter}}">
