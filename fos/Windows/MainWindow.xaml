@@ -22,12 +22,12 @@
         Width="380"
         Height="300"
         Topmost="True"
+        KeyDown="MainWindow_OnKeyDown"
         AllowsTransparency="True"
         Background="Transparent"
         xmlns:dd="urn:gong-wpf-dragdrop"
         Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
-        Deactivated="Window_Deactivated"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        Deactivated="Window_Deactivated">
 
     <Window.Resources>
         <!-- ReSharper disable once Xaml.RedundantResource -->
@@ -81,6 +81,14 @@
     </Window.Resources>
 
     <Border x:Name="ContentGrid" VerticalAlignment="Bottom">
+        <Behaviors:Interaction.Behaviors>
+            <Behaviors:FluidMoveBehavior Duration="00:00:00.3" AppliesTo="Self">
+                <Behaviors:FluidMoveBehavior.EaseY>
+                    <CubicEase EasingMode="EaseOut" />
+                </Behaviors:FluidMoveBehavior.EaseY>
+            </Behaviors:FluidMoveBehavior>
+        </Behaviors:Interaction.Behaviors>
+
         <ui:ThemeShadowChrome Depth="32" CornerRadius="10" Margin="15,5,10,10">
             <ui:ThemeShadowChrome.RenderTransform>
                 <TranslateTransform x:Name="T1" />
@@ -88,12 +96,22 @@
 
             <Border CornerRadius="10" BorderThickness="1" UseLayoutRounding="True"
                     BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    Background="{DynamicResource MainPanelBackground}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+
+                    <!--<Grid Grid.RowSpan="2">
+                        <Grid.Background>
+                            <ImageBrush x:Name="MainBackgroundNoise"
+                                        ImageSource="/Assets/noiseBlack.png" 
+                                        Stretch="Uniform" TileMode="FlipY" AlignmentY="Top" 
+                                        Viewport="0,0,80,80" 
+                                        ViewportUnits="Absolute" Opacity="0.02"></ImageBrush>
+                        </Grid.Background>
+                    </Grid>-->
 
                     <ItemsControl Grid.Row="0"
                                   Visibility="{Binding AllMonitorsModeEnabled, 
@@ -119,7 +137,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="5"
-                                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                                        Background="{DynamicResource MainPanelBackground}"
                                         Padding="8,8,4,8" x:Name="Outer">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -194,7 +212,7 @@
                         </Border>
                     </StackPanel>
 
-                    <Grid Grid.Row="1">
+                    <!--<Grid Grid.Row="1">
                         <Border CornerRadius="0,0,10,10" BorderThickness="0,0,0,0"
                                 BorderBrush="{DynamicResource SystemControlBackgroundBaseLowBrush}"
                                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
@@ -215,7 +233,47 @@
                                     Command="{Binding UpdateCommand}" Icon="Refresh" />
                             </ui:CommandBar>
                         </Border>
-                    </Grid>
+                    </Grid>-->
+
+                    <Border Grid.Row="1" Height="50" BorderThickness="0,1,0,0"
+                            BorderBrush="{DynamicResource SeparatorBrush}"
+                            Background="{DynamicResource BottomPanelBackground}"
+                            CornerRadius="0,0,10,10"
+                            Padding="8,0">
+                        <Grid>
+                            <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                 VerticalAlignment="Center" Spacing="4">
+                                <Button Padding="10,12" BorderThickness="0"
+                                        ToolTip="Debug"
+                                        Background="Transparent" 
+                                        Click="ButtonBase_OnClick">
+                                    <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" 
+                                                 Glyph="&#xEBE8;" FontSize="15"></ui:FontIcon>
+                                </Button>
+
+                                <ToggleButton Padding="10,12" BorderThickness="0"
+                                              ToolTip="{x:Static res:Resources.AllMonitorsMode}"
+                                              Background="Transparent" IsChecked="{Binding AllMonitorsModeEnabled}">
+                                    <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" 
+                                                 Glyph="&#xE167;" FontSize="15"></ui:FontIcon>
+                                </ToggleButton>
+
+                                <Button Padding="10,12" BorderThickness="0"
+                                        ToolTip="{x:Static res:Resources.SettingsTitle}"
+                                        Background="Transparent" Command="{Binding OpenSettingsWindowCommand}">
+                                    <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" 
+                                                 Glyph="&#xE115;" FontSize="15"></ui:FontIcon>
+                                </Button>
+
+                                <Button Padding="10,12" BorderThickness="0"
+                                        ToolTip="{x:Static res:Resources.ReloadList}"
+                                        Background="Transparent" Command="{Binding UpdateCommand}">
+                                    <ui:FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" 
+                                                 Glyph="&#xE149;" FontSize="15"></ui:FontIcon>
+                                </Button>
+                            </ui:SimpleStackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Border>
         </ui:ThemeShadowChrome>
