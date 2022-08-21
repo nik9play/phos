@@ -11,7 +11,7 @@
   <Identity
     Name="15973megaworld.phos"
     Publisher="CN=B9640EDB-1E12-418E-B809-0E976415E714"
-    Version="0.0.5.0" />
+    Version="0.0.6.0" />
 
   <Properties>
     <DisplayName>phos</DisplayName>
